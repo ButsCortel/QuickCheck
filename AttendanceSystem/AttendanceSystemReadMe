@@ -1,0 +1,6 @@
+A simple Attendance Logger application (JAVA) that uses built-in webcam to read qr codes, check if it exists from records,
+and log it in a seperate excel file. This was originally designed for classroom teachers to eliminate handwritten 
+attendance logging and minimizing human error overall.
+
+I made this project as a beginner, as seen on how "spaghettified" it is. 
+This project was made for my personal improvement in programming.
