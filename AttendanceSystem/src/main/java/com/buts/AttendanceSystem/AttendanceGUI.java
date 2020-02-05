@@ -52,11 +52,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+
 import javax.swing.JOptionPane;
 import java.awt.Color;
+import javax.swing.JButton;
 
 public class AttendanceGUI extends JFrame implements Runnable, ThreadFactory, Closeable {
 	private static final long serialVersionUID = 6441489157408381878L;
@@ -76,15 +75,14 @@ public class AttendanceGUI extends JFrame implements Runnable, ThreadFactory, Cl
 	
     static JTextField hr = null;
     static JTextField min = null;
-    JMenuItem mntmConfigureFilePath = null;
     //String studentList = "C:\\Users\\Buts\\eclipse-workspace\\AttendanceSystem\\Students.xlsx";
-    String studentList = null;
     static String file_Name = "";
     static JLabel dupLog = null;
 	static String lastStr = null;
 	static LocalTime time = null;
 	static LocalTime now = null;
 	static String studentFilePath = null;
+	static int totalOpenFlag = 0;
 
 	/**
 	 * Launch the application.
@@ -122,12 +120,6 @@ public class AttendanceGUI extends JFrame implements Runnable, ThreadFactory, Cl
 			}
 		});
 		setBounds(100, 100, 664, 397);
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JMenu mnHelp = new JMenu("Help");
-		menuBar.add(mnHelp);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -205,7 +197,7 @@ public class AttendanceGUI extends JFrame implements Runnable, ThreadFactory, Cl
         timeLabel = new JLabel();
         timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         timeLabel.setFont(new Font("Tahoma", Font.PLAIN, 50));
-        timeLabel.setBounds(10, 247, 581, 79);
+        timeLabel.setBounds(10, 257, 628, 79);
         contentPane.add(timeLabel);
         
         dupLog = new JLabel("");
@@ -227,6 +219,20 @@ public class AttendanceGUI extends JFrame implements Runnable, ThreadFactory, Cl
         lblClassTime.setFont(new Font("Tahoma", Font.PLAIN, 20));
         lblClassTime.setBounds(400, 162, 122, 28);
         contentPane.add(lblClassTime);
+        
+        JButton btnNewButton = new JButton("Finish an attendance");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		try {
+					Total.total();
+				} catch (InvalidFormatException | IOException | InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+        	}
+        });
+        btnNewButton.setBounds(10, 191, 186, 45);
+        contentPane.add(btnNewButton);
         setVisible(true);
           
         executor.execute(this);
@@ -264,7 +270,7 @@ public class AttendanceGUI extends JFrame implements Runnable, ThreadFactory, Cl
 				}
 			}
 
-			if (result != null && !result.getText().equals(lastStr)) //prevent cam from reading continuously
+			if (result != null && !result.getText().equals("") && !result.getText().equals(lastStr) && totalOpenFlag == 0) //prevent cam from reading continuously
 				{
 				lastStr = result.getText();
 				nameDisp.setText(result.getText());

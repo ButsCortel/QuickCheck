@@ -11,6 +11,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -19,6 +21,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.Color;
@@ -32,13 +36,20 @@ public class LoginGUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField userName;
 	private JPasswordField passWord;
-	java.io.File file = null;
+	File file = null;
 	JFileChooser fChoose = null;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -92,9 +103,10 @@ public class LoginGUI extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String username = userName.getText();
-				String password = passWord.getText();
+				char[] passwordField = passWord.getPassword();
+				char[] password = {'0','5','9','5'};
 				
-				if (username.contains("Arlene Cortel") && password.contains("0595")) {
+				if (username.contains("Arlene Cortel") && Arrays.equals(passwordField, password))  {
 					label.setText("");
 					selectStudentList();
 					if ( AttendanceGUI.studentFilePath != null) {
