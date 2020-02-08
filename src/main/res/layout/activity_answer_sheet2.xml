@@ -1,0 +1,1408 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".AnswerSheet"
+        android:background="@drawable/ic_bg">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="189dp"
+            android:background="#00000000">
+
+            <TextView
+                android:id="@+id/datel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Date:"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/time_startl" />
+
+            <TextView
+                android:id="@+id/test_codel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/testcodel"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/time_startl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/timel"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/test_codel" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All Answers must be in ALL CAPS."
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/datel"
+                app:layout_constraintVertical_bias="0.567" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00FFFFFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#00FFFFFF"
+                android:gravity="center">
+
+                <TableRow
+                    android:id="@+id/row1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="1."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="2."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="3."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="4."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="5."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:id="@+id/label6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="6."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="7."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="8."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="9."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="10."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/label11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="11."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="12."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="13."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="14."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="15."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:id="@+id/label16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="16."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="17."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="18."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row10"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="19."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="20."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row11"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/label21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="21."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="22."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row12"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="23."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer23"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="24."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row13"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="25."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:id="@+id/label26"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="26."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer26"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row14"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="27."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer27"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="28."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row15"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="29."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer29"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="30."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer30"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row16"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/label31"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="31."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer31"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="32."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer32"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row17"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="33."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer33"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="34."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer34"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row18"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="35."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer35"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:id="@+id/label36"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="36."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer36"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row19"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="37."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer37"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="38."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer38"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row20"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="39."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer39"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="40."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row21"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/label41"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="41."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer41"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="42."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer42"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row22"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="43."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer43"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="44."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer44"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row23"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="45."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer45"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:id="@+id/label46"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="46."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer46"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row24"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="47."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer47"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="48."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer48"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row25"
+                    android:background="#00808080"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="49."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer49"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="50."
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/anwer50"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:digits="ABCD"
+                        android:gravity="center"
+                        android:hint="@string/answerhint"
+                        android:inputType="textVisiblePassword|textNoSuggestions|textCapSentences|textCapWords|textCapCharacters"
+                        android:maxLength="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#FF0000" />
+                </TableRow>
+
+            </TableLayout>
+
+            <Button
+                android:id="@+id/finishbutton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:onClick="showAlertDialog"
+                android:text="Finish!" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
