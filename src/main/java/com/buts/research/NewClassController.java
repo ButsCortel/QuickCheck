@@ -1,5 +1,8 @@
 package com.buts.research;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,7 +12,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXTextField;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -22,8 +24,21 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 public class NewClassController {
 	static Stage newclass_window;
+	static String cnew ="";
+	static String snew	="";
+	static String pnew	="";
+    static String folderName = "";
+    static String masterList = "";
+    static String attendance = "";
+    static String tests = "";
 	@FXML
     private JFXTextField course_text;
 
@@ -106,13 +121,16 @@ public class NewClassController {
 					loginstat.setText("Special Characters are not allowed.");        			
 				}
 	    	else {
-	    		String cnew = course.replaceAll("\\s+", "_");
-	    		String snew = subject.replaceAll("\\s+", "_");
-	    		String pnew = prof.replaceAll("\\s+", "_");
-	            String folderName = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew;
-	            String masterList = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew + "/Students.xlsx";
-	            String attendance = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew + "/Attendance.xlsx";
-	            String tests = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew + "/Tests.xlsx";
+	    		String c = course.trim();
+	    		String s = subject.trim();
+	    		String p = prof.trim();
+	    		cnew = c.replaceAll("\\s+", "_");
+	    		snew = s.replaceAll("\\s+", "_");
+	    		pnew = p.replaceAll("\\s+", "_");
+	            folderName = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew;
+	            masterList = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew + "/Students.xlsx";
+	            attendance = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew + "/Attendance.xlsx";
+	            tests = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew + "/Tests.xlsx";
 	            Path path = Paths.get(folderName);
 	            Path masterpath = Paths.get(masterList);
 	            Path attpath = Paths.get(attendance);
@@ -120,6 +138,7 @@ public class NewClassController {
 	            if (Files.exists(path)) {
 	        		Stage window = new Stage();		
 	        		window.initModality(Modality.APPLICATION_MODAL);
+	        		window.initStyle(StageStyle.UTILITY);
 	        		window.setTitle("File exists!");
 	        		window.setMinWidth(250);
 	        		
@@ -128,7 +147,10 @@ public class NewClassController {
 	        		Button confirm = new Button("Yes");
 	        		confirm.setOnAction(e -> {
 						try {
+							window.hide();
+							FileUtils.cleanDirectory( new File(path.toString()));
 							Files.createDirectories(path);
+							createWorkbook();
 							window.close();
 							newclass_window.close();
 						} catch (IOException e1) {
@@ -150,9 +172,7 @@ public class NewClassController {
 	            else {
 	                try {
 	        			Files.createDirectories(path);
-	        			Files.createFile(masterpath);
-	        			Files.createFile(attpath);
-	        			Files.createFile(testpath);
+	        			createWorkbook();
 	        			newclass_window.close();
 	        		} catch (IOException e) {
 	        			// TODO Auto-generated catch block
@@ -179,5 +199,32 @@ public class NewClassController {
 			}
 			return result;
 
+		}
+
+		public  void createWorkbook() throws IOException {
+		    try {
+		        FileOutputStream fos = new FileOutputStream(new File(attendance));
+		        XSSFWorkbook  workbook = new XSSFWorkbook();            
+
+		        XSSFSheet sheet = workbook.createSheet(cnew + "-" + snew);  
+
+		        XSSFRow row = sheet.createRow(0);   
+		        XSSFCell cell0 = row.createCell(0);
+		        cell0.setCellValue("Student Number");
+
+		        XSSFCell cell1 = row.createCell(1);
+
+		        cell1.setCellValue("Name");       
+
+		       // XSSFCell cell2 = row.createCell(2);
+		       // cell2.setCellValue("Percent Change");
+
+		        workbook.write(fos);
+		        fos.flush();
+		        fos.close();
+		    } catch (FileNotFoundException e) {
+		        // TODO Auto-generated catch block
+		        e.printStackTrace();
+		    }
 		}
 }
