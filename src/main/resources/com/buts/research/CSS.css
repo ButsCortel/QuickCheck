@@ -1,0 +1,19 @@
+
+.root {
+    -fx-font-family: "Roboto";
+    -fx-font-smoothing-type: gray;
+}
+
+.jfx-decorator {
+    -fx-decorator-color: gray;
+}
+
+.jfx-decorator .jfx-decorator-buttons-container {
+    -fx-background-color: -fx-decorator-color;
+
+}
+
+.jfx-decorator .resize-border {
+    -fx-border-color: -fx-decorator-color;
+    -fx-border-width: 0 1 1 1;
+}
