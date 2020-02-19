@@ -127,52 +127,40 @@ public class NewClassController {
 	    		cnew = c.replaceAll("\\s+", "_");
 	    		snew = s.replaceAll("\\s+", "_");
 	    		pnew = p.replaceAll("\\s+", "_");
-	            folderName = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew;
-	            masterList = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew + "/Students.xlsx";
-	            attendance = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew + "/Attendance.xlsx";
-	            tests = "C:/QuickCheck/Files/Classes/" + cnew + " " + snew + " " +pnew + "/Tests.xlsx";
+	            folderName = App.fullp + cnew + " " + snew + " " +pnew;
+	            masterList = App.fullp + cnew + " " + snew + " " +pnew + "\\Students.xlsx";
+	            attendance = App.fullp + cnew + " " + snew + " " +pnew + "\\Attendance.xlsx";
+	            tests = App.fullp + cnew + " " + snew + " " +pnew + "\\Tests.xlsx";
 	            Path path = Paths.get(folderName);
-	            Path masterpath = Paths.get(masterList);
-	            Path attpath = Paths.get(attendance);
-	            Path testpath = Paths.get(tests);
 	            if (Files.exists(path)) {
-	        		Stage window = new Stage();		
-	        		window.initModality(Modality.APPLICATION_MODAL);
-	        		window.initStyle(StageStyle.UTILITY);
-	        		window.setTitle("File exists!");
-	        		window.setMinWidth(250);
-	        		
-	        		Label label = new Label();
-	        		label.setText("Overwrite existing file?");
-	        		Button confirm = new Button("Yes");
-	        		confirm.setOnAction(e -> {
-						try {
-							window.hide();
+	            	AlertBoxController.label_text = "Overwrite Existing Class?";
+	            	if(AlertBoxController.display("Existing Class!")) {
+	            		try {
+							AlertBoxController.alert_box.hide();
 							FileUtils.cleanDirectory( new File(path.toString()));
 							Files.createDirectories(path);
-							createWorkbook();
-							window.close();
+							attendanceWorkbook();
+		        			studentWorkbook();
+		        			testWorkbook();
+							AlertBoxController.alert_box.close();
 							newclass_window.close();
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					});
-	        		Button unconfirm = new Button("No");
-	        		unconfirm.setOnAction(e -> window.close());
+	            	}
+
 	        		
-	        		VBox layout = new VBox(10);
-	        		layout.getChildren().addAll(label, confirm, unconfirm);
-	        		layout.setAlignment(Pos.CENTER);
-	        		
-	        		Scene scene = new Scene(layout);
-	        		window.setScene(scene);
-	        		window.showAndWait();
+	            	else {
+	            		AlertBoxController.alert_box.close();
+	            	}
 	            }
 	            else {
 	                try {
 	        			Files.createDirectories(path);
-	        			createWorkbook();
+	        			attendanceWorkbook();
+	        			studentWorkbook();
+	        			testWorkbook();
 	        			newclass_window.close();
 	        		} catch (IOException e) {
 	        			// TODO Auto-generated catch block
@@ -201,9 +189,61 @@ public class NewClassController {
 
 		}
 
-		public  void createWorkbook() throws IOException {
+		public  void studentWorkbook() throws IOException {
+		    try {
+		        FileOutputStream fos = new FileOutputStream(new File(masterList));
+		        XSSFWorkbook  workbook = new XSSFWorkbook();            
+
+		        XSSFSheet sheet = workbook.createSheet(cnew + "-" + snew);  
+
+		        XSSFRow row = sheet.createRow(0);   
+		        XSSFCell cell0 = row.createCell(0);
+		        cell0.setCellValue("Student Number");
+
+		        XSSFCell cell1 = row.createCell(1);
+
+		        cell1.setCellValue("Name");       
+
+		       // XSSFCell cell2 = row.createCell(2);
+		       // cell2.setCellValue("Percent Change");
+
+		        workbook.write(fos);
+		        fos.flush();
+		        fos.close();
+		    } catch (FileNotFoundException e) {
+		        // TODO Auto-generated catch block
+		        e.printStackTrace();
+		    }
+		}
+		public  void attendanceWorkbook() throws IOException {
 		    try {
 		        FileOutputStream fos = new FileOutputStream(new File(attendance));
+		        XSSFWorkbook  workbook = new XSSFWorkbook();            
+
+		        XSSFSheet sheet = workbook.createSheet(cnew + "-" + snew);  
+
+		        XSSFRow row = sheet.createRow(0);   
+		        XSSFCell cell0 = row.createCell(0);
+		        cell0.setCellValue("Student Number");
+
+		        XSSFCell cell1 = row.createCell(1);
+
+		        cell1.setCellValue("Name");       
+
+		       // XSSFCell cell2 = row.createCell(2);
+		       // cell2.setCellValue("Percent Change");
+
+		        workbook.write(fos);
+		        fos.flush();
+		        fos.close();
+		    } catch (FileNotFoundException e) {
+		        // TODO Auto-generated catch block
+		        e.printStackTrace();
+		    }
+		}
+		public  void testWorkbook() throws IOException {
+		    try {
+		        FileOutputStream fos = new FileOutputStream(new File(tests));
 		        XSSFWorkbook  workbook = new XSSFWorkbook();            
 
 		        XSSFSheet sheet = workbook.createSheet(cnew + "-" + snew);  

@@ -11,12 +11,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import javax.swing.filechooser.FileSystemView;
+
 import com.jfoenix.controls.JFXDecorator;
 
 /**
  * JavaFX App
  */
 public class App extends Application{
+	static String fileName;
+	static String fullp;
 	static Stage window;
     @Override
     public void start(Stage stage) throws IOException {
@@ -42,18 +47,21 @@ public class App extends Application{
 
 
 
-    public static void main(String[] args) {
-        String fileName = "C:/QuickCheck/Files/Classes";
-        Path path = Paths.get(fileName);
-        if (Files.exists(path)) {
+    public static void main(String[] args) throws IOException {
+    	fileName = "\\QuickCheck-workspace\\Files\\Classes\\";
+    	fullp = System.getProperty("user.home") + fileName;
+        Path path1 = Paths.get(fullp);
+        Path path2 = Paths.get("C:"+ fileName);
+        if (Files.exists(path1)) {
 
         }
         else {
             try {
-    			Files.createDirectories(path);
+    			Files.createDirectories(path1);
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
+    			Files.createDirectories(path2);
     		}
         }
 
