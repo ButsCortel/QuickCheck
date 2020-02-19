@@ -25,6 +25,41 @@
    			<artifactId>jfoenix</artifactId>
     		<version>9.0.8</version>
 		</dependency>
+		<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>4.1.0</version>
+</dependency>
+   <dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>4.1.0</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.xmlbeans</groupId>
+    <artifactId>xmlbeans</artifactId>
+    <version>3.1.0</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-scratchpad</artifactId>
+    <version>4.1.0</version>
+</dependency>
+<dependency>
+	<groupId>de.schlichtherle</groupId>
+	<artifactId>truezip</artifactId>
+	<version>6.8.4</version>
+</dependency>
+<!-- Thanks for using https://jar-download.com -->
+		<!-- dependency used for XLSX file format -->
+
+
+<!-- dependency used for XLS older file format
+     (added for information) -->
+
+		
     </dependencies>
     <build>
         <plugins>
