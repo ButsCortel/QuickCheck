@@ -35,7 +35,7 @@ public class App extends Application{
         scene.getStylesheets().add(uri) ;
         
         stage.setScene(scene);
-        stage.setTitle("CLASS!"); 
+        stage.setTitle("QuickCheck"); 
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
        

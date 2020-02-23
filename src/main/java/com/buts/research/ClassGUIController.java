@@ -1,18 +1,18 @@
 package com.buts.research;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.ResourceBundle;
-
-import org.apache.commons.io.FileUtils;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
@@ -20,13 +20,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -37,28 +36,27 @@ import javafx.stage.StageStyle;
 import javafx.scene.Node;
 
 public class ClassGUIController implements Initializable{
-	static Stage newclass_window;
 	static ArrayList<Path> classes = new ArrayList<>();
 	static int rowIndex = 0;
 	Rectangle rect;
 	int dispclasses2 = 0;
-	boolean delete_selected = false;
-    @FXML
-    private JFXButton select_class_next;
+	boolean class_selected = false;
+	static Stage classgui_window;
 
 
     @FXML
     private GridPane gridpane;
     
     @FXML
-    void openNew(ActionEvent event) throws IOException {
+    void openNew() throws IOException {
     	NewClassController newclass = new NewClassController();
     	newclass.openNew();
+    	class_selected = false;
     	checkClasses();
     }
 	public void classGUIWindow() {
     	try {
-    		Stage classgui_window = new Stage();
+    		classgui_window = new Stage();
     		Parent root = FXMLLoader.load(App.class.getResource("ClassGUI.fxml"));
 			JFXDecorator decorator = new JFXDecorator(classgui_window , root, false, false, true);
 			decorator.setCustomMaximize(true); 
@@ -66,7 +64,7 @@ public class ClassGUIController implements Initializable{
 			Scene class_scene = new Scene(decorator, 740, 460);
 			class_scene.getStylesheets().add(uri) ;
 			classgui_window.setScene(class_scene);
-			classgui_window.setTitle("CLASS!");
+			classgui_window.setTitle("QuickCheck");
 			classgui_window.initStyle(StageStyle.UNDECORATED);
 			classgui_window.setResizable(false);
 			classgui_window.show();
@@ -117,59 +115,72 @@ public class ClassGUIController implements Initializable{
 				classes_string = name.split("\\s+");
 				String course = classes_string[0].replaceAll("_", " ");
 				String subject = classes_string[1].replaceAll("_", " ");
-				String prof = classes_string[2].replaceAll("_", " ");
+				String sched = loadSched(className.toString());
 				Label coursel = new Label(course);
 				Label subjl = new Label(subject);
-				Label profl = new Label(prof);
+				Label schedl = new Label(sched);
+				schedl.setWrapText(true);
 				Label rows = new Label(Integer.toString(row +1)+".");
 				coursel.setFont(new Font("Arial Black",15));
 				subjl.setFont(new Font("Arial black",15));
-				profl.setFont(new Font("Arial black",15));
+				schedl.setFont(new Font("Arial black",15));
 				rows.setFont(new Font("Arial black",15));
 				coursel.setTextFill(Color.WHITE);
 				subjl.setTextFill(Color.WHITE);
-				profl.setTextFill(Color.WHITE);
+				schedl.setTextFill(Color.WHITE);
 				rows.setTextFill(Color.WHITE);
 
 
-				coursel.setMaxHeight(30);
-				subjl.setMaxHeight(30);
-				profl.setMaxHeight(30);
-				rows.setMaxHeight(30);
-				coursel.setMinHeight(30);
-				subjl.setMinHeight(30);
-				profl.setMinHeight(30);
-				rows.setMinHeight(30);
+				schedl.setMaxHeight(Control.USE_PREF_SIZE);
+				schedl.setMinHeight(Control.USE_PREF_SIZE);
+				schedl.setMinWidth(200);
+				schedl.setMaxWidth(200);
+				schedl.setMaxWidth(200);
+				schedl.setAlignment(Pos.CENTER_LEFT);
+				
+				coursel.setMaxHeight(Double.MAX_VALUE);
+				coursel.setMinHeight(schedl.getPrefHeight());
 				coursel.setMinWidth(200);
-				subjl.setMinWidth(200);
-				profl.setMinWidth(190);
-				rows.setMaxWidth(100);
+				coursel.setMaxWidth(200);
 				coursel.setAlignment(Pos.CENTER);
-				subjl.setAlignment(Pos.CENTER);
-				profl.setAlignment(Pos.CENTER);
+				
+				subjl.setMaxHeight(Double.MAX_VALUE);
+				subjl.setMinHeight(schedl.getPrefHeight());
+				subjl.setMinWidth(200);
+				subjl.setMaxWidth(200);
+				subjl.setAlignment(Pos.CENTER);			
+				
+				rows.setMaxHeight(Double.MAX_VALUE);											
+				rows.setMinHeight(schedl.getPrefHeight());												
+				rows.setMaxWidth(100);
+				rows.setMinWidth(100);
 				rows.setAlignment(Pos.CENTER);
+		        
+
 
 				
 				
 				classes_display.set(0,rows);
 				classes_display.set(1,coursel);
 				classes_display.set(2,subjl);
-				classes_display.set(3,profl);
+				classes_display.set(3,schedl);
 				if (dispclasses2 == 0){
 					gridpane.add(classes_display.get(0), 0, row);
 					gridpane.add(classes_display.get(1), 1, row);
 					gridpane.add(classes_display.get(2), 2, row);
-					gridpane.add(classes_display.get(3), 3, row);}
+					gridpane.add(classes_display.get(3), 3, row);
+					}
 				else {
 					if(row != rowIndex) {
 					gridpane.add(classes_display.get(0), 0, row);
 					gridpane.add(classes_display.get(1), 1, row);
 					gridpane.add(classes_display.get(2), 2, row);
-					gridpane.add(classes_display.get(3), 3, row);}
+					gridpane.add(classes_display.get(3), 3, row);
+					}
 					else {
 						coursel.setStyle("-fx-background-color: tomato;");
 						subjl.setStyle("-fx-background-color: tomato;");
-						profl.setStyle("-fx-background-color: tomato;");
+						schedl.setStyle("-fx-background-color: tomato;");
 						rows.setStyle("-fx-background-color: tomato;");
 						gridpane.add(classes_display.get(0), 0, rowIndex);
 						gridpane.add(classes_display.get(1), 1, rowIndex);
@@ -183,6 +194,7 @@ public class ClassGUIController implements Initializable{
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
 		try {
 			checkClasses();
 		} catch (IOException e) {
@@ -202,7 +214,7 @@ public class ClassGUIController implements Initializable{
             parent = clickedNode.getParent();
         }
         rowIndex = GridPane.getRowIndex(clickedNode);
-        delete_selected = true;
+        class_selected = true;
         dispclasses2 = 1;
         dispClasses();
         
@@ -235,12 +247,12 @@ public class ClassGUIController implements Initializable{
     }
     @FXML
     void deleteClass(ActionEvent event) throws IOException {
-    	if (delete_selected) {
+    	if (class_selected) {
         	AlertBoxController.label_text = "Delete this class?";
         	if(AlertBoxController.display("Delete Class!")) {
         		deleteDirectory(classes.get(rowIndex));
         		checkClasses();
-        		delete_selected = false;
+        		class_selected = false;
         	}
 
     		
@@ -249,6 +261,44 @@ public class ClassGUIController implements Initializable{
         	}
     		
 
+    	}
+    	
+    }
+    String loadSched(String pathname) {
+    	String sched = "";
+        try (InputStream input = new FileInputStream(pathname + "\\config.properties")) {
+
+            Properties prop = new Properties();
+
+            // load a properties file
+            prop.load(input);
+
+            sched = prop.getProperty("Schedule");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return sched;
+    }
+   public void classNext() {
+    	if (class_selected) {
+    		classgui_window.close();
+    		String[] classes_string;
+    		
+    		String path = classes.get(rowIndex).toString().replace(App.fullp, "");
+    		classes_string = path.split("\\s+");
+    		
+    		
+
+    		ClassSessionController.path = classes.get(rowIndex).toString() + "\\Students.xls";
+    		ClassSessionController.course = classes_string[0];
+    		ClassSessionController.subject = classes_string[1];
+    		ClassSessionController start = new ClassSessionController();
+
+    		start.startClass();
+
+    		
     	}
     	
     }
