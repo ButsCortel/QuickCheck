@@ -79,7 +79,6 @@ public class AddStudentController {
 		       row.createCell(3).setCellValue(course);
 		       myxls.close();
 		       FileOutputStream output_file =new FileOutputStream(new File(ClassSessionController.path));  
-		       //write changes
 		       studentsSheet.write(output_file);
 		       studentsSheet.close();
 		       output_file.close();
