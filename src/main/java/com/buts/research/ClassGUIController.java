@@ -14,9 +14,15 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import com.jfoenix.controls.JFXDecorator;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,7 +38,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+import javafx.stage.WindowEvent;
 import javafx.scene.Node;
 
 public class ClassGUIController implements Initializable{
@@ -67,6 +73,7 @@ public class ClassGUIController implements Initializable{
 			classgui_window.setTitle("QuickCheck");
 			classgui_window.initStyle(StageStyle.UNDECORATED);
 			classgui_window.setResizable(false);
+
 			classgui_window.show();
 			
 	
@@ -79,8 +86,10 @@ public class ClassGUIController implements Initializable{
 	}
 
 	public  void checkClasses() throws IOException {
+		
 	  	gridpane.getChildren().clear();
-		classes.clear();
+
+	  	classes.clear();
 		 //String dirName = "C:\\QuickCheck\\Files\\Classes";
 			File file = new File(App.fullp);
 			
@@ -111,11 +120,11 @@ public class ClassGUIController implements Initializable{
 		classes_display.add(null);
 		classes_display.add(null);
 		for(Path className: classes) {
-				String name = className.toString().replace(App.fullp, "");
-				classes_string = name.split("\\s+");
-				String course = classes_string[0].replaceAll("_", " ");
-				String subject = classes_string[1].replaceAll("_", " ");
-				String sched = loadSched(className.toString());
+			String name = className.toString().replace(App.fullp, "");
+			classes_string = name.split("\\s+");
+			String course = classes_string[0].replaceAll("_", " ");
+			String subject = classes_string[1].replaceAll("_", " ");
+			String sched = loadSched(className.toString());
 				Label coursel = new Label(course);
 				Label subjl = new Label(subject);
 				Label schedl = new Label(sched);
@@ -125,10 +134,11 @@ public class ClassGUIController implements Initializable{
 				subjl.setFont(new Font("Arial black",15));
 				schedl.setFont(new Font("Arial black",15));
 				rows.setFont(new Font("Arial black",15));
-				coursel.setTextFill(Color.WHITE);
-				subjl.setTextFill(Color.WHITE);
-				schedl.setTextFill(Color.WHITE);
-				rows.setTextFill(Color.WHITE);
+				coursel.setTextFill(Color.BLACK);
+				subjl.setTextFill(Color.BLACK);
+				schedl.setTextFill(Color.BLACK);
+				rows.setTextFill(Color.BLACK);
+				
 
 
 				schedl.setMaxHeight(Control.USE_PREF_SIZE);
@@ -160,40 +170,35 @@ public class ClassGUIController implements Initializable{
 
 				
 				
-				classes_display.set(0,rows);
+				/*classes_display.set(0,rows);
 				classes_display.set(1,coursel);
 				classes_display.set(2,subjl);
-				classes_display.set(3,schedl);
-				if (dispclasses2 == 0){
-					gridpane.add(classes_display.get(0), 0, row);
-					gridpane.add(classes_display.get(1), 1, row);
-					gridpane.add(classes_display.get(2), 2, row);
-					gridpane.add(classes_display.get(3), 3, row);
-					}
-				else {
-					if(row != rowIndex) {
-					gridpane.add(classes_display.get(0), 0, row);
-					gridpane.add(classes_display.get(1), 1, row);
-					gridpane.add(classes_display.get(2), 2, row);
-					gridpane.add(classes_display.get(3), 3, row);
-					}
-					else {
-						coursel.setStyle("-fx-background-color: tomato;");
-						subjl.setStyle("-fx-background-color: tomato;");
-						schedl.setStyle("-fx-background-color: tomato;");
-						rows.setStyle("-fx-background-color: tomato;");
-						gridpane.add(classes_display.get(0), 0, rowIndex);
-						gridpane.add(classes_display.get(1), 1, rowIndex);
-						gridpane.add(classes_display.get(2), 2, rowIndex);
-						gridpane.add(classes_display.get(3), 3, rowIndex);
-						dispclasses2 =0;
-					}}
+				classes_display.set(3,schedl);*/
+
+				gridpane.add(rows, 0, row);
+				gridpane.add(coursel, 1, row);
+				gridpane.add(subjl, 2, row);
+				gridpane.add(schedl, 3, row);
 					row++;
 					}
 		
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		classgui_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
+		    @Override
+		    public void handle(WindowEvent t) {
+	        	AlertBoxController.label_text = "Are you sure you want to exit?";
+	        	if(AlertBoxController.display("Exit")) {
+			        Platform.exit();
+			        System.exit(0);
+	        	}
+	        	else {
+	        		t.consume();
+	        	}
+
+		    }
+		});
 
 		try {
 			checkClasses();
@@ -205,20 +210,26 @@ public class ClassGUIController implements Initializable{
 	}
     @FXML
     public void clickGrid(MouseEvent event) {
-    Node clickedNode = event.getPickResult().getIntersectedNode();
+        Node clickedNode = event.getPickResult().getIntersectedNode();
 
-    if (clickedNode != gridpane) {
-    	Node parent = clickedNode.getParent();
-        while (parent != gridpane) {
-            clickedNode = parent;
-            parent = clickedNode.getParent();
-        }
-        rowIndex = GridPane.getRowIndex(clickedNode);
-        class_selected = true;
-        dispclasses2 = 1;
-        dispClasses();
+        if (clickedNode != gridpane) {
+        	Node parent = clickedNode.getParent();
+            while (parent != gridpane) {
+                clickedNode = parent;
+                parent = clickedNode.getParent();
+            }
+            rowIndex = GridPane.getRowIndex(clickedNode);
+            for (Node node : gridpane.getChildren()) {
+            	if (GridPane.getRowIndex(node) == rowIndex) {
+            		node.setStyle("-fx-background-color: #D3D3D3;");
+            	}
+            	else {
+            		node.setStyle("-fx-background-color: white;");
+            	}
+            	
+            }class_selected = true;
+        	}
         
-    	}
 
     }
     public void deleteDirectory(Path directoryFilePath) throws IOException
@@ -283,18 +294,22 @@ public class ClassGUIController implements Initializable{
     }
    public void classNext() {
     	if (class_selected) {
-    		classgui_window.close();
+    		
     		String[] classes_string;
     		
     		String path = classes.get(rowIndex).toString().replace(App.fullp, "");
     		classes_string = path.split("\\s+");
     		
     		
-
-    		ClassSessionController.path = classes.get(rowIndex).toString() + "\\Students.xls";
+    		ClassSessionController.path = classes.get(rowIndex).toString();
+    		ClassSessionController.student_excel = ClassSessionController.path + "\\Students.xls";
+    		//ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
+    		ClassSessionController.test_excel = ClassSessionController.path + "\\Tests.xls";
+    		ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
     		ClassSessionController.course = classes_string[0];
     		ClassSessionController.subject = classes_string[1];
     		ClassSessionController start = new ClassSessionController();
+    		classgui_window.hide();
 
     		start.startClass();
 
@@ -302,4 +317,8 @@ public class ClassGUIController implements Initializable{
     	}
     	
     }
+	public void createAttendance() {
+		
+	}
+
 }

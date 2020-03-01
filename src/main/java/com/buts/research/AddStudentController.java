@@ -2,15 +2,16 @@ package com.buts.research;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-
-
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXTextField;
 
@@ -27,6 +28,8 @@ public class AddStudentController {
 	static Stage newstudent_window;
 	static String course = "";
 	static String subject = "";
+	static String dup = "";
+
 	@FXML
     private JFXTextField student_code;
 
@@ -68,7 +71,7 @@ public class AddStudentController {
 	public void writeStudent(String code, String name, String id, String course){
 		   try
 		   {
-		       FileInputStream myxls = new FileInputStream(ClassSessionController.path);
+		       FileInputStream myxls = new FileInputStream(ClassSessionController.student_excel);
 		       Workbook studentsSheet = new HSSFWorkbook(myxls);
 		       Sheet worksheet = studentsSheet.getSheetAt(0);
 		       int lastRow=worksheet.getLastRowNum();
@@ -78,7 +81,7 @@ public class AddStudentController {
 		       row.createCell(2).setCellValue(id);
 		       row.createCell(3).setCellValue(course);
 		       myxls.close();
-		       FileOutputStream output_file =new FileOutputStream(new File(ClassSessionController.path));  
+		       FileOutputStream output_file =new FileOutputStream(new File(ClassSessionController.student_excel));  
 		       studentsSheet.write(output_file);
 		       studentsSheet.close();
 		       output_file.close();
@@ -88,15 +91,60 @@ public class AddStudentController {
 		    	e.printStackTrace();
 		    }
 		}
-	public void addStudent() {
-		String code = student_code.getText();
-		String name = student_name.getText();
-		String id = student_id.getText();
-		String course = student_course.getText();
-		if (!code.equals("") && !name.equals("") && !id.equals("") && !course.equals("")) {
-			writeStudent(code, name, id, course);
-			newstudent_window.close();
+	public void addStudent() throws IOException {
+		String code = student_code.getText().trim();
+		String name = student_name.getText().replaceAll("[\\d.]", "").trim();
+		String id = student_id.getText().trim();
+		String course = student_course.getText().trim();
+		if (!code.equals("") && !name.equals("") && !id.equals("") && !course.equals("") && code.length() >3 && code.chars().allMatch(Character::isDigit)) {
+			if (!checkDup(code, name, id)) {
+				writeStudent(code, name, id, course);
+				newstudent_window.close();
+			}
+			else {
+				stat_label.setText("Duplicate " + dup + "!");
+			}
+			
+		}
+		else {
+			stat_label.setText("Invalid Format!");
 		}
 
 	}
+	public boolean checkDup(String cd, String n, String id) throws IOException {
+		FileInputStream fi = new FileInputStream(ClassSessionController.student_excel);
+		Workbook wb = new HSSFWorkbook(fi);
+		Sheet sh = wb.getSheetAt(0);
+		boolean result = false;
+	    int starRow = sh.getFirstRowNum();
+	    int endRow = sh.getLastRowNum();
+
+
+	    for (int i = starRow + 1; i <= endRow; i++) {
+	        Cell c0 = wb.getSheetAt(0).getRow(i).getCell(0);
+	        if(c0.getStringCellValue().equals(cd)) {
+	        	result = true;
+	        	dup = "CODE";
+	        }
+
+	        Cell c1 = wb.getSheetAt(0).getRow(i).getCell(1);
+	        if(c1.getStringCellValue().equals(n)) {
+	        	result = true;
+	        	dup = "NAME";
+	        }
+	        
+	        Cell c2 = wb.getSheetAt(0).getRow(i).getCell(2);
+	        if(c2.getStringCellValue().equals(id)) {
+	        	result = true;
+	        	dup = "ID";
+	        }
+	    }
+	    wb.close();
+	    fi.close();
+	    return result;
+
+	    
+	}
+	
+	
 }

@@ -22,7 +22,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
@@ -39,6 +38,7 @@ public class ImportClassController implements Initializable {
 	static int dispclasses2 = 0;
 	static int rowIndex = 0;
 	static boolean student_selected = false;
+	ArrayList<Path> classes = null;
     @FXML
     private ScrollPane scrollpane;
     @FXML
@@ -52,10 +52,10 @@ public class ImportClassController implements Initializable {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-    	}
-    	student_selected = false;
+			}    	student_selected = false;
     	importclass_window.close();
+    	}
+
     }
 
 	public void importList() {
@@ -85,6 +85,12 @@ public class ImportClassController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		try {
+			checkClasses();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		display_classes();
 		
 	}
@@ -93,11 +99,11 @@ public class ImportClassController implements Initializable {
 		int row =0;
 		 //String dirName = "C:\\QuickCheck\\Files\\Classes";
 		
-						ArrayList<Label> classes_display = new ArrayList<>();
 						String[] classes_string = {null, null};
-						classes_display.add(null);
-						classes_display.add(null);
-						for(Path className: ClassGUIController.classes) {
+						for(Path className: classes) {
+							
+							
+								
 							String name = className.toString().replace(App.fullp, "");
 							classes_string = name.split("\\s+");
 							String course = classes_string[0].replaceAll("_", " ");
@@ -108,13 +114,13 @@ public class ImportClassController implements Initializable {
 							coursel.setFont(new Font("Arial Black",15));
 							subjl.setFont(new Font("Arial black",15));
 
-							coursel.setTextFill(Color.WHITE);
-							subjl.setTextFill(Color.WHITE);
+							coursel.setTextFill(Color.BLACK);
+							subjl.setTextFill(Color.BLACK);
 
 							subjl.setMaxHeight(Double.MAX_VALUE);
 							subjl.setMinHeight(30);
-							subjl.setMinWidth(115);
-							subjl.setMaxWidth(115);
+							subjl.setMinWidth(120);
+							subjl.setMaxWidth(120);
 							subjl.setAlignment(Pos.CENTER);
 							
 							coursel.setMaxHeight(Double.MAX_VALUE);
@@ -126,28 +132,15 @@ public class ImportClassController implements Initializable {
 			
 							
 						
-							classes_display.set(0,coursel);
-							classes_display.set(1,subjl);
-							if (dispclasses2 == 0){
-								gridpane.add(classes_display.get(0), 0, row);
-								gridpane.add(classes_display.get(1), 1, row);
+	
+							gridpane.add(coursel, 0, row);
+							gridpane.add(subjl, 1, row);
 
-								}
-							else {
-								if(row != rowIndex) {
-								gridpane.add(classes_display.get(0), 0, row);
-								gridpane.add(classes_display.get(1), 1, row);
-
-								}
-								else {
-									coursel.setStyle("-fx-background-color: tomato;");
-									subjl.setStyle("-fx-background-color: tomato;");
-									gridpane.add(classes_display.get(0), 0, rowIndex);
-									gridpane.add(classes_display.get(1), 1, rowIndex);
-									dispclasses2 =0;
-								}}
-								row++;
-								}
+							row++;
+							}					
+								
+								
+						
 
 			       
 			        
@@ -155,37 +148,78 @@ public class ImportClassController implements Initializable {
 
 	}
     public void clickGrid(MouseEvent event) throws IOException {
-    Node clickedNode = event.getPickResult().getIntersectedNode();
+        Node clickedNode = event.getPickResult().getIntersectedNode();
 
-    if (clickedNode != gridpane) {
-    	Node parent = clickedNode.getParent();
-        while (parent != gridpane) {
-            clickedNode = parent;
-            parent = clickedNode.getParent();
-        }
-        rowIndex = GridPane.getRowIndex(clickedNode);
-        dispclasses2 = 1;
-        display_classes();
-        student_selected = true;
-    	}
-    
+        if (clickedNode != gridpane) {
+        	Node parent = clickedNode.getParent();
+            while (parent != gridpane) {
+                clickedNode = parent;
+                parent = clickedNode.getParent();
+            }
+            rowIndex = GridPane.getRowIndex(clickedNode);
+            for (Node node : gridpane.getChildren()) {
+            	if (GridPane.getRowIndex(node) == rowIndex) {
+            		node.setStyle("-fx-background-color: 	#D3D3D3;");
+            	}
+            	else {
+            		node.setStyle("-fx-background-color: white;");
+            	}
+            }student_selected = true;
+            System.out.println(classes.get(rowIndex));
+        	}
+        
 
     }
 	public void implist() throws IOException {
+
 	    InputStream is = null;
 	    OutputStream os = null;
 	    try {
-	        is = new FileInputStream(ClassGUIController.classes.get(rowIndex).toString() + "\\Students.xls");
-	        os = new FileOutputStream(ClassSessionController.path);
+
+	    		is = new FileInputStream(ClassGUIController.classes.get(rowIndex).toString() + "\\Students.xls");
+	    	
+
+
+	        os = new FileOutputStream(ClassSessionController.student_excel);
+
 	        byte[] buffer = new byte[1024];
 	        int length;
 	        while ((length = is.read(buffer)) > 0) {
 	            os.write(buffer, 0, length);
 	        }
 	    } finally {
+	    	student_selected = false;
 	        is.close();
+
 	        os.close();
 	    }
 	}
+	public  void checkClasses() throws IOException {
+		classes = new ArrayList<Path>();
+		
+
+		 //String dirName = "C:\\QuickCheck\\Files\\Classes";
+			File file = new File(App.fullp);
+			
+			if(file.isDirectory()){
+					
+				if(file.list().length>0){
+						
+			        Files.list(new File(App.fullp).toPath())
+	                .limit(100)
+	                .forEach(path -> {
+	                	if (!path.toString().equals(ClassSessionController.path)) {
+	                		classes.add(path);
+	                	}
+	                    
+	                });
+
+			        
+						
+				}
+			}
+
+
+	    }
 
 }

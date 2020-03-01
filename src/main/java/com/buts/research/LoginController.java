@@ -23,9 +23,10 @@ public class LoginController {
     private void switchToPrimary() throws IOException {
     	passcode = passcode_field.getText();
     	if (passcode.equals("4114")) {
-        	App.window.close();
+        	
         	ClassGUIController startClass = new ClassGUIController();
         	startClass.classGUIWindow();
+        	App.window.close();
     	}
     	else {
     		pass_check.setText("Invalid Passcode!");

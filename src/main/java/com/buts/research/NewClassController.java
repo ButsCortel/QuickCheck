@@ -245,7 +245,7 @@ public class NewClassController implements Initializable{
 		        FileOutputStream fos = new FileOutputStream(new File(attendance));
 		        Workbook  workbook = new HSSFWorkbook();            
 
-		        Sheet sheet = workbook.createSheet(cnew + "-" + snew);  
+		        /*Sheet sheet = workbook.createSheet();  
 
 		        Row row = sheet.createRow(0); 
 		        
@@ -259,7 +259,7 @@ public class NewClassController implements Initializable{
 		        cell2.setCellValue("ID NO.");
 		        
 		        Cell cell3 = row.createCell(3);
-		        cell3.setCellValue("COURSE CODE/ GRADE LEVEL");
+		        cell3.setCellValue("COURSE CODE/ GRADE LEVEL");*/
 
 		       // XSSFCell cell2 = row.createCell(2);
 		       // cell2.setCellValue("Percent Change");
@@ -399,8 +399,8 @@ public class NewClassController implements Initializable{
 		        end.setValueFactory(valueFactoryEnd);
 		        
 		        ObservableList<String> daystring = FXCollections.observableArrayList(//
-		                "SUN", "MON", "TUE", "WED", //
-		                "THU", "FRI", "SAT");
+		                "Sun", "Mon", "Tue", "Wed", //
+		                "Thu", "Fri", "Sat");
 		        ObservableList<String> amstring = FXCollections.observableArrayList(//
 		                "AM", "PM");
 		        ObservableList<String> amstring2 = FXCollections.observableArrayList(//
@@ -417,7 +417,7 @@ public class NewClassController implements Initializable{
 		                new SpinnerValueFactory.ListSpinnerValueFactory<String>(amstring2);
 		       
 		        // Default value
-		        valueFactoryDays.setValue("MON");
+		        valueFactoryDays.setValue("Mon");
 		        valueFactoryam.setValue("AM");
 		        valueFactoryam2.setValue("AM");
 		  
@@ -516,5 +516,6 @@ public class NewClassController implements Initializable{
 	    		}
 	    	}
 		}
+
 		
 }

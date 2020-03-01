@@ -12,8 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import javax.swing.filechooser.FileSystemView;
-
 import com.jfoenix.controls.JFXDecorator;
 
 /**
@@ -23,6 +21,7 @@ public class App extends Application{
 	static String fileName;
 	static String fullp;
 	static Stage window;
+	static String textName;
     @Override
     public void start(Stage stage) throws IOException {
     	window = stage;
@@ -49,19 +48,27 @@ public class App extends Application{
 
     public static void main(String[] args) throws IOException {
     	fileName = "\\QuickCheck-workspace\\Files\\Classes\\";
-    	fullp = System.getProperty("user.home") + fileName;
+    	textName = "\\QuickCheck-workspace\\Files\\";
+    	String sys = System.getProperty("user.home");
+    	fullp =  sys + fileName;
         Path path1 = Paths.get(fullp);
         Path path2 = Paths.get("C:"+ fileName);
+        String data = "Student Codes";
         if (Files.exists(path1)) {
 
         }
         else {
             try {
+            	fullp = sys+ fileName;
     			Files.createDirectories(path1);
+    			
+    			Files.write(Paths.get(sys + textName + "codes.txt"), data.getBytes());
     		} catch (IOException e) {
+    			fullp = "C:" + fileName;
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     			Files.createDirectories(path2);
+    			Files.write(Paths.get("C:"+textName + "codes.txt"), data.getBytes());
     		}
         }
 

@@ -6,25 +6,31 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.apache.commons.compress.utils.Lists;
-import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,19 +42,25 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class ClassSessionController implements Initializable{
 	static String path;
+	static String student_excel;
+	static String attendance_excel;
+	static String test_excel;
 	static String course;
 	static String subject;
 	static int rowIndex = 0;
 	int dispStudents = 0;
 	boolean student_selected = false;
-	
+	static Stage class_window;
+
 
     @FXML
     private Label course_label;
@@ -65,9 +77,10 @@ public class ClassSessionController implements Initializable{
 
 
 
+
 	public void startClass() {
     	try {
-    		Stage class_window = new Stage();
+    		class_window = new Stage();
     		Parent root = FXMLLoader.load(App.class.getResource("ClassSessionGUI.fxml"));
 			JFXDecorator decorator = new JFXDecorator(class_window , root, false, false, true);
 			decorator.setCustomMaximize(true); 
@@ -92,16 +105,31 @@ public class ClassSessionController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		class_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
+		    @Override
+		    public void handle(WindowEvent t) {
+	        	AlertBoxController.label_text = "Are you sure you want to exit?";
+	        	if(AlertBoxController.display("Exit")) {
+			        Platform.exit();
+			        System.exit(0);
+	        	}
+	        	else {
+	        		t.consume();
+	        	}
+
+		    }
+		});
 		try {
 			checkStudents();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		course_label.setText(course);
-		subject_label.setText(subject);
+		course_label.setText(course.replaceAll("_", " "));
+		subject_label.setText(subject.replaceAll("_", " "));
 		add.setAlignment(Pos.BASELINE_LEFT);
 		del.setAlignment(Pos.BASELINE_LEFT);
+
 
 		
 	}
@@ -109,6 +137,7 @@ public class ClassSessionController implements Initializable{
 		AddStudentController student = new AddStudentController();
 		student.newStudent();
 		try {
+			sortSheet();
 			checkStudents();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -116,9 +145,9 @@ public class ClassSessionController implements Initializable{
 		}student_selected = false;
 	}
 	void checkStudents() throws IOException {
-		sortSheet();
+	
 		gridpane.getChildren().clear();
-	    FileInputStream fi = new FileInputStream(path);
+	    FileInputStream fi = new FileInputStream(student_excel);
 		ArrayList<String> students_code = new ArrayList<String>();
 		ArrayList<String> students_name = new ArrayList<String>();
 		ArrayList<String> students_id = new ArrayList<String>();
@@ -129,8 +158,8 @@ public class ClassSessionController implements Initializable{
 		students_display.add(null);
 		students_display.add(null);
 		students_display.add(null);
-	    Workbook wb = new HSSFWorkbook(fi);
-	    Sheet sh = wb.getSheetAt(0);
+		Workbook wb = new HSSFWorkbook(fi);
+		Sheet sh = wb.getSheetAt(0);
 	    int starRow = sh.getFirstRowNum();
 	    int endRow = sh.getLastRowNum();
 
@@ -165,11 +194,11 @@ public class ClassSessionController implements Initializable{
 			sid.setFont(new Font("Arial black",15));
 			scourse.setFont(new Font("Arial black",15));
 			
-			row.setTextFill(Color.WHITE);
-			scode.setTextFill(Color.WHITE);
-			sname.setTextFill(Color.WHITE);
-			sid.setTextFill(Color.WHITE);
-			scourse.setTextFill(Color.WHITE);
+			row.setTextFill(Color.BLACK);
+			scode.setTextFill(Color.BLACK);
+			sname.setTextFill(Color.BLACK);
+			sid.setTextFill(Color.BLACK);
+			scourse.setTextFill(Color.BLACK);
 			
 			sname.setMaxHeight(Control.USE_PREF_SIZE);
 			sname.setMinHeight(30);
@@ -197,45 +226,23 @@ public class ClassSessionController implements Initializable{
 			
 			scourse.setMaxHeight(Double.MAX_VALUE);
 			scourse.setMinHeight(sname.getPrefHeight());
-			scourse.setMaxWidth(120);
-			scourse.setMinWidth(120);
+			scourse.setMaxWidth(150);
+			scourse.setMinWidth(150);
 			scourse.setAlignment(Pos.CENTER);
 			
-			students_display.set(0, row);
+			/*students_display.set(0, row);
 			students_display.set(1, scode);
 			students_display.set(2, sname);
 			students_display.set(3, sid);
-			students_display.set(4, scourse);
+			students_display.set(4, scourse);*/
 			
-			if (dispStudents == 0) {
-				gridpane.add(students_display.get(0), 0, c);
-				gridpane.add(students_display.get(1), 1, c);
-				gridpane.add(students_display.get(2), 2, c);
-				gridpane.add(students_display.get(3), 3, c);
-				gridpane.add(students_display.get(4), 4, c);
-			}
-			else {
-				if (c != rowIndex) {
-					gridpane.add(students_display.get(0), 0, c);
-					gridpane.add(students_display.get(1), 1, c);
-					gridpane.add(students_display.get(2), 2, c);
-					gridpane.add(students_display.get(3), 3, c);
-					gridpane.add(students_display.get(4), 4, c);
-				}
-				else {
-					row.setStyle("-fx-background-color: tomato;");
-					scode.setStyle("-fx-background-color: tomato;");
-					sname.setStyle("-fx-background-color: tomato;");
-					sid.setStyle("-fx-background-color: tomato;");
-					scourse.setStyle("-fx-background-color: tomato;");
-					gridpane.add(students_display.get(0), 0, rowIndex);
-					gridpane.add(students_display.get(1), 1, rowIndex);
-					gridpane.add(students_display.get(2), 2, rowIndex);
-					gridpane.add(students_display.get(3), 3, rowIndex);
-					gridpane.add(students_display.get(4), 4, rowIndex);
-					dispStudents = 0;
-				}
-			}
+			
+				gridpane.add(row, 0, c);
+				gridpane.add(scode, 1, c);
+				gridpane.add(sname, 2, c);
+				gridpane.add(sid, 3, c);
+				gridpane.add(scourse, 4, c);
+
 
 			c++;
 
@@ -254,13 +261,15 @@ public class ClassSessionController implements Initializable{
             parent = clickedNode.getParent();
         }
         rowIndex = GridPane.getRowIndex(clickedNode);
-        dispStudents = 1;
-        try {
-			checkStudents();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}student_selected = true;
+        for (Node node : gridpane.getChildren()) {
+        	if (GridPane.getRowIndex(node) == rowIndex) {
+        		node.setStyle("-fx-background-color: 	#D3D3D3;");
+        	}
+        	else {
+        		node.setStyle("-fx-background-color: white;");
+        	}
+        }student_selected = true;
+
     	}
     
 
@@ -269,15 +278,13 @@ public class ClassSessionController implements Initializable{
 	    if (student_selected)
 	    {
 	    	try {
-				deleteRow(0 , path,  rowIndex + 1);
-				checkStudents();
+				deleteRow(0 , student_excel,  rowIndex + 1);				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    	student_selected = false;
 	    	
-	    }
+	    }student_selected = false;
     }
     public void deleteRow(int s, String excelPath, int rowNo) throws IOException {
 
@@ -310,10 +317,13 @@ public class ClassSessionController implements Initializable{
                 workbook.write(outFile);
                 workbook.close();
                 outFile.close();
-
+            	sortSheet();
+				checkStudents();
             } catch(Exception e) {
                 
-            } 
+            }	    	
+            student_selected = false; 
+            
             
     	}
 
@@ -323,28 +333,39 @@ public class ClassSessionController implements Initializable{
     	ImportClassController import_class = new ImportClassController();
     	import_class.importList();
     	try {
-			checkStudents();
+   			checkStudents();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
     
-	public void sortSheet() throws IOException {
-		FileInputStream myxls = new FileInputStream(path);
 
-	    Workbook wb = new HSSFWorkbook(myxls);
+	public static void sortSheet() throws IOException {
+		FileInputStream myxls = new FileInputStream(student_excel);
+
+		Workbook wb = new HSSFWorkbook(myxls);
 	    Sheet sheet = wb.getSheetAt(0);
+		ArrayList <Row> rows = new ArrayList <Row>();
         //copy all rows to temp
-        List<Row> rows = Lists.newArrayList(sheet.rowIterator());
+		int r =0;
+		for (Row myrows: sheet) {
+			if (r != 0) {
+				rows.add(myrows);
+			}
+			r++;
+			
+		}
+        //List<Row> rows = Lists.newArrayList(sheet.rowIterator());
         //sort rows in the temp
         rows.sort(Comparator.comparing(cells -> cells.getCell(1).getStringCellValue()));
         //remove all rows from sheet
         removeAllRows(sheet);
         //create new rows with values of sorted rows from temp
-        for (int i = 0; i < rows.size(); i++) {
-            Row newRow = sheet.createRow(i);
-            Row sourceRow = rows.get(i);
+        r = 1;
+        for (Row myrow: rows) {
+            Row newRow = sheet.createRow(r);
+            Row sourceRow = myrow;
             // Loop through source columns to add to new row
             for (int j = 0; j < sourceRow.getLastCellNum(); j++) {
                 // Grab a copy of the old/new cell
@@ -357,25 +378,6 @@ public class ClassSessionController implements Initializable{
                     continue;
                 }
 
-                // Copy style from old cell and apply to new cell
-                CellStyle newCellStyle = wb.createCellStyle();
-                newCellStyle.cloneStyleFrom(oldCell.getCellStyle());
-                newCell.setCellStyle(newCellStyle);
-
-                // If there is a cell comment, copy
-                if (oldCell.getCellComment() != null) {
-                    newCell.setCellComment(oldCell.getCellComment());
-                }
-
-                // If there is a cell hyperlink, copy
-                if (oldCell.getHyperlink() != null) {
-                    newCell.setHyperlink(oldCell.getHyperlink());
-                }
-
-                // Set the cell data type
-                newCell.setCellType(oldCell.getCellType());
-
-                // Set the cell data value
                 switch (oldCell.getCellType()) {
                     case BLANK:
                         newCell.setCellValue(oldCell.getStringCellValue());
@@ -395,32 +397,126 @@ public class ClassSessionController implements Initializable{
                     case STRING:
                         newCell.setCellValue(oldCell.getRichStringCellValue());
                         break;
+				default:
+					break;
                 }
-            }
-
-            // If there are are any merged regions in the source row, copy to new row
-            for (int j = 0; j < sheet.getNumMergedRegions(); j++) {
-                CellRangeAddress cellRangeAddress = sheet.getMergedRegion(j);
-                if (cellRangeAddress.getFirstRow() == sourceRow.getRowNum()) {
-                    CellRangeAddress newCellRangeAddress = new CellRangeAddress(newRow.getRowNum(),
-                            (newRow.getRowNum() +
-                                    (cellRangeAddress.getLastRow() - cellRangeAddress.getFirstRow()
-                                    )),
-                            cellRangeAddress.getFirstColumn(),
-                            cellRangeAddress.getLastColumn());
-                    sheet.addMergedRegion(newCellRangeAddress);
-                }
-            }
-        }
-	    FileOutputStream output_file =new FileOutputStream(new File(path));  
+            }r++;
+        }FileOutputStream output_file =new FileOutputStream(new File(student_excel));  
 	       wb.write(output_file);
 	       wb.close();
+
     }
+	
 
     private static void removeAllRows(Sheet sheet) {
             for (int i = 0; i < sheet.getLastRowNum(); i++) {
-                sheet.removeRow(sheet.getRow(i));
+                sheet.removeRow(sheet.getRow(i+1));
             }
         }
+    @FXML
+    void start_attendance(ActionEvent event) {
+    	AttendanceGUIController start = new AttendanceGUIController();
+    	try {
+			createAttendance();
+		} catch (IOException e) {
+		
+			e.printStackTrace();
+		}    	
+    	class_window.hide();
+    	start.attendanceGUIWindow();
+
+
+    }
+	public void createAttendance() throws IOException {
+		DateTimeFormatter df = DateTimeFormatter.ofPattern("MMM-yyyy");
+		DateTimeFormatter day = DateTimeFormatter.ofPattern("dd-EEE");
+		
+		LocalDateTime dateobj = LocalDateTime.now();
+	       //DateFormat df = new SimpleDateFormat("MMM-yyyy");
+	       //DateFormat day = new SimpleDateFormat("dd-EEE");
+	       //Date dateobj = new Date();
+ 	       
+		
+	    try {
+	       
+	        FileInputStream myxls = new FileInputStream(attendance_excel);
+		       Workbook workbook = new HSSFWorkbook(myxls);
+		       Sheet sheet = workbook.getSheet(df.format(dateobj));
+	        if (workbook.getNumberOfSheets() != 0) {
+	            for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+
+	               if (workbook.getSheetName(i).equals(df.format(dateobj))) {
+	            	   
+	                    sheet = workbook.getSheet(df.format(dateobj));
+	                } else {
+	                	sheet = workbook.createSheet(df.format(dateobj));
+	                    Row row = sheet.createRow(0); 
+	        	        
+	        	        Cell cell0 = row.createCell(0);
+	        	        cell0.setCellValue("CODE");
+
+	        	        Cell cell1 = row.createCell(1);
+	        	        cell1.setCellValue("NAME");
+	        	        
+	        	        Cell cell2 = row.createCell(2);
+	        	        cell2.setCellValue("ID NO.");
+	        	        
+	        	        Cell cell3 = row.createCell(3);
+	        	        cell3.setCellValue("COURSE CODE/ GRADE LEVEL");
+	        	        
+	        	        Cell cell4 = row.createCell(4);
+	        	        cell4.setCellValue(day.format(dateobj));
+	                }
+	            }
+	        }
+	        else {
+	            // Create new sheet to the workbook if empty
+	            sheet = workbook.createSheet(df.format(dateobj));
+	            Row row = sheet.createRow(0); 
+		        
+		        Cell cell0 = row.createCell(0);
+		        cell0.setCellValue("CODE");
+
+		        Cell cell1 = row.createCell(1);
+		        cell1.setCellValue("NAME");
+		        
+		        Cell cell2 = row.createCell(2);
+		        cell2.setCellValue("ID NO.");
+		        
+		        Cell cell3 = row.createCell(3);
+		        cell3.setCellValue("COURSE CODE/ GRADE LEVEL");
+    	        Cell cell4 = row.createCell(4);
+    	        cell4.setCellValue(day.format(dateobj));
+	        }
+ 
+	       // XSSFCell cell2 = row.createCell(2);
+	       // cell2.setCellValue("Percent Change");
+	        myxls.close();
+	        FileOutputStream out = new FileOutputStream(new File(attendance_excel));
+            workbook.write(out);
+            workbook.close();
+            out.close();
+	    } catch (FileNotFoundException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
+	}
+    @FXML
+    void back(ActionEvent event) {
+    	
+    	class_window.close();
+    	ClassGUIController.classgui_window.show();
+    }
+
+    @FXML
+    void home(MouseEvent event) {
+    	
+    	class_window.close();
+    	ClassGUIController.classgui_window.show();
+    }
+
 }
+
+
+	
 
