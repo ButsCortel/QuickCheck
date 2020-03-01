@@ -1,28 +1,185 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="500.0" prefWidth="725.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.TestGUIController">
+<AnchorPane maxHeight="430.0" maxWidth="810.0" minHeight="430.0" minWidth="810.0" prefHeight="430.0" prefWidth="810.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.AttendanceGUIController">
    <children>
-      <ImageView fitHeight="507.0" fitWidth="555.0" layoutX="170.0" layoutY="-5.0">
+      <ImageView fitHeight="436.0" fitWidth="633.0" layoutY="-6.0">
          <image>
             <Image url="@bg.png" />
          </image>
          <effect>
-            <ColorAdjust contrast="0.08" saturation="0.02" />
+            <ColorAdjust brightness="0.07" contrast="0.15" />
          </effect>
       </ImageView>
-      <Button layoutX="41.0" layoutY="80.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="91.0" style="-fx-background-color: gray;" text="Class" />
-      <Label layoutX="21.0" layoutY="23.0" text="Attendance" textFill="#fcfcfc">
+      <Label layoutX="223.0" layoutY="13.0" text="Attendance" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB Demi Bold" size="25.0" />
+            <Font name="Berlin Sans FB Demi Bold" size="36.0" />
          </font>
       </Label>
+      <JFXButton fx:id="take_attendance" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="658.0" layoutY="226.0" onAction="#takeAttendance" prefHeight="66.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Take Attendance" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="date_label" alignment="CENTER" contentDisplay="CENTER" layoutX="641.0" layoutY="127.0" prefHeight="52.0" prefWidth="165.0" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="time_label" alignment="CENTER" contentDisplay="CENTER" layoutX="640.0" layoutY="183.0" prefHeight="29.0" prefWidth="165.0" text="Time" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="680.0" layoutY="60.0" text="QuickCheck" textFill="WHITE">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="16.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="52.0" fitWidth="59.0" layoutX="693.0" layoutY="8.0" onMouseClicked="#home">
+         <image>
+            <Image url="@86190431_876636742794473_8673000457800515584_n.png" />
+         </image>
+      </ImageView>
+      <JFXButton buttonType="RAISED" layoutX="633.0" layoutY="391.0" onAction="#back" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="&lt;&lt; Back" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="del11" buttonType="RAISED" layoutX="726.0" layoutY="391.0" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="Help" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="course_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="88.0" prefHeight="17.0" prefWidth="97.0" text="COURSE" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="subject_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="110.0" prefHeight="17.0" prefWidth="97.0" text="SUBJECT" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="test_button" buttonType="RAISED" layoutX="658.0" layoutY="318.0" prefHeight="44.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Test" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="view_attendance" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="658.0" layoutY="226.0" onAction="#viewAttendance" prefHeight="66.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="View Attendance" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </JFXButton>
+      <Pane fx:id="attendancePane" layoutX="11.0" layoutY="75.0" prefHeight="341.0" prefWidth="611.0" visible="false">
+         <children>
+            <ScrollPane layoutX="17.0" layoutY="97.0" prefHeight="240.0" prefWidth="581.0" style="-fx-background-color: gray;">
+               <content>
+                  <GridPane fx:id="gridpane" gridLinesVisible="true" prefHeight="238.0" prefWidth="579.0" style="-fx-background-color: white;">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="310.0" minWidth="10.0" prefWidth="254.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="226.0" minWidth="10.0" prefWidth="132.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+            <Label layoutX="242.0" layoutY="39.0" text="Students logged" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="126.0" layoutY="71.0" text="Name" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="353.0" layoutY="71.0" text="Time in" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="17.0" layoutY="16.0" text="Date:" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="attendance_combo" layoutX="66.0" layoutY="15.0" prefWidth="150.0" />
+            <Label layoutX="502.0" layoutY="71.0" text="Status" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="attendance_combo1" layoutX="478.0" layoutY="14.0" prefHeight="26.0" prefWidth="117.0" />
+            <Label layoutX="288.0" layoutY="16.0" text="Print Monthly Summary:" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="webcampane" layoutX="11.0" layoutY="75.0" prefHeight="341.0" prefWidth="611.0">
+         <children>
+            <ComboBox fx:id="cbCameraOptions" layoutX="47.0" layoutY="4.0" prefHeight="10.0" prefWidth="205.0" />
+            <Label layoutY="3.0" text="Cam:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="2.0" layoutY="230.0" text="Name:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="2.0" layoutY="272.0" text="Time in:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <BorderPane fx:id="bpWebCamPaneHolder" layoutX="10.0" layoutY="36.0" maxHeight="180.0" maxWidth="242.0" minHeight="150.0" minWidth="150.0" prefHeight="167.0" prefWidth="242.0">
+               <center>
+                  <ImageView fx:id="imgWebCamCapturedImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+            <ScrollPane hbarPolicy="NEVER" layoutX="264.0" layoutY="4.0" prefHeight="334.0" prefWidth="344.0">
+               <content>
+                  <GridPane fx:id="gridpane" alignment="TOP_CENTER" prefHeight="331.0" prefWidth="342.0" style="-fx-background-color: white;">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="35.0" minWidth="35.0" prefWidth="35.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="104.0" minWidth="104.0" prefWidth="104.0" />
+                    </columnConstraints>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+            <Label fx:id="name_label" layoutX="2.0" layoutY="250.0" prefHeight="21.0" prefWidth="259.0" text=" " wrapText="true">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="timein_label" layoutX="2.0" layoutY="293.0" prefHeight="21.0" prefWidth="259.0" text=" " wrapText="true">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="in_status" layoutX="3.0" layoutY="206.0" prefHeight="24.0" prefWidth="259.0" text=" " wrapText="true">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+         </children></Pane>
    </children>
 </AnchorPane>

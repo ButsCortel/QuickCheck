@@ -1,11 +1,11 @@
 
 .root {
     -fx-font-family: "Roboto";
-    -fx-font-smoothing-type: gray;
+    -fx-font-smoothing-type: White;
 }
 
 .jfx-decorator {
-    -fx-decorator-color: gray;
+    -fx-decorator-color: black;
 }
 
 .jfx-decorator .jfx-decorator-buttons-container {

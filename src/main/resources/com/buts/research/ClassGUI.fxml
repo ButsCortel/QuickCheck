@@ -24,9 +24,9 @@
       </ImageView>
       <Pane fx:id="select_class_pane" layoutX="26.0" layoutY="22.0" prefHeight="391.0" prefWidth="688.0" style="-fx-background-color: brown;">
          <children>
-            <JFXButton buttonType="RAISED" layoutX="524.0" layoutY="317.0" onAction="#classNext" prefHeight="53.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Next" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="524.0" layoutY="317.0" onAction="#classNext" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Next &gt;&gt;" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="15.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </JFXButton>
             <Label layoutX="272.0" layoutY="7.0" text="Select Class" textFill="WHITE">
@@ -36,7 +36,7 @@
             </Label>
             <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" layoutX="31.0" layoutY="88.0" pannable="true" prefHeight="216.0" prefWidth="627.0">
                <content>
-                  <GridPane fx:id="gridpane" alignment="TOP_CENTER" gridLinesVisible="true" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="625.0" style="-fx-background-color: gray;">
+                  <GridPane fx:id="gridpane" alignment="TOP_CENTER" gridLinesVisible="true" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="625.0" style="-fx-background-color: white;">
                     <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="63.0" minWidth="10.0" percentWidth="6.0" prefWidth="63.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="188.0" minWidth="162.0" prefWidth="162.0" />
@@ -46,9 +46,9 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <JFXButton fx:id="new_class" buttonType="RAISED" layoutX="401.0" layoutY="317.0" onAction="#openNew" prefHeight="53.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="New" textFill="WHITE">
+            <JFXButton fx:id="new_class" buttonType="RAISED" layoutX="401.0" layoutY="317.0" onAction="#openNew" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="New" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="15.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </JFXButton>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="324.0" layoutY="54.0" text="Subject" textAlignment="JUSTIFY" textFill="WHITE">
@@ -71,9 +71,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <JFXButton fx:id="new_class1" buttonType="RAISED" layoutX="56.0" layoutY="317.0" onAction="#deleteClass" prefHeight="53.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
+            <JFXButton fx:id="new_class1" buttonType="RAISED" layoutX="56.0" layoutY="317.0" onAction="#deleteClass" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Delete" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="15.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </JFXButton>
          </children>

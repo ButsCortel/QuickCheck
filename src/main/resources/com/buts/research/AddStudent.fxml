@@ -6,13 +6,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="360.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.AddStudentController">
    <children>
-      <JFXTextField fx:id="student_code" focusColor="WHITE" layoutX="113.0" layoutY="14.0" prefHeight="25.0" prefWidth="224.0" style="-fx-background-color: white;" />
-      <JFXTextField fx:id="student_name" focusColor="WHITE" layoutX="113.0" layoutY="45.0" prefHeight="25.0" prefWidth="224.0" style="-fx-background-color: white;" />
-      <JFXTextField fx:id="student_id" focusColor="WHITE" layoutX="113.0" layoutY="76.0" prefHeight="25.0" prefWidth="224.0" style="-fx-background-color: white;" />
-      <JFXTextField fx:id="student_course" focusColor="WHITE" layoutX="113.0" layoutY="107.0" prefHeight="25.0" prefWidth="224.0" style="-fx-background-color: white;" />
+      <JFXTextField fx:id="student_code" focusColor="BLACK" layoutX="113.0" layoutY="14.0" prefHeight="25.0" prefWidth="224.0" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXTextField fx:id="student_name" focusColor="BLACK" layoutX="113.0" layoutY="45.0" prefHeight="25.0" prefWidth="224.0" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXTextField fx:id="student_id" focusColor="BLACK" layoutX="113.0" layoutY="76.0" prefHeight="25.0" prefWidth="224.0" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXTextField fx:id="student_course" focusColor="BLACK" layoutX="113.0" layoutY="107.0" prefHeight="25.0" prefWidth="224.0" style="-fx-background-color: white;" unFocusColor="WHITE" />
       <Label alignment="TOP_LEFT" layoutX="13.0" layoutY="12.0" text="Code:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />

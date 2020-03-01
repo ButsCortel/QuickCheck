@@ -45,7 +45,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </JFXButton>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="471.0" layoutY="186.0" prefHeight="41.0" prefWidth="169.0" text="CLASS!" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="468.0" layoutY="186.0" prefHeight="41.0" prefWidth="176.0" text="QuickCheck" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="29.0" />
          </font>
@@ -70,7 +70,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="42.0" layoutY="115.0" prefHeight="41.0" prefWidth="283.0" text="Welcome to the" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="42.0" layoutY="115.0" prefHeight="41.0" prefWidth="283.0" text="Welcome to" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
@@ -78,7 +78,7 @@
             <DropShadow />
          </effect>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="42.0" layoutY="156.0" prefHeight="41.0" prefWidth="283.0" text="CLASS!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="42.0" layoutY="155.0" prefHeight="41.0" prefWidth="283.0" text="QuickCheck" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="43.0" />
          </font>
