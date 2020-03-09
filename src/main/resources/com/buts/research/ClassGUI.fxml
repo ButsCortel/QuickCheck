@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane minHeight="430.0" minWidth="740.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.ClassGUIController">
@@ -29,20 +30,23 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </JFXButton>
-            <Label layoutX="272.0" layoutY="7.0" text="Select Class" textFill="WHITE">
+            <Label layoutX="249.0" layoutY="8.0" text="Select Class" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="32.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" layoutX="31.0" layoutY="88.0" pannable="true" prefHeight="216.0" prefWidth="627.0">
+            <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" layoutX="20.0" layoutY="88.0" pannable="true" prefHeight="216.0" prefWidth="646.0">
                <content>
-                  <GridPane fx:id="gridpane" alignment="TOP_CENTER" gridLinesVisible="true" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="625.0" style="-fx-background-color: white;">
+                  <GridPane fx:id="gridpane" alignment="TOP_CENTER" gridLinesVisible="true" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="650.0" style="-fx-background-color: white;">
                     <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="63.0" minWidth="10.0" percentWidth="6.0" prefWidth="63.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="188.0" minWidth="162.0" prefWidth="162.0" />
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" prefWidth="100.0" />
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" prefWidth="100.0" />
                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints />
+                     </rowConstraints>
                   </GridPane>
                </content>
             </ScrollPane>
@@ -51,22 +55,17 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </JFXButton>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="324.0" layoutY="54.0" text="Subject" textAlignment="JUSTIFY" textFill="WHITE">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="313.0" layoutY="54.0" text="Subject" textAlignment="JUSTIFY" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="54.0" prefWidth="147.0" text="Year - Section" textAlignment="JUSTIFY" textFill="WHITE">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="81.0" layoutY="54.0" prefWidth="147.0" text="Year - Section" textAlignment="JUSTIFY" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="492.0" layoutY="54.0" text="Schedule" textAlignment="JUSTIFY" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="54.0" prefHeight="30.0" prefWidth="42.0" text="No." textAlignment="JUSTIFY" textFill="WHITE">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="517.0" layoutY="54.0" text="Schedule" textAlignment="JUSTIFY" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>

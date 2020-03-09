@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXPasswordField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
@@ -20,17 +19,12 @@
             <ColorAdjust contrast="0.09" />
          </effect>
       </ImageView>
-      <ImageView fitHeight="132.0" fitWidth="133.0" layoutX="490.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="160.0" fitWidth="165.0" layoutX="476.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@86190431_876636742794473_8673000457800515584_n.png" />
          </image>
       </ImageView>
-      <JFXPasswordField fx:id="passcode_field" focusColor="MAROON" labelFloat="true" layoutX="478.0" layoutY="241.0" prefHeight="25.0" prefWidth="158.0" promptText="Passcode" unFocusColor="WHITE">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </JFXPasswordField>
-      <JFXButton fx:id="login_button" buttonType="RAISED" layoutX="508.0" layoutY="310.0" onAction="#switchToPrimary" prefHeight="31.0" prefWidth="95.0" ripplerFill="BLACK" style="-fx-background-color: firebrick;" text="Start!" textAlignment="JUSTIFY" textFill="WHITE">
+      <JFXButton fx:id="login_button" buttonType="RAISED" layoutX="490.0" layoutY="278.0" onAction="#switchToPrimary" onMouseEntered="#hover" onMouseExited="#hoverout" prefHeight="57.0" prefWidth="132.0" ripplerFill="BLACK" style="-fx-background-color: firebrick;" text="Start!" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -45,7 +39,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </JFXButton>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="468.0" layoutY="186.0" prefHeight="41.0" prefWidth="176.0" text="QuickCheck" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="468.0" layoutY="205.0" prefHeight="41.0" prefWidth="176.0" text="QuickCheck" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="29.0" />
          </font>
@@ -53,24 +47,17 @@
             <DropShadow />
          </effect>
       </Label>
-      <Label fx:id="pass_check" alignment="CENTER" contentDisplay="CENTER" layoutX="489.0" layoutY="278.0" text="                 " textAlignment="JUSTIFY" textFill="RED" wrapText="true">
-         <font>
-            <Font size="16.0" />
-         </font></Label>
-      <ImageView fitHeight="333.0" fitWidth="283.0" layoutX="42.0" layoutY="49.0">
+      <ImageView fitHeight="344.0" fitWidth="297.0" layoutX="41.0" layoutY="33.0">
          <image>
-            <Image url="file:/C:/Users/Ana/eclipse-workspace2/research/src/main/resources/com/buts/research/coffee-cup-desk-pen.jpg" />
+            <Image url="@88207386_1021719874876249_8335734130792726528_n.jpg" />
          </image>
-         <effect>
-            <ColorAdjust contrast="-0.45" saturation="0.09" />
-         </effect>
       </ImageView>
-      <Label layoutX="48.0" layoutY="233.0" prefHeight="102.0" prefWidth="270.0" text="A simple QR Code-based Classroom Assistance System for Teachers." textAlignment="CENTER" textFill="#0a0000" wrapText="true">
+      <Label layoutX="55.0" layoutY="233.0" prefHeight="102.0" prefWidth="270.0" text="A simple QR Code-based Classroom Assistance System for Teachers." textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="42.0" layoutY="115.0" prefHeight="41.0" prefWidth="283.0" text="Welcome to" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="48.0" layoutY="64.0" prefHeight="41.0" prefWidth="283.0" text="Welcome to" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
@@ -78,7 +65,7 @@
             <DropShadow />
          </effect>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="42.0" layoutY="155.0" prefHeight="41.0" prefWidth="283.0" text="QuickCheck" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="48.0" layoutY="104.0" prefHeight="41.0" prefWidth="283.0" text="QuickCheck" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="43.0" />
          </font>

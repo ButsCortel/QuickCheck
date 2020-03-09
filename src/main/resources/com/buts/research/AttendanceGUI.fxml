@@ -26,7 +26,7 @@
       </ImageView>
       <Label layoutX="223.0" layoutY="13.0" text="Attendance" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB Demi Bold" size="36.0" />
+            <Font name="System Bold" size="36.0" />
          </font>
       </Label>
       <JFXButton fx:id="take_attendance" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="658.0" layoutY="226.0" onAction="#takeAttendance" prefHeight="66.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Take Attendance" textAlignment="CENTER" textFill="WHITE" wrapText="true">
@@ -64,12 +64,12 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </JFXButton>
-      <Label fx:id="course_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="88.0" prefHeight="17.0" prefWidth="97.0" text="COURSE" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label fx:id="course_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="82.0" prefHeight="17.0" prefWidth="97.0" text="COURSE" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="17.0" />
          </font>
       </Label>
-      <Label fx:id="subject_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="110.0" prefHeight="17.0" prefWidth="97.0" text="SUBJECT" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label fx:id="subject_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="104.0" prefHeight="17.0" prefWidth="97.0" text="SUBJECT" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="17.0" />
          </font>
@@ -84,6 +84,56 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </JFXButton>
+      <Pane fx:id="webcampane" layoutX="11.0" layoutY="75.0" prefHeight="341.0" prefWidth="611.0">
+         <children>
+            <ComboBox fx:id="cbCameraOptions" layoutX="47.0" layoutY="4.0" prefHeight="10.0" prefWidth="205.0" />
+            <Label layoutY="3.0" text="Cam:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="2.0" layoutY="230.0" text="Name:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="2.0" layoutY="272.0" text="Time in:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <BorderPane fx:id="bpWebCamPaneHolder" layoutX="10.0" layoutY="36.0" maxHeight="180.0" maxWidth="242.0" minHeight="150.0" minWidth="150.0" prefHeight="167.0" prefWidth="242.0">
+               <center>
+                  <ImageView fx:id="imgWebCamCapturedImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+            <ScrollPane hbarPolicy="NEVER" layoutX="264.0" layoutY="4.0" prefHeight="334.0" prefWidth="344.0">
+               <content>
+                  <GridPane fx:id="take_gridpane" alignment="TOP_CENTER" prefHeight="331.0" prefWidth="342.0" style="-fx-background-color: white;">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="35.0" minWidth="29.0" prefWidth="29.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="224.0" minWidth="188.0" prefWidth="206.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="122.0" minWidth="87.0" prefWidth="106.0" />
+                    </columnConstraints>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+            <Label fx:id="name_label" layoutX="2.0" layoutY="250.0" prefHeight="21.0" prefWidth="259.0" text=" " wrapText="true">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="timein_label" layoutX="2.0" layoutY="293.0" prefHeight="21.0" prefWidth="259.0" text=" " wrapText="true">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="in_status" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="206.0" prefHeight="24.0" prefWidth="259.0" text=" " textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+         </children></Pane>
       <Pane fx:id="attendancePane" layoutX="11.0" layoutY="75.0" prefHeight="341.0" prefWidth="611.0" visible="false">
          <children>
             <ScrollPane layoutX="17.0" layoutY="97.0" prefHeight="240.0" prefWidth="581.0" style="-fx-background-color: gray;">
@@ -131,55 +181,5 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="webcampane" layoutX="11.0" layoutY="75.0" prefHeight="341.0" prefWidth="611.0">
-         <children>
-            <ComboBox fx:id="cbCameraOptions" layoutX="47.0" layoutY="4.0" prefHeight="10.0" prefWidth="205.0" />
-            <Label layoutY="3.0" text="Cam:" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="2.0" layoutY="230.0" text="Name:">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="2.0" layoutY="272.0" text="Time in:">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font>
-            </Label>
-            <BorderPane fx:id="bpWebCamPaneHolder" layoutX="10.0" layoutY="36.0" maxHeight="180.0" maxWidth="242.0" minHeight="150.0" minWidth="150.0" prefHeight="167.0" prefWidth="242.0">
-               <center>
-                  <ImageView fx:id="imgWebCamCapturedImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-               </center>
-            </BorderPane>
-            <ScrollPane hbarPolicy="NEVER" layoutX="264.0" layoutY="4.0" prefHeight="334.0" prefWidth="344.0">
-               <content>
-                  <GridPane fx:id="gridpane" alignment="TOP_CENTER" prefHeight="331.0" prefWidth="342.0" style="-fx-background-color: white;">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="35.0" minWidth="35.0" prefWidth="35.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="104.0" minWidth="104.0" prefWidth="104.0" />
-                    </columnConstraints>
-                  </GridPane>
-               </content>
-            </ScrollPane>
-            <Label fx:id="name_label" layoutX="2.0" layoutY="250.0" prefHeight="21.0" prefWidth="259.0" text=" " wrapText="true">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label fx:id="timein_label" layoutX="2.0" layoutY="293.0" prefHeight="21.0" prefWidth="259.0" text=" " wrapText="true">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label fx:id="in_status" layoutX="3.0" layoutY="206.0" prefHeight="24.0" prefWidth="259.0" text=" " wrapText="true">
-               <font>
-                  <Font name="System Bold" size="19.0" />
-               </font>
-            </Label>
-         </children></Pane>
    </children>
 </AnchorPane>
