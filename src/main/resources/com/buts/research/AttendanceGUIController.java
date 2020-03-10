@@ -15,12 +15,13 @@ import java.util.Comparator;
 import java.util.ResourceBundle;
 import javafx.animation.Timeline;
 
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.github.sarxos.webcam.Webcam;
 import com.google.zxing.BinaryBitmap;
@@ -54,6 +55,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -68,7 +71,11 @@ import javafx.util.Duration;
 
 public class AttendanceGUIController implements Initializable{
 	@FXML
-	ComboBox<WebCamInfo> cbCameraOptions;
+	private ComboBox<WebCamInfo> cbCameraOptions;
+    @FXML
+    private ComboBox<String> date_combo;
+    @FXML
+    private Spinner<String> day_spinner;
 
 	@FXML
 	BorderPane bpWebCamPaneHolder;
@@ -91,6 +98,10 @@ public class AttendanceGUIController implements Initializable{
     private Label time_label;
     @FXML
     private Label date_label;
+    ArrayList<String> month = null;
+    ObservableList<String> days =null;
+    SpinnerValueFactory<String> valueFactory = null;
+    String date = null;
 
 
 
@@ -105,6 +116,8 @@ public class AttendanceGUIController implements Initializable{
 
 	    @FXML
 	    GridPane take_gridpane;
+	    @FXML
+	    private GridPane view_gridpane;
 
 	    @FXML
 	    ComboBox<?> attendance_combo;
@@ -153,11 +166,33 @@ public class AttendanceGUIController implements Initializable{
 	static ArrayList<String> scheds_day;
 
 	private String cameraListPromptText = "Choose Camera";
+	private String attListPromptText = "No Records";
 	private String last = "";
 	private String[] results;
+	private ObservableList<String> items = null;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		day_spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+		    
+		        display_att();
+		    
+		});
+		items = FXCollections.observableArrayList();
+		date_combo.setItems(items);
+		date_combo.setEditable(true);
+
+		day_spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
+		
+
+		
+		try {
+			avail_attendances();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initClock();
 
 		name_label.setText("");
@@ -550,12 +585,13 @@ public class AttendanceGUIController implements Initializable{
 			Scene att_scene = new Scene(decorator, 810, 460);
 			att_scene.getStylesheets().add(uri) ;
 			attendancegui_window.setScene(att_scene);
-			attendancegui_window.setTitle("CLASS!");
+			attendancegui_window.setTitle("QuickCheck");
 			attendancegui_window.initStyle(StageStyle.UNDECORATED);
 			attendancegui_window.setResizable(false);
 
 			
 			attendancegui_window.show();
+
 			
 			attendancegui_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
 			    @Override
@@ -711,7 +747,7 @@ public class AttendanceGUIController implements Initializable{
     	if (!camOpen) {
     		ObservableList<WebCamInfo> options = FXCollections.observableArrayList();
     		int webCamCounter = 0;
-    		for (Webcam webcam : Webcam.getWebcams()) {
+    		for (Webcam webcam : Webcam.getWebcams()) {	
     			WebCamInfo webCamInfo = new WebCamInfo();
     			webCamInfo.setWebCamIndex(webCamCounter);
     			webCamInfo.setWebCamName(webcam.getName());
@@ -757,7 +793,14 @@ public class AttendanceGUIController implements Initializable{
 
     @FXML
     void viewAttendance(ActionEvent event) {
+    	last = "";
     	stopCamera();
+		try {
+			avail_attendances();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
        	attendancePane.setVisible(true);  	
     	webcampane.setVisible(false);
     	
@@ -898,6 +941,7 @@ public class AttendanceGUIController implements Initializable{
 	       //Date dateobj = new Date();
         FileInputStream myxls = null;
 	       Workbook workbook = null;
+	       boolean dup = false;
 	       
 		
 	    try {
@@ -907,8 +951,8 @@ public class AttendanceGUIController implements Initializable{
 		       Sheet sheet = workbook.getSheet(df.format(dateobj));
 	        if (workbook.getNumberOfSheets() != 0) {
 	            for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
-
-	               if (workbook.getSheetName(i).equals(df.format(dateobj))) {
+	            	String wn = workbook.getSheetName(i);
+	               if (wn.equals(df.format(dateobj))) {
 	            	   
 	                    sheet = workbook.getSheet(df.format(dateobj));
 	                    Row row = sheet.getRow(0);
@@ -918,8 +962,12 @@ public class AttendanceGUIController implements Initializable{
 	                    	Cell c1 = row.createCell(maxCell);
 	                    	c1.setCellValue(day.format(dateobj));
 	                    }
+	                    dup = true;
+	                    break;
 	                    
-	                } else {
+	               		}   
+	                }
+	            	if (!dup) {
 	                	sheet = workbook.createSheet(df.format(dateobj));
 	                    Row row = sheet.createRow(0); 
 	        	        
@@ -937,8 +985,8 @@ public class AttendanceGUIController implements Initializable{
 	        	        
 	        	        Cell cell4 = row.createCell(4);
 	        	        cell4.setCellValue(day.format(dateobj));
-	                }
-	            }
+	            	}
+            
 	        }
 	        else {
 	            // Create new sheet to the workbook if empty
@@ -984,36 +1032,201 @@ public class AttendanceGUIController implements Initializable{
 
 	    }
 	}
-	
-		/*double x,y =0;
-		@FXML
-	    void dragged(MouseEvent event) {
-	    	Stage stage =(Stage) ((Node)event.getSource()).getScene().getWindow();
-	    	stage.setX(event.getScreenX() -x);
-	    	stage.setY(event.getScreenY() -y);
+	void avail_attendances() throws IOException {
+		
+		day_spinner.setDisable(true);
+		
+	    ArrayList<String> month = new ArrayList<String>();
+
+        FileInputStream myxls = null;
+	    Workbook workbook = null;
+	       
+		
+	    try {
+	       
+	        myxls = new FileInputStream(ClassSessionController.attendance_excel);
+		    workbook = new HSSFWorkbook(myxls);
+
+	    for (int i=0; i<workbook.getNumberOfSheets(); i++) {
+	        month.add( workbook.getSheetName(i) );
+
+	    }
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    finally {
+	    	if (myxls != null) {try {myxls.close();} catch (IOException e) {e.printStackTrace();}}
+	        if (workbook != null) {try {workbook.close();} 
+	        catch (IOException e) {e.printStackTrace();}}
 	    }
 
-	    @FXML
-	    void pressed(MouseEvent event) {
-	    	x = event.getSceneX();
-	    	y = event.getSceneY();
-
-	    }*/
-	
-
-
-
-	/*void existing_attendance() throws IOException {
-		FileInputStream fi = new FileInputStream(ClassSessionController.student_excel);
-		Workbook wb = new HSSFWorkbook(fi);
-		for (int i=1; i<=wb.getNumberOfSheets(); i++) {
-			attendance_combo.getItems().add(wb.getSheetName(i));
+	    items.clear();
+		for (String s: month) {
+			items.add(s);
 		}
+		if (items.size() > 0) {
+			date_combo.setValue(items.get(0));
+			comboAction();
+		}
+		else {
+			date_combo.setPromptText(attListPromptText);
+		}
+
+
+		// Set the ComboBox to use the items list
+
+
+	}
+
+	@FXML	
+	void comboAction() {
+		days = FXCollections.observableArrayList();
+
+		
+	    date = date_combo.getValue();
 	    
-	    wb.close();
-	    fi.close();
 
-	   
-	}*/
+        FileInputStream myxls = null;
+	    Workbook workbook = null;
+	       
+		if (date != null && items.contains(date)) {
+	    try {
+	       
+	        myxls = new FileInputStream(ClassSessionController.attendance_excel);
+		    workbook = new HSSFWorkbook(myxls);
 
+	        Sheet sheet = workbook.getSheet(date);
+	        Row row = sheet.getRow(0);
+	        int r = row.getLastCellNum();
+	        for (int j = 4; j < r ; j++ ) {
+	        	if (row.getCell(j) != null) {
+	        		Cell c0 = row.getCell(j);
+	        		days.add(c0.getStringCellValue());
+	        	}
+	        }
+	    
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    finally {
+	    	if (myxls != null) {try {myxls.close();} catch (IOException e) {e.printStackTrace();}}
+	        if (workbook != null) {try {workbook.close();} 
+	        catch (IOException e) {e.printStackTrace();}}
+	    }
+
+		if (days.size() > 0) {
+			day_spinner.setDisable(false);
+			valueFactory = new SpinnerValueFactory.ListSpinnerValueFactory<String>(days);			
+
+
+		    //display_att();
+
+		    day_spinner.setValueFactory(valueFactory);
+		    display_att();
+
+		}
+
+	}
+	    
+	}
+	void display_att() {
+		view_gridpane.getChildren().clear();
+		
+		String day = day_spinner.getValue();
+
+		view_gridpane.getChildren().clear();
+	    ArrayList<String> names = new ArrayList<String>();
+	    ArrayList<String> ins = new ArrayList<String>();
+
+        FileInputStream myxls = null;
+	    Workbook workbook = null;
+	    int current_att = 0;
+	       
+
+	    try {
+	       
+	        myxls = new FileInputStream(ClassSessionController.attendance_excel);
+		    workbook = new HSSFWorkbook(myxls);
+
+	        Sheet sheet = workbook.getSheet(date);
+	        Row row = sheet.getRow(0);
+	        int r = sheet.getLastRowNum();
+	        int lc = row.getLastCellNum();
+	        for (int j = 4; j < lc ; j++ ) {
+	        	if (row.getCell(j) != null) {
+	        		Cell c0 = row.getCell(j);
+	        		if (c0.getStringCellValue().equals(day)) {
+	        			current_att = c0.getColumnIndex();
+	        			break;
+	        		}
+	        }
+	        }
+	        for (int i = 0 ; i < r ; i++) {
+	        	row = sheet.getRow(i+1);
+	        	Cell c0 = row.getCell(1);
+	        	names.add(c0.getStringCellValue());
+	        	if (row.getCell(current_att) != null) {
+	        		Cell c1 = row.getCell(current_att);
+	        		if (c1.getStringCellValue().length() > 7) {
+	        			ins.add(c1.getStringCellValue());
+	        		}
+		        	else {
+		        		ins.add("Absent");
+		        	}
+	        		
+	        	}
+	        	else {
+	        		ins.add("Absent");
+	        	}
+	        }
+	    
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    finally {
+	    	if (myxls != null) {try {myxls.close();} catch (IOException e) {e.printStackTrace();}}
+	        if (workbook != null) {try {workbook.close();} 
+	        catch (IOException e) {e.printStackTrace();}}
+	    }
+	    for (int i = 0; i < names.size() ; i++) {
+	    	Label name = new Label(names.get(i));
+    		Label tIn = new Label();
+    		Label stat = new Label();
+	    	if (ins.get(i).equals("Absent") || ins.get(i).length() == 0) {
+	    		tIn.setText("Absent");
+	    		stat.setText("Absent");
+	    	}
+	    	else {
+	    		String t = ins.get(i).substring(0, 8);
+	    		String s = ins.get(i);
+	    		
+	    		tIn.setText(t);
+	    		stat.setText(s.substring(10, s.length()-1));
+	    	}
+	    	name.setFont(new Font("Arial black",15));
+	    	tIn.setFont(new Font("Arial black",15));
+			stat.setFont(new Font("Arial black",15));
+			
+			name.setAlignment(Pos.CENTER);
+			tIn.setAlignment(Pos.CENTER);
+			stat.setAlignment(Pos.CENTER);
+			
+			name.setMinHeight(30);
+			tIn.setMinHeight(30);
+			stat.setMinHeight(30);
+			
+			name.setMaxHeight(30);
+			tIn.setMaxHeight(30);
+			stat.setMaxHeight(30);
+			
+			view_gridpane.add(name, 0, i);
+			view_gridpane.add(tIn, 1, i);
+			view_gridpane.add(stat, 2, i);
+	    	
+	    }
+	
+	}
 }
