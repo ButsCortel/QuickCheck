@@ -6,25 +6,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.CellRangeAddress;
-
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
 
@@ -42,14 +32,15 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
+
 public class ClassSessionController implements Initializable{
+
 	static String path;
 	static String student_excel;
 	static String attendance_excel;
@@ -60,6 +51,10 @@ public class ClassSessionController implements Initializable{
 	int dispStudents = 0;
 	boolean student_selected = false;
 	static Stage class_window;
+	private String scode = "";
+	private ArrayList<Integer> sh = null;
+	private ArrayList<Integer> rw = null;
+	
 
 
     @FXML
@@ -74,8 +69,7 @@ public class ClassSessionController implements Initializable{
     private JFXButton del;
     @FXML
     private GridPane gridpane;
-
-
+    
 
 
 	public void startClass() {
@@ -94,7 +88,20 @@ public class ClassSessionController implements Initializable{
 			class_window.show();
 			
 	
-			
+			class_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
+			    @Override
+			    public void handle(WindowEvent t) {
+		        	AlertBoxController.label_text = "Are you sure you want to exit?";
+		        	if(AlertBoxController.display("Exit")) {
+				        Platform.exit();
+				        System.exit(0);
+		        	}
+		        	else {
+		        		t.consume();
+		        	}
+
+			    }
+			});
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -105,20 +112,8 @@ public class ClassSessionController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		class_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
-		    @Override
-		    public void handle(WindowEvent t) {
-	        	AlertBoxController.label_text = "Are you sure you want to exit?";
-	        	if(AlertBoxController.display("Exit")) {
-			        Platform.exit();
-			        System.exit(0);
-	        	}
-	        	else {
-	        		t.consume();
-	        	}
+ 
 
-		    }
-		});
 		try {
 			checkStudents();
 		} catch (IOException e) {
@@ -145,9 +140,8 @@ public class ClassSessionController implements Initializable{
 		}student_selected = false;
 	}
 	void checkStudents() throws IOException {
-	
-		gridpane.getChildren().clear();
-	    FileInputStream fi = new FileInputStream(student_excel);
+	    FileInputStream fi = null;
+		Workbook wb = null;
 		ArrayList<String> students_code = new ArrayList<String>();
 		ArrayList<String> students_name = new ArrayList<String>();
 		ArrayList<String> students_id = new ArrayList<String>();
@@ -158,7 +152,13 @@ public class ClassSessionController implements Initializable{
 		students_display.add(null);
 		students_display.add(null);
 		students_display.add(null);
-		Workbook wb = new HSSFWorkbook(fi);
+	try {
+		
+		gridpane.getChildren().clear();
+	    fi = new FileInputStream(student_excel);
+		wb = new HSSFWorkbook(fi);
+
+
 		Sheet sh = wb.getSheetAt(0);
 	    int starRow = sh.getFirstRowNum();
 	    int endRow = sh.getLastRowNum();
@@ -179,7 +179,24 @@ public class ClassSessionController implements Initializable{
 
 
 	    } 
-	    wb.close();
+	}
+    catch(Exception e)
+    {
+    	e.printStackTrace();
+    }
+	finally {
+		if (fi != null) {
+			try {fi.close();}catch(IOException e) {e.printStackTrace();}
+			
+		}
+		if (wb != null) {
+			try {wb.close();}catch(IOException e) {e.printStackTrace();}
+		}
+		
+	    
+	    
+	}
+
 	    int c = 0;
 	    for (String name: students_name) {
 	    	Label row = new Label(Integer.toString(c+1) + ".");
@@ -277,25 +294,51 @@ public class ClassSessionController implements Initializable{
     public void removeStudent() throws FileNotFoundException {
 	    if (student_selected)
 	    {
+	        AlertBoxController.label_text = "Remove Student?";
+	    	if(AlertBoxController.display("Delete Student")) {
 	    	try {
-				deleteRow(0 , student_excel,  rowIndex + 1);				
+				deleteRow(0 , student_excel,  rowIndex + 1, true);				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	    	check_scode();
+	    	for (int x: sh) {
+	    		System.out.println(x + "sh");
+	    		for (int y:rw) {
+	    			System.out.println(y + "rw");
+	    		}
+	    	}
+	    	try {
+	    		for (int i = 0; i < sh.size() ; i++) {
+					deleteRow(sh.get(i) , attendance_excel,  rw.get(i) , false );
+	    		}
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	}
 	    	
 	    }student_selected = false;
     }
-    public void deleteRow(int s, String excelPath, int rowNo) throws IOException {
-
+    public void deleteRow(int s, String excelPath, int rowNo, boolean t) throws IOException {
+    	scode = "";
         Workbook workbook = null;
         Sheet sheet = null;
-        AlertBoxController.label_text = "Remove Student?";
-    	if(AlertBoxController.display("Delete Student")) {
+        FileInputStream file = null;
+
             try {
-                FileInputStream file = new FileInputStream(new File(excelPath));
+                file = new FileInputStream(new File(excelPath));
                 workbook = new HSSFWorkbook(file);
                 sheet = workbook.getSheetAt(s);
+                if (t) {
+                    Cell c0 = workbook.getSheetAt(0).getRow(rowNo).getCell(0);
+                    scode = c0.getStringCellValue();
+                    System.out.println(scode + "dup");
+                }
+
+
                 if (sheet == null) {
                     
                 }
@@ -312,22 +355,41 @@ public class ClassSessionController implements Initializable{
                         sheet.removeRow(removingRow);
                     }
                 }
-                file.close();
+                
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+            	if (file != null) {
+            		try {file.close();} catch (IOException e) {e.printStackTrace();}
+            	}
+            	
                 FileOutputStream outFile = new FileOutputStream(new File(excelPath));
-                workbook.write(outFile);
-                workbook.close();
+            	if (file != null) {
+            		try {
+            		workbook.write(outFile);
+                    workbook.close();
+                    } 
+            		catch (IOException e) {
+            			e.printStackTrace();
+            			}
+            	}
+
+                outFile.flush();
                 outFile.close();
+
+
             	sortSheet();
 				checkStudents();
-            } catch(Exception e) {
-                
-            }	    	
+            }
             student_selected = false; 
             
             
-    	}
+    	
 
     }
+
+
     @FXML
     public void import_list() {
     	ImportClassController import_class = new ImportClassController();
@@ -342,9 +404,14 @@ public class ClassSessionController implements Initializable{
     
 
 	public static void sortSheet() throws IOException {
-		FileInputStream myxls = new FileInputStream(student_excel);
+		FileInputStream myxls = null;
 
-		Workbook wb = new HSSFWorkbook(myxls);
+		Workbook wb = null;
+		try {
+		myxls = new FileInputStream(student_excel);
+		
+
+		wb = new HSSFWorkbook(myxls);
 	    Sheet sheet = wb.getSheetAt(0);
 		ArrayList <Row> rows = new ArrayList <Row>();
         //copy all rows to temp
@@ -401,9 +468,31 @@ public class ClassSessionController implements Initializable{
 					break;
                 }
             }r++;
-        }FileOutputStream output_file =new FileOutputStream(new File(student_excel));  
-	       wb.write(output_file);
-	       wb.close();
+        }
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		finally {
+		if (myxls != null) {
+			try {myxls.close();} catch (IOException e) {e.printStackTrace();}
+			}
+
+        FileOutputStream output_file =new FileOutputStream(new File(student_excel));
+        if (wb != null) {
+        	try { 	       
+        		wb.write(output_file);
+        		wb.close();
+        		} 
+        	catch (IOException e) {
+        			e.printStackTrace();
+        			}
+
+        }
+	       output_file.flush();
+	       output_file.close();
+		}
 
     }
 	
@@ -415,92 +504,14 @@ public class ClassSessionController implements Initializable{
         }
     @FXML
     void start_attendance(ActionEvent event) {
-    	AttendanceGUIController start = new AttendanceGUIController();
-    	try {
-			createAttendance();
-		} catch (IOException e) {
-		
-			e.printStackTrace();
-		}    	
+    	AttendanceGUIController start = new AttendanceGUIController(); 	
     	class_window.hide();
-    	start.attendanceGUIWindow();
+    	start.attendanceGUIWindow(); 
+    	
 
 
     }
-	public void createAttendance() throws IOException {
-		DateTimeFormatter df = DateTimeFormatter.ofPattern("MMM-yyyy");
-		DateTimeFormatter day = DateTimeFormatter.ofPattern("dd-EEE");
-		
-		LocalDateTime dateobj = LocalDateTime.now();
-	       //DateFormat df = new SimpleDateFormat("MMM-yyyy");
-	       //DateFormat day = new SimpleDateFormat("dd-EEE");
-	       //Date dateobj = new Date();
- 	       
-		
-	    try {
-	       
-	        FileInputStream myxls = new FileInputStream(attendance_excel);
-		       Workbook workbook = new HSSFWorkbook(myxls);
-		       Sheet sheet = workbook.getSheet(df.format(dateobj));
-	        if (workbook.getNumberOfSheets() != 0) {
-	            for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
 
-	               if (workbook.getSheetName(i).equals(df.format(dateobj))) {
-	            	   
-	                    sheet = workbook.getSheet(df.format(dateobj));
-	                } else {
-	                	sheet = workbook.createSheet(df.format(dateobj));
-	                    Row row = sheet.createRow(0); 
-	        	        
-	        	        Cell cell0 = row.createCell(0);
-	        	        cell0.setCellValue("CODE");
-
-	        	        Cell cell1 = row.createCell(1);
-	        	        cell1.setCellValue("NAME");
-	        	        
-	        	        Cell cell2 = row.createCell(2);
-	        	        cell2.setCellValue("ID NO.");
-	        	        
-	        	        Cell cell3 = row.createCell(3);
-	        	        cell3.setCellValue("COURSE CODE/ GRADE LEVEL");
-	        	        
-	        	        Cell cell4 = row.createCell(4);
-	        	        cell4.setCellValue(day.format(dateobj));
-	                }
-	            }
-	        }
-	        else {
-	            // Create new sheet to the workbook if empty
-	            sheet = workbook.createSheet(df.format(dateobj));
-	            Row row = sheet.createRow(0); 
-		        
-		        Cell cell0 = row.createCell(0);
-		        cell0.setCellValue("CODE");
-
-		        Cell cell1 = row.createCell(1);
-		        cell1.setCellValue("NAME");
-		        
-		        Cell cell2 = row.createCell(2);
-		        cell2.setCellValue("ID NO.");
-		        
-		        Cell cell3 = row.createCell(3);
-		        cell3.setCellValue("COURSE CODE/ GRADE LEVEL");
-    	        Cell cell4 = row.createCell(4);
-    	        cell4.setCellValue(day.format(dateobj));
-	        }
- 
-	       // XSSFCell cell2 = row.createCell(2);
-	       // cell2.setCellValue("Percent Change");
-	        myxls.close();
-	        FileOutputStream out = new FileOutputStream(new File(attendance_excel));
-            workbook.write(out);
-            workbook.close();
-            out.close();
-	    } catch (FileNotFoundException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	    }
-	}
     @FXML
     void back(ActionEvent event) {
     	
@@ -514,7 +525,49 @@ public class ClassSessionController implements Initializable{
     	class_window.close();
     	ClassGUIController.classgui_window.show();
     }
+    public void check_scode()
+    {	
+    	sh = new ArrayList<Integer>();
+    	rw = new ArrayList<Integer>();
+    	
+		FileInputStream fi = null;
+		Workbook wb = null;
+		int she = 0;
+		try
+		{fi = new FileInputStream(attendance_excel);
+		wb = new HSSFWorkbook(fi);
+		for (Sheet sheet: wb) {
+			System.out.println(sheet.getLastRowNum() + "scode");
+			for (Row row: sheet) {
+				Cell c0 = row.getCell(0);
+				System.out.println(c0.getStringCellValue() + "c0");
+				if (c0 != null && c0.getStringCellValue().equals(scode)) {
+					sh.add(she);
+					rw.add(c0.getRowIndex());
+				}
+			} she++;
+		}
+		
 
+
+
+	    
+		}
+	    catch(Exception e)
+	    {
+	    	e.printStackTrace();
+	    }
+		finally{
+			if (fi != null) {
+				   try {fi.close();} catch (IOException e) {e.printStackTrace();}
+			}	
+			if (wb != null) {
+				   try {wb.close();} catch (IOException e) {e.printStackTrace();}
+			}
+			}
+
+	 
+    }
 }
 
 

@@ -28,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -53,6 +54,8 @@ public class NewClassController implements Initializable{
     static String tests = "";
     final int initialValue = 1;
     static ArrayList<String> sched;
+    static ArrayList<String> hours;
+    static ArrayList<String> minutes;
     SpinnerValueFactory<Integer> valueFactory = //
             new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, initialValue);
 	@FXML
@@ -70,8 +73,11 @@ public class NewClassController implements Initializable{
     private GridPane grid;
     @FXML
     private Spinner<Integer> daysperweek;
-    private Spinner<Integer> start;
-    private Spinner<Integer> end;
+    private TextField starth;
+    private TextField startm;
+    private TextField endh;
+    private TextField endm;
+ 
 
     private Spinner<String> day;
     private Spinner<String> am;
@@ -85,7 +91,7 @@ public class NewClassController implements Initializable{
 				JFXDecorator decorator = new JFXDecorator(newclass_window , root, false, false, false);
 				decorator.setCustomMaximize(true); 
 				String uri = App.class.getResource("CSS.css").toExternalForm();
-				Scene class_scene = new Scene(decorator, 360, 350);
+				Scene class_scene = new Scene(decorator, 430, 350);
 				class_scene.getStylesheets().add(uri) ;
 				newclass_window.setScene(class_scene);
 				newclass_window.setTitle("New Class");
@@ -137,6 +143,9 @@ public class NewClassController implements Initializable{
 				{
 					loginstat.setText("Special Characters are not allowed.");        			
 				}
+	    	else if (!schedString()) {
+	    		loginstat.setText("Invalid Time Input.");
+	    	}
 	    	else {
 	    		String c = course.trim();
 	    		String s = subject.trim();
@@ -157,7 +166,7 @@ public class NewClassController implements Initializable{
 							attendanceWorkbook();
 		        			studentWorkbook();
 		        			testWorkbook();
-		        			schedString();
+		        			//schedString();
 		        			config();
 							AlertBoxController.alert_box.close();
 							newclass_window.close();
@@ -178,7 +187,7 @@ public class NewClassController implements Initializable{
 	        			attendanceWorkbook();
 	        			studentWorkbook();
 	        			testWorkbook();
-	        			schedString();
+	        			//schedString();
 	        			config();
 	        			newclass_window.close();
 	        		} catch (IOException e) {
@@ -208,9 +217,11 @@ public class NewClassController implements Initializable{
 		}
 
 		public  void studentWorkbook() throws IOException {
+	        FileOutputStream fos = null;
+	        Workbook  workbook = null; 
 		    try {
-		        FileOutputStream fos = new FileOutputStream(new File(masterList));
-		        Workbook  workbook = new HSSFWorkbook();            
+		        fos = new FileOutputStream(new File(masterList));
+		        workbook = new HSSFWorkbook();            
 
 		        Sheet sheet = workbook.createSheet(cnew + "-" + snew);  
 
@@ -231,27 +242,48 @@ public class NewClassController implements Initializable{
 		       // XSSFCell cell2 = row.createCell(2);
 		       // cell2.setCellValue("Percent Change");
 
-		        workbook.write(fos);
-		        workbook.close();
-		        fos.flush();
-		        fos.close();
-		    } catch (FileNotFoundException e) {
+
+		    } catch (Exception e) {
 		        // TODO Auto-generated catch block
 		        e.printStackTrace();
 		    }
+		    finally {
+		    	if (workbook != null) {
+		    		try {
+				        workbook.write(fos);
+				        workbook.close();
+		    		}
+		    		catch (IOException e) {
+		    			e.printStackTrace();
+		    			
+		    		}
+		    	}
+		    	if (fos != null) {
+		    		try {
+				        fos.flush();
+				        fos.close();
+		    		}
+		    		catch (IOException e) {
+		    			e.printStackTrace();
+		    			
+		    		}
+		    	}
+
+
+		    }
 		}
 		public  void attendanceWorkbook() throws IOException {
+	        FileOutputStream fos = null;
+	        Workbook  workbook = null; 
 		    try {
-		        FileOutputStream fos = new FileOutputStream(new File(attendance));
-		        Workbook  workbook = new HSSFWorkbook();            
+		        fos = new FileOutputStream(new File(attendance));
+		        workbook = new HSSFWorkbook();            
 
 		        /*Sheet sheet = workbook.createSheet();  
-
 		        Row row = sheet.createRow(0); 
 		        
 		        Cell cell0 = row.createCell(0);
 		        cell0.setCellValue("CODE");
-
 		        Cell cell1 = row.createCell(1);
 		        cell1.setCellValue("NAME");
 		        
@@ -264,19 +296,40 @@ public class NewClassController implements Initializable{
 		       // XSSFCell cell2 = row.createCell(2);
 		       // cell2.setCellValue("Percent Change");
 
-		        workbook.write(fos);
-		        workbook.close();
-		        fos.flush();
-		        fos.close();
-		    } catch (FileNotFoundException e) {
+		       
+		    } catch (Exception e) {
 		        // TODO Auto-generated catch block
 		        e.printStackTrace();
 		    }
+		    finally {
+		    	if (workbook != null) {
+		    		try {
+				    	 workbook.write(fos);
+					        workbook.close();
+		    		}
+		    		catch (IOException e) {
+		    			e.printStackTrace();
+		    		}
+		    	}
+		    	if (fos != null) {
+		    		try {
+				        fos.flush();
+				        fos.close();
+		    		}
+		    		catch (IOException e) {
+		    			e.printStackTrace();
+		    		}
+		    	}
+
+
+		    }
 		}
 		public  void testWorkbook() throws IOException {
+	        FileOutputStream fos = null;
+	        Workbook  workbook = null; 
 		    try {
-		        FileOutputStream fos = new FileOutputStream(new File(tests));
-		        Workbook  workbook = new HSSFWorkbook();            
+		        fos = new FileOutputStream(new File(tests));
+		        workbook = new HSSFWorkbook();            
 
 		        Sheet sheet = workbook.createSheet(cnew + "-" + snew);  
 
@@ -297,63 +350,55 @@ public class NewClassController implements Initializable{
 		       // XSSFCell cell2 = row.createCell(2);
 		       // cell2.setCellValue("Percent Change");
 
-		        workbook.write(fos);
-		        workbook.close();
-		        fos.flush();
-		        fos.close();
-		    } catch (FileNotFoundException e) {
+
+		    } catch (Exception e) {
 		        // TODO Auto-generated catch block
 		        e.printStackTrace();
+		    }
+		    finally {
+		    	if (workbook != null) {
+		    		try {
+				    	 workbook.write(fos);
+					        workbook.close();
+		    		}
+		    		catch (IOException e) {
+		    			e.printStackTrace();
+		    		}
+		    	}
+		    	if (fos != null) {
+		    		try {
+				        fos.flush();
+				        fos.close();
+		    		}
+		    		catch (IOException e) {
+		    			e.printStackTrace();
+		    		}
+		    	}
 		    }
 		}
 		void config() {
 
 	        try (OutputStream output = new FileOutputStream(folderName + "\\config.properties")) {
-	        	int five = 0;
-	        	int three = 0;
-	        	int l = sched.size();
 	        	Properties prop = new Properties();
-	        	String schnew = "";
-	        	for (String a: sched) {
-	        		
-    				schnew += a;
-    				if (five == 0) {
-    					schnew = schnew + ":";
-    				}
-    				
-    				schnew = schnew + " ";
-    				five++;
-    				three++;
-    				if (five == 5 && l > 5) {
-    					schnew = schnew + "\n";
-    					five =0;
-    				}
-    				if (three == 3) {
-    					schnew = schnew + "- ";
-    				}
-    				if (three ==5) {
-    					three =0;
-    					
-    				}
-    					
-    					
-    				
-	        		
-	        	}
-	        	schnew = schnew.trim();
-	        	if(schnew.endsWith("/"))
-	        	{
-	        		schnew = schnew.substring(0,schnew.length() - 1);
-	        	}
+	     
+	        	
 	        	
 	            // set the properties value
 	            prop.setProperty("Course", cnew);
 	            prop.setProperty("Subject", snew);
-	            prop.setProperty("Schedule", schnew);
+	            int i =0;
+	            for (String s: sc) {
+	            	prop.setProperty("Schedule" + i, s);
+	            	i++;
+	            }
+	            
 
 	            // save properties to project root folder
 	            prop.store(output, null);
 	            //System.out.println(prop.getProperty("db.url"));
+	            output.flush();
+	            output.close();
+	            
 
 	        } catch (IOException io) {
 	            io.printStackTrace();
@@ -365,38 +410,42 @@ public class NewClassController implements Initializable{
 			daysperweek.setValueFactory(valueFactory);
 			schedDisplay();
 		}
-		List<Spinner<Integer>> intspin;
+		List<TextField> textFields;
 		List<Spinner<String>> meridianspin;
 		List<Spinner<String>> dayspin;
 		public void schedDisplay() {
-			intspin = new ArrayList<Spinner<Integer>>();
+			textFields = new ArrayList<TextField>();
 			meridianspin = new ArrayList<Spinner<String>>();
 			dayspin = new ArrayList<Spinner<String>>();
 			grid.getChildren().clear();
 			Integer days = (Integer) daysperweek.getValue();
 			ArrayList<Node> nodes = new ArrayList<Node>();
+			nodes.add(null);
+			nodes.add(null);
+			nodes.add(null);
+			nodes.add(null);
+			nodes.add(null);
+			nodes.add(null);
+			nodes.add(null);
+			nodes.add(null);
 			int r, c = 0;
 			for (r = 0; r< days; r++) {
-				for (c = 0; c< 6 ; c++) {
+				for (c = 0; c< 8 ; c++) {
 
 				Label to = new Label("TO");
-				to.setTextFill(Color.WHITE);
+				to.setTextFill(Color.BLACK);
 			
 			
-		        start = new Spinner<Integer>();
-		        end = new Spinner<Integer>();
+				starth = new TextField("1");
+				startm = new TextField("00");
+				endh = new TextField("1");
+				endm = new TextField("00");
 
 		        day = new Spinner<String>();
 		        am = new Spinner<String>();
 		        am2 = new Spinner<String>();
 		        
-		        final int initialValue = 1;
-		        SpinnerValueFactory<Integer> valueFactoryStart = //
-		                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12, initialValue);
-		        SpinnerValueFactory<Integer> valueFactoryEnd = //
-		                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12, initialValue);
-		        start.setValueFactory(valueFactoryStart);
-		        end.setValueFactory(valueFactoryEnd);
+
 		        
 		        ObservableList<String> daystring = FXCollections.observableArrayList(//
 		                "Sun", "Mon", "Tue", "Wed", //
@@ -421,37 +470,51 @@ public class NewClassController implements Initializable{
 		        valueFactoryam.setValue("AM");
 		        valueFactoryam2.setValue("AM");
 		  
-		        day.setValueFactory(valueFactoryDays);
-		        am.setValueFactory(valueFactoryam);
-		        am2.setValueFactory(valueFactoryam2);
-		        
-		        switch (c) {
+switch (c) {
 		        
 		        case 0:
-		        day.setUserData(c);
+		        day.setUserData("day" + c);
 		        dayspin.add(day);
 		        break;
 		        
 		        case 1:
-		        start.setUserData(c);
-		        intspin.add(start);
+		        starth.setUserData("starth" +c);
+		        textFields.add(starth);
 		        break;
 		        
 		        case 2:
-		        am.setUserData(c);
-		        meridianspin.add(am);
-		        break;
-
-		        case 4:
-		        end.setUserData(c);
-		        intspin.add(end);
+		        startm.setUserData("startm" +c);
+		        textFields.add(startm);
 		        break;
 		        
+		        case 3:
+		        am.setUserData("am" +c);
+		        meridianspin.add(am);
+		        break;
+		        
+		        case 4:
+		        break;
+
 		        case 5:
+		        endh.setUserData("endh" + c);
+		        textFields.add(endh);
+		        break;
+		        
+		        case 6:
+			    endm.setUserData("endm"+c);
+			    textFields.add(endm);   
+		        break;
+		        
+		        case 7:
 		        am2.setUserData(c);
 		        meridianspin.add(am2);    
 		        break;
 		        }
+		        day.setValueFactory(valueFactoryDays);
+		        am.setValueFactory(valueFactoryam);
+		        am2.setValueFactory(valueFactoryam2);
+		        
+		        
 		        
 		        
 
@@ -465,23 +528,34 @@ public class NewClassController implements Initializable{
 				//end.setFont(new Font("Arial Black",12));
 				//am2.setFont(new Font("Arial Black",12));
 				day.setMinHeight(30);
-				start.setMinHeight(30);
+				starth.setMinHeight(30);
+				startm.setMinHeight(30);
 				am.setMinHeight(30);
 				to.setMinHeight(30);
-				end.setMinHeight(30);
+				endh.setMinHeight(30);
+				endm.setMinHeight(30);
 				am2.setMinHeight(30);
+
 				day.setMaxHeight(30);
-				start.setMaxHeight(30);
+				starth.setMaxHeight(30);
+				startm.setMaxHeight(30);
 				am.setMaxHeight(30);
 				to.setMaxHeight(30);
-				end.setMaxHeight(30);
+				endh.setMaxHeight(30);
+				endm.setMaxHeight(30);
 				am2.setMaxHeight(30);
-				nodes.add(0, day);
-				nodes.add(1, start);
-				nodes.add(2, am);
-				nodes.add(3, to);
-				nodes.add(4, end);
-				nodes.add(5, am2);
+				
+			
+				
+				
+				nodes.set(0, day);
+				nodes.set(1, starth);
+				nodes.set(2, startm);
+				nodes.set(3, am);
+				nodes.set(4, to);
+				nodes.set(5, endh);
+				nodes.set(6, endm);
+				nodes.set(7, am2);
 
 
 				/*grid.add(day, 0, r);
@@ -494,27 +568,106 @@ public class NewClassController implements Initializable{
 			} c = 0;
 			}
 		}
-		public void schedString() {
+		public boolean schedString() {
+			sc.clear();
 	    	sched = new ArrayList<String>();
 	    	Spinner<String> days = new Spinner<String>();
-	    	Spinner<Integer> times = new Spinner<Integer>();
+	    	TextField timesh = new TextField();
+	    	TextField timesm = new TextField();
 	    	Spinner<String> meridian = new Spinner<String>();
 	    	int r = dayspin.size();
-	    	int c = 0;
+	    	int c = 0; //txtfields
+			int d = 0; // meridians 
 
+	    	boolean result = false;
+	    	
 	    	for (int tempRow = 0; tempRow < r; tempRow++)
 	    	{
 	    		days = dayspin.get(tempRow);
-	    		sched.add(days.getValue());
+	    		sched.add(days.getValue() + " ");
+    			int a = 0; // meridians dash
 	    		for (int tempCol = 0; tempCol < 2; tempCol++)
 	    		{
-	    			times = intspin.get(c);
-	    			sched.add(times.getValue().toString());
-	    			meridian = meridianspin.get(c);
-	    			sched.add(meridian.getValue());
-	    			c++;
+	    			timesh = textFields.get(c);
+	    			timesm = textFields.get(c+1);
+	    			meridian = meridianspin.get(d);
+
+	    			
+
+	    			if (isValidHr(timesh.getText()) &&
+	    	    		isValidMn(timesm.getText())) 
+	    				{
+		    			String newh = timesh.getText();
+		    			String newm = timesm.getText();
+	    				if (newh.length() < 2) {
+	    					newh = "0" + newh;
+	    				}
+	    				if (newm.length() < 2) {
+	    					newm = "0" + newm;
+	    				}
+		    			sched.add(newh + ":");
+		    			sched.add(newm + " ");
+		    			//System.out.println(timesh.getText() + timesm.getText() +meridian.getValue());
+
+		    			if (a == 0) { 
+		    				sched.add(meridian.getValue() + " - ");
+		    			}
+		    			
+		    			else {
+		    				sched.add(meridian.getValue() );
+		    			}
+		    			
+		    			c+=2;
+		    			d++;
+		    			result = true;
+	    			}
+	    			else {
+	    				result = false;
+	    				sched.clear();
+	    				break;
+	    			} 
+	
+	    			a++;
 	    		}
+	    		
 	    	}
+	    	String b = "";
+	    	int x = 0;
+	    	for (String s: sched) {
+	    		b += s;
+	    		if (x == 6) {
+	    			sc.add(b);
+	    			b="";
+	    			x = 0;
+	    		}
+	    		else
+	    		x++;
+	    	}
+	    	return result;
+		}
+		static ArrayList<String> sc = new ArrayList<String>();
+		public static boolean isValidHr(String token) {
+		    try{
+		        int num = Integer.parseInt(token);
+		        if(num < 13)
+		            return true;
+
+		        else
+		        	return false;
+		    } catch (NumberFormatException ex) {
+		        return false;
+		    }
+		}
+		public static boolean isValidMn(String token) {
+		    try{
+		        int num = Integer.parseInt(token);
+		        if (num < 45)
+		            return true; 
+		        else
+		        	return false;
+		    } catch (NumberFormatException ex) {
+		        return false;
+		    }
 		}
 
 		

@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import com.jfoenix.controls.JFXDecorator;
 
 import javafx.application.Platform;
@@ -75,6 +71,20 @@ public class ClassGUIController implements Initializable{
 			classgui_window.setResizable(false);
 
 			classgui_window.show();
+			classgui_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
+			    @Override
+			    public void handle(WindowEvent t) {
+		        	AlertBoxController.label_text = "Are you sure you want to exit?";
+		        	if(AlertBoxController.display("Exit")) {
+				        Platform.exit();
+				        System.exit(0);
+		        	}
+		        	else {
+		        		t.consume();
+		        	}
+
+			    }
+			});
 			
 	
 			
@@ -143,9 +153,8 @@ public class ClassGUIController implements Initializable{
 
 				schedl.setMaxHeight(Control.USE_PREF_SIZE);
 				schedl.setMinHeight(Control.USE_PREF_SIZE);
-				schedl.setMinWidth(200);
-				schedl.setMaxWidth(200);
-				schedl.setMaxWidth(200);
+				schedl.setMinWidth(218);
+				schedl.setMaxWidth(218);
 				schedl.setAlignment(Pos.CENTER_LEFT);
 				
 				coursel.setMaxHeight(Double.MAX_VALUE);
@@ -185,20 +194,7 @@ public class ClassGUIController implements Initializable{
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		classgui_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
-		    @Override
-		    public void handle(WindowEvent t) {
-	        	AlertBoxController.label_text = "Are you sure you want to exit?";
-	        	if(AlertBoxController.display("Exit")) {
-			        Platform.exit();
-			        System.exit(0);
-	        	}
-	        	else {
-	        		t.consume();
-	        	}
-
-		    }
-		});
+		
 
 		try {
 			checkClasses();
@@ -277,31 +273,57 @@ public class ClassGUIController implements Initializable{
     }
     String loadSched(String pathname) {
     	String sched = "";
-        try (InputStream input = new FileInputStream(pathname + "\\config.properties")) {
-
-            Properties prop = new Properties();
+    	InputStream input = null;
+    	Properties prop = null;
+        try  {
+        	input = new FileInputStream(pathname + "\\config.properties");
+            prop = new Properties();
+            AttendanceGUIController.scheds_day = new ArrayList<String>();
 
             // load a properties file
             prop.load(input);
+            for (int i = 0; i < 10 ; i++) {
+            	if (prop.getProperty("Schedule" + i) != null) {
+            		sched += prop.getProperty("Schedule" + i) + "\n";
+            		
+            	}
+            	else {
+            		break;
+            	}
+                
+            }
 
-            sched = prop.getProperty("Schedule");
+ 
 
 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        finally {
+        	if (input != null) {try {input.close();} catch (IOException e) {e.printStackTrace();}
+        	
+        }
+        }
+
         return sched;
+        
     }
    public void classNext() {
     	if (class_selected) {
     		
     		String[] classes_string;
-    		
+    		 
     		String path = classes.get(rowIndex).toString().replace(App.fullp, "");
     		classes_string = path.split("\\s+");
     		
     		
     		ClassSessionController.path = classes.get(rowIndex).toString();
+    		try {
+				loadSchedules(ClassSessionController.path);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		ClassSessionController.student_excel = ClassSessionController.path + "\\Students.xls";
     		//ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
     		ClassSessionController.test_excel = ClassSessionController.path + "\\Tests.xls";
@@ -317,8 +339,41 @@ public class ClassGUIController implements Initializable{
     	}
     	
     }
-	public void createAttendance() {
-		
-	}
+   void loadSchedules(String pathname) throws IOException {
+	   InputStream input = null;
+	   try
+	   {
+    	   input = new FileInputStream(pathname + "\\config.properties");
 
+           Properties prop = new Properties();
+           AttendanceGUIController.scheds_day = new ArrayList<String>();
+           String[] day;
+
+           // load a properties file
+           prop.load(input);
+           for (int i = 0; i < 10 ; i++) {
+           	if (prop.getProperty("Schedule" + i) != null) {
+           		day = prop.getProperty("Schedule" + i).split("\\s+");
+ 
+           		AttendanceGUIController.scheds_day.add(day[0] + " " + day[1] + " " + day[2]);
+           		
+           	}
+           	else {
+           		break;
+           	}
+               
+           }
+       }
+	    catch(Exception e)
+	    {
+	    	e.printStackTrace();
+	    }
+	   finally {
+		   if (input != null) 
+		   {
+			   input.close();
+		   }
+	   }
+       
+   }
 }

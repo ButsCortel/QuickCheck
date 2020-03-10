@@ -69,10 +69,13 @@ public class AddStudentController {
 	}
 
 	public void writeStudent(String code, String name, String id, String course){
+		FileInputStream myxls = null;
+	       Workbook studentsSheet = null;
+	       FileOutputStream output_file = null;
 		   try
 		   {
-		       FileInputStream myxls = new FileInputStream(ClassSessionController.student_excel);
-		       Workbook studentsSheet = new HSSFWorkbook(myxls);
+		       myxls = new FileInputStream(ClassSessionController.student_excel);
+		       studentsSheet = new HSSFWorkbook(myxls);
 		       Sheet worksheet = studentsSheet.getSheetAt(0);
 		       int lastRow=worksheet.getLastRowNum();
 		       Row row = worksheet.createRow(++lastRow);
@@ -80,23 +83,36 @@ public class AddStudentController {
 		       row.createCell(1).setCellValue(name);
 		       row.createCell(2).setCellValue(id);
 		       row.createCell(3).setCellValue(course);
-		       myxls.close();
-		       FileOutputStream output_file =new FileOutputStream(new File(ClassSessionController.student_excel));  
+		       output_file =new FileOutputStream(new File(ClassSessionController.student_excel));  
 		       studentsSheet.write(output_file);
-		       studentsSheet.close();
-		       output_file.close();
+
 		    }
 		    catch(Exception e)
 		    {
 		    	e.printStackTrace();
 		    }
+		   finally {
+			   if (myxls != null) {
+				   try {myxls.close();} catch (IOException e) {e.printStackTrace();}
+			       
+			   }
+			   if (output_file != null) {
+				   try {output_file.flush();} catch (IOException e) {e.printStackTrace();}
+				   try {output_file.close();} catch (IOException e) {e.printStackTrace();}	
+			   }
+			   if (studentsSheet != null) {
+				   try {studentsSheet.close();} catch (IOException e) {e.printStackTrace();}
+			   }
+			   
+
+		   }
 		}
 	public void addStudent() throws IOException {
 		String code = student_code.getText().trim();
-		String name = student_name.getText().replaceAll("[\\d.]", "").trim();
+		String name = student_name.getText().replaceAll("[\\d]", "").trim();
 		String id = student_id.getText().trim();
 		String course = student_course.getText().trim();
-		if (!code.equals("") && !name.equals("") && !id.equals("") && !course.equals("") && code.length() >3 && code.chars().allMatch(Character::isDigit)) {
+		if (!code.equals("") && !name.equals("") && !id.equals("") && !course.equals("") && code.length() >3 && name.length() >5 && code.chars().allMatch(Character::isDigit)) {
 			if (!checkDup(code, name, id)) {
 				writeStudent(code, name, id, course);
 				newstudent_window.close();
@@ -112,10 +128,14 @@ public class AddStudentController {
 
 	}
 	public boolean checkDup(String cd, String n, String id) throws IOException {
-		FileInputStream fi = new FileInputStream(ClassSessionController.student_excel);
-		Workbook wb = new HSSFWorkbook(fi);
-		Sheet sh = wb.getSheetAt(0);
+		FileInputStream fi = null;
+		Workbook wb = null;
 		boolean result = false;
+		try
+		{fi = new FileInputStream(ClassSessionController.student_excel);
+		wb = new HSSFWorkbook(fi);
+		Sheet sh = wb.getSheetAt(0);
+		
 	    int starRow = sh.getFirstRowNum();
 	    int endRow = sh.getLastRowNum();
 
@@ -139,8 +159,23 @@ public class AddStudentController {
 	        	dup = "ID";
 	        }
 	    }
-	    wb.close();
-	    fi.close();
+		}
+	    catch(Exception e)
+	    {
+	    	e.printStackTrace();
+	    }
+		finally{
+			if (fi != null) {
+				   try {fi.close();} catch (IOException e) {e.printStackTrace();}
+			}	
+			if (wb != null) {
+				   try {wb.close();} catch (IOException e) {e.printStackTrace();}
+			}
+			}
+
+		
+		
+
 	    return result;
 
 	    

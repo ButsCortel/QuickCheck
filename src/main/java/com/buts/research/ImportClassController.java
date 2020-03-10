@@ -2,15 +2,19 @@ package com.buts.research;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import com.jfoenix.controls.JFXDecorator;
 
@@ -165,35 +169,25 @@ public class ImportClassController implements Initializable {
             		node.setStyle("-fx-background-color: white;");
             	}
             }student_selected = true;
-            System.out.println(classes.get(rowIndex));
+            //System.out.println(classes.get(rowIndex));
         	}
         
 
     }
 	public void implist() throws IOException {
+	       FileSystem system = FileSystems.getDefault();
+	        Path original = system.getPath(classes.get(rowIndex).toString() + "\\Students.xls");
+	        Path target = system.getPath(ClassSessionController.student_excel);
 
-	    InputStream is = null;
-	    OutputStream os = null;
-	    try {
-
-	    		is = new FileInputStream(ClassGUIController.classes.get(rowIndex).toString() + "\\Students.xls");
-	    	
-
-
-	        os = new FileOutputStream(ClassSessionController.student_excel);
-
-	        byte[] buffer = new byte[1024];
-	        int length;
-	        while ((length = is.read(buffer)) > 0) {
-	            os.write(buffer, 0, length);
+	        try {
+	            // Throws an exception if the original file is not found.
+	            Files.copy(original, target, StandardCopyOption.REPLACE_EXISTING);
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
 	        }
-	    } finally {
-	    	student_selected = false;
-	        is.close();
 
-	        os.close();
-	    }
 	}
+
 	public  void checkClasses() throws IOException {
 		classes = new ArrayList<Path>();
 		
@@ -209,7 +203,26 @@ public class ImportClassController implements Initializable {
 	                .limit(100)
 	                .forEach(path -> {
 	                	if (!path.toString().equals(ClassSessionController.path)) {
-	                		classes.add(path);
+	                		FileInputStream myxls = null;
+	                		Workbook studentsSheet = null;
+							try {
+								myxls = new FileInputStream(path.toString() + "\\Students.xls");
+								studentsSheet = new HSSFWorkbook(myxls);
+			         		       Sheet worksheet = studentsSheet.getSheetAt(0);
+			         		       if (worksheet.getLastRowNum() > 0) {
+			         		    	  classes.add(path); 
+			         		       }
+			         		       studentsSheet.close();
+			         		      myxls.close();
+			                		
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							
+	         		       
+
 	                	}
 	                    
 	                });

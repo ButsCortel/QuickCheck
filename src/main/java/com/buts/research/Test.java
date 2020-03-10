@@ -1,26 +1,22 @@
 package com.buts.research;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.*;
-import java.util.Date;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class Test {
-   public static void main(String[] args) throws IOException {
-       DateFormat df = new SimpleDateFormat("MMM-yyyy");
-       Date dateobj = new Date();
-       System.out.println(df.format(dateobj));		
-}
+    public static void main(String[] args) {
+        DateTimeFormatter format = DateTimeFormatter
+                .ofLocalizedTime(FormatStyle.SHORT);
+        LocalTime time1 = LocalTime.parse("12:00 AM", format);
+        LocalTime time2 = LocalTime.parse("11:59 PM", format);
+        //Duration duration = Duration.between(time1, time2);
+        if (time1.compareTo(time2) > 0) {
+        	System.out.println("late");       	
+        }
+        else {
+        	System.out.println("on time");
+        }
+    }
 }
