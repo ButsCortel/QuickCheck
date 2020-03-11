@@ -36,12 +36,12 @@ public class LoginController {
     }
     @FXML
     void hover(MouseEvent event) {
-    	login_button.setStyle("-fx-background-color: tomato; ");
+    	login_button.setStyle("-fx-background-color: tomato; -fx-border-color: white; ");
     }
 
     @FXML
     void hoverout(MouseEvent event) {
-    	login_button.setStyle("-fx-background-color: firebrick; ");
+    	login_button.setStyle("-fx-background-color: firebrick; -fx-border-color: white;");
     }
 
 }

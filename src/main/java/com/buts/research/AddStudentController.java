@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -15,16 +17,21 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class AddStudentController {
+public class AddStudentController implements Initializable{
 	static Stage newstudent_window;
 	static String course = "";
 	static String subject = "";
@@ -44,6 +51,9 @@ public class AddStudentController {
 
     @FXML
     private Label stat_label;
+    
+    @FXML
+    private Spinner<String> student_sex;
 	void newStudent() {
 		try {
 			newstudent_window = new Stage();
@@ -52,7 +62,7 @@ public class AddStudentController {
 			JFXDecorator decorator = new JFXDecorator(newstudent_window , root, false, false, false);
 			decorator.setCustomMaximize(true); 
 			String uri = App.class.getResource("CSS.css").toExternalForm();
-			Scene class_scene = new Scene(decorator, 360, 260);
+			Scene class_scene = new Scene(decorator, 360, 290);
 			class_scene.getStylesheets().add(uri) ;
 			newstudent_window.setScene(class_scene);
 			newstudent_window.setTitle("New Student");
@@ -60,6 +70,8 @@ public class AddStudentController {
 			newstudent_window.initStyle(StageStyle.UNDECORATED);
 			newstudent_window.setResizable(false);
 			newstudent_window.showAndWait();
+			
+		       
 
 			
 		} catch (IOException e) {
@@ -68,7 +80,7 @@ public class AddStudentController {
 		}
 	}
 
-	public void writeStudent(String code, String name, String id, String course){
+	public void writeStudent(String code, String name, String id, String course, String sex){
 		FileInputStream myxls = null;
 	       Workbook studentsSheet = null;
 	       FileOutputStream output_file = null;
@@ -81,8 +93,9 @@ public class AddStudentController {
 		       Row row = worksheet.createRow(++lastRow);
 		       row.createCell(0).setCellValue(code);
 		       row.createCell(1).setCellValue(name);
-		       row.createCell(2).setCellValue(id);
-		       row.createCell(3).setCellValue(course);
+		       row.createCell(2).setCellValue(sex);
+		       row.createCell(3).setCellValue(id);
+		       row.createCell(4).setCellValue(course);
 		       output_file =new FileOutputStream(new File(ClassSessionController.student_excel));  
 		       studentsSheet.write(output_file);
 
@@ -112,9 +125,10 @@ public class AddStudentController {
 		String name = student_name.getText().replaceAll("[\\d]", "").trim();
 		String id = student_id.getText().trim();
 		String course = student_course.getText().trim();
+		String sex = student_sex.getValue();
 		if (!code.equals("") && !name.equals("") && !id.equals("") && !course.equals("") && code.length() >3 && name.length() >5 && code.chars().allMatch(Character::isDigit)) {
 			if (!checkDup(code, name, id)) {
-				writeStudent(code, name, id, course);
+				writeStudent(code, name, id, course, sex);
 				newstudent_window.close();
 			}
 			else {
@@ -153,7 +167,7 @@ public class AddStudentController {
 	        	dup = "NAME";
 	        }
 	        
-	        Cell c2 = wb.getSheetAt(0).getRow(i).getCell(2);
+	        Cell c2 = wb.getSheetAt(0).getRow(i).getCell(3);
 	        if(c2.getStringCellValue().equals(id)) {
 	        	result = true;
 	        	dup = "ID";
@@ -179,6 +193,21 @@ public class AddStudentController {
 	    return result;
 
 	    
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		ObservableList<String> sex = FXCollections.observableArrayList("F", "M");
+		 
+		 
+	       // Value factory.
+	       SpinnerValueFactory<String> valueFactory = //
+	               new SpinnerValueFactory.ListSpinnerValueFactory<String>(sex);
+	      
+	       // Default value
+	       valueFactory.setValue("F");
+	       student_sex.setValueFactory(valueFactory);
+		
 	}
 	
 	

@@ -347,14 +347,16 @@ public class ClassGUIController implements Initializable{
 
            Properties prop = new Properties();
            AttendanceGUIController.scheds_day = new ArrayList<String>();
+           AttendanceGUIController.scheds = new ArrayList<String>();
            String[] day;
 
            // load a properties file
            prop.load(input);
            for (int i = 0; i < 10 ; i++) {
            	if (prop.getProperty("Schedule" + i) != null) {
-           		day = prop.getProperty("Schedule" + i).split("\\s+");
- 
+           		String s = prop.getProperty("Schedule" + i);
+           		day = s.split("\\s+");
+           		AttendanceGUIController.scheds.add(s);
            		AttendanceGUIController.scheds_day.add(day[0] + " " + day[1] + " " + day[2]);
            		
            	}

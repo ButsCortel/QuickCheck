@@ -18,8 +18,11 @@ import javafx.animation.Timeline;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
@@ -64,6 +67,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -98,6 +103,11 @@ public class AttendanceGUIController implements Initializable{
     private Label time_label;
     @FXML
     private Label date_label;
+    @FXML
+    private JFXButton exp_month;
+
+    @FXML
+    private JFXButton exp_all;
     ArrayList<String> month = null;
     ObservableList<String> days =null;
     SpinnerValueFactory<String> valueFactory = null;
@@ -164,16 +174,23 @@ public class AttendanceGUIController implements Initializable{
 	private boolean camOpen = false;
 	private ObjectProperty<Image> imageProperty = new SimpleObjectProperty<Image>();
 	static ArrayList<String> scheds_day;
+	static ArrayList<String> scheds;
 
 	private String cameraListPromptText = "Choose Camera";
 	private String attListPromptText = "No Records";
 	private String last = "";
 	private String[] results;
 	private ObservableList<String> items = null;
+	private FileChooser directoryChooser = null;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
+	    directoryChooser = new FileChooser();
+	    directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+	    directoryChooser.getExtensionFilters().add(
+	    	     new FileChooser.ExtensionFilter("XLS files", "*.xls")
+	    	);
 		day_spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
 		    
 		        display_att();
@@ -215,15 +232,16 @@ public class AttendanceGUIController implements Initializable{
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("hh:mm");
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MMM dd, yyyy\nEEE");
 		
-		LocalDateTime myDateObj = LocalDateTime.now();
+
         //SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm aa");
         // DateFormat = new SimpleDateFormat("MMM dd, yyyy EEE");
         //Date myDateObj = new Date();
-        final String date = dateFormat.format(myDateObj);
-        date_label.setText(date);
+
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {        
             LocalTime currentTime = LocalTime.now();
+    		LocalDateTime myDateObj = LocalDateTime.now();
+            date_label.setText(dateFormat.format(myDateObj));
            // 
             if (currentTime.getHour() > 11) {
             	time_label.setText(timeFormat.format(currentTime) + " PM");
@@ -313,7 +331,8 @@ public class AttendanceGUIController implements Initializable{
 									        	try {
 
 
-													if (checkStudent(results[results.length -1]).size() ==  4) {
+													if (checkStudent(results[results.length -1]).size() ==  5) {
+														createAttendance();
 														logStudent (checkStudent(results[results.length -1]));
 													}
 													else {
@@ -377,10 +396,12 @@ public class AttendanceGUIController implements Initializable{
 	        	Cell c1 = wb.getSheetAt(0).getRow(i).getCell(1);
 	        	Cell c2 = wb.getSheetAt(0).getRow(i).getCell(2);
 	        	Cell c3 = wb.getSheetAt(0).getRow(i).getCell(3);
+	        	Cell c4 = wb.getSheetAt(0).getRow(i).getCell(4);
 	        	student_info.add(c0.getStringCellValue());
 	        	student_info.add(c1.getStringCellValue());
 	        	student_info.add(c2.getStringCellValue());
 	        	student_info.add(c3.getStringCellValue());
+	        	student_info.add(c4.getStringCellValue());
 	        	break;
 	        	}
 	    
@@ -414,7 +435,7 @@ public class AttendanceGUIController implements Initializable{
 		DateTimeFormatter timein = DateTimeFormatter.ofPattern("hh:mm");
         DateTimeFormatter format = DateTimeFormatter
                 .ofLocalizedTime(FormatStyle.SHORT);
-        
+        DateTimeFormatter daylog = DateTimeFormatter.ofPattern("dd-EEE");
 		LocalDateTime dateobj = LocalDateTime.now();
 		String ti = "";
 		
@@ -476,6 +497,7 @@ public class AttendanceGUIController implements Initializable{
 	    int gRow = 0;
 		FileInputStream fi = null;
 		Workbook wb = null;
+		int current_att = 0;
 		try
 		{
 			fi = new FileInputStream(ClassSessionController.attendance_excel);
@@ -485,6 +507,23 @@ public class AttendanceGUIController implements Initializable{
 	    
 	    Row r = sh.getRow(0);
 	    int maxCell=  r.getLastCellNum();
+   
+        for (int j = 5; j < maxCell ; j++ ) {
+        	if (r.getCell(j) != null) {
+        		Cell c0 = r.getCell(j);
+        		if (c0.getStringCellValue().equals(daylog.format(dateobj))) {
+        			current_att = c0.getColumnIndex();
+        			break;
+        		}
+        		else {
+        			current_att = maxCell;
+        		}
+        	}
+        	else {
+        		current_att = maxCell;
+        		break;
+        	}
+        }
 
 
 	    for (int i = 0; i <= endRow; i++) {
@@ -500,8 +539,8 @@ public class AttendanceGUIController implements Initializable{
 	    }
 	    if (dup) {
         		row = sh.getRow(gRow);
-        		if (row.getCell(maxCell - 1) == null) {
-        			row.createCell(maxCell - 1).setCellValue(ti);
+        		if (row.getCell(current_att) == null) {
+        			row.createCell(current_att).setCellValue(ti);
         			name_label.setText(info.get(1));
         			timein_label.setText(tid);
         			if (late == 1) {
@@ -527,7 +566,8 @@ public class AttendanceGUIController implements Initializable{
 		       	row.createCell(1).setCellValue(info.get(1));
 		       	row.createCell(2).setCellValue(info.get(2));
 		       	row.createCell(3).setCellValue(info.get(3));
-		       	row.createCell(maxCell - 1).setCellValue(ti);
+		       	row.createCell(4).setCellValue(info.get(4));
+		       	row.createCell(current_att).setCellValue(ti);
     			name_label.setText(info.get(1));
     			
     			timein_label.setText(tid);
@@ -621,6 +661,7 @@ public class AttendanceGUIController implements Initializable{
 	void checkCurrentAttendance() throws IOException {
 		take_gridpane.getChildren().clear();
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("MMM-yyyy");
+		DateTimeFormatter day = DateTimeFormatter.ofPattern("dd-EEE");
 		//DateTimeFormatter timein = DateTimeFormatter.ofPattern("hh:mm aa");
 		
 		LocalDateTime dateobj = LocalDateTime.now();
@@ -628,6 +669,7 @@ public class AttendanceGUIController implements Initializable{
 		Workbook wb = null;
 		ArrayList<String> students_name = new ArrayList<String>();
 		ArrayList<String> students_timein = new ArrayList<String>();
+		int current_att= 0;
 		try 
 		{
 		fi = new FileInputStream(ClassSessionController.attendance_excel);
@@ -637,12 +679,28 @@ public class AttendanceGUIController implements Initializable{
 		Sheet sh = wb.getSheet(df.format(dateobj)) ;
 		ArrayList <Row> rows = new ArrayList <Row>();
 		Row rw = sh.getRow(0);
-	    int maxCell=  rw.getLastCellNum();
+	    
+        int lc = rw.getLastCellNum();
+        for (int j = 5; j < lc ; j++ ) {
+        	if (rw.getCell(j) != null) {
+        		Cell c0 = rw.getCell(j);
+        		if (c0.getStringCellValue().equals(day.format(dateobj))) {
+        			current_att = c0.getColumnIndex();
+        			break;
+        		}
+        		else {
+        			current_att = lc;
+        		}
+        	}
+        	else {
+        		current_att = lc;
+        	}
+        }
         //copy all rows to temp
 		int r =0;
 		for (Row myrows: sh) {
 			if (r != 0) {
-				if (myrows.getCell(maxCell -1) != null) {
+				if (myrows.getCell(current_att) != null) {
 				rows.add(myrows);	
 				}
 				
@@ -650,10 +708,11 @@ public class AttendanceGUIController implements Initializable{
 			r++;
 			
 		}
-        rows.sort(Comparator.comparing(cells -> cells.getCell(maxCell-1).getStringCellValue()));
+		final int current_att2 = current_att;
+        rows.sort(Comparator.comparing(cells -> cells.getCell(current_att2).getStringCellValue()));
         for (Row myrow: rows) {
             Cell c0 = myrow.getCell(1);
-            Cell c1 = myrow.getCell(maxCell-1);
+            Cell c1 = myrow.getCell(current_att2);
             
             if (c1 != null) {
             	String t = c1.getStringCellValue();
@@ -664,7 +723,6 @@ public class AttendanceGUIController implements Initializable{
         }}
 	    catch(Exception e)
 	    {
-	    	e.printStackTrace();
 	    }
 		finally {
 			if (fi != null) {
@@ -736,7 +794,7 @@ public class AttendanceGUIController implements Initializable{
     @FXML
     void takeAttendance(ActionEvent event) {
     	try {
-			createAttendance();
+			//createAttendance();
 			checkCurrentAttendance();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -949,6 +1007,7 @@ public class AttendanceGUIController implements Initializable{
 	        myxls = new FileInputStream(ClassSessionController.attendance_excel);
 		       workbook = new HSSFWorkbook(myxls);
 		       Sheet sheet = workbook.getSheet(df.format(dateobj));
+		       int current_att = 0;
 	        if (workbook.getNumberOfSheets() != 0) {
 	            for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
 	            	String wn = workbook.getSheetName(i);
@@ -957,11 +1016,28 @@ public class AttendanceGUIController implements Initializable{
 	                    sheet = workbook.getSheet(df.format(dateobj));
 	                    Row row = sheet.getRow(0);
 	                    int maxCell = row.getLastCellNum();
-	                    Cell c0 = row.getCell(maxCell - 1);
-	                    if (!c0.getStringCellValue().equals(day.format(dateobj))) {
+	                    for (int j = 5; j < maxCell ; j++ ) {
+	                    	if (row.getCell(j) != null) {
+	                    		Cell c0 = row.getCell(j);
+	                    		if (c0.getStringCellValue().equals(day.format(dateobj))) {
+	                    			current_att = c0.getColumnIndex();
+	                    			break;
+	                    		}
+	                    		else {
+	                    			current_att = maxCell;
+	                    		}
+	                    }
+                    		else {
+                    			current_att = maxCell;
+                    		}
+	                    }
+	                    if (current_att == maxCell) {
 	                    	Cell c1 = row.createCell(maxCell);
 	                    	c1.setCellValue(day.format(dateobj));
 	                    }
+
+
+	                    
 	                    dup = true;
 	                    break;
 	                    
@@ -978,34 +1054,41 @@ public class AttendanceGUIController implements Initializable{
 	        	        cell1.setCellValue("NAME");
 	        	        
 	        	        Cell cell2 = row.createCell(2);
-	        	        cell2.setCellValue("ID NO.");
+	        	        cell2.setCellValue("SEX");
 	        	        
-	        	        Cell cell3 = row.createCell(3);
-	        	        cell3.setCellValue("COURSE CODE/ GRADE LEVEL");
+	        	        Cell cell3= row.createCell(3);
+	        	        cell3.setCellValue("ID NO.");
 	        	        
 	        	        Cell cell4 = row.createCell(4);
-	        	        cell4.setCellValue(day.format(dateobj));
+	        	        cell4.setCellValue("COURSE CODE/ GRADE LEVEL");
+	        	        
+	        	        Cell cell5 = row.createCell(5);
+	        	        cell5.setCellValue(day.format(dateobj));
 	            	}
             
 	        }
 	        else {
 	            // Create new sheet to the workbook if empty
-	            sheet = workbook.createSheet(df.format(dateobj));
-	            Row row = sheet.createRow(0); 
-		        
-		        Cell cell0 = row.createCell(0);
-		        cell0.setCellValue("CODE");
+	        	sheet = workbook.createSheet(df.format(dateobj));
+                Row row = sheet.createRow(0); 
+    	        
+    	        Cell cell0 = row.createCell(0);
+    	        cell0.setCellValue("CODE");
 
-		        Cell cell1 = row.createCell(1);
-		        cell1.setCellValue("NAME");
-		        
-		        Cell cell2 = row.createCell(2);
-		        cell2.setCellValue("ID NO.");
-		        
-		        Cell cell3 = row.createCell(3);
-		        cell3.setCellValue("COURSE CODE/ GRADE LEVEL");
+    	        Cell cell1 = row.createCell(1);
+    	        cell1.setCellValue("NAME");
+    	        
+    	        Cell cell2 = row.createCell(2);
+    	        cell2.setCellValue("SEX");
+    	        
+    	        Cell cell3= row.createCell(3);
+    	        cell3.setCellValue("ID NO.");
+    	        
     	        Cell cell4 = row.createCell(4);
-    	        cell4.setCellValue(day.format(dateobj));
+    	        cell4.setCellValue("COURSE CODE/ GRADE LEVEL");
+    	        
+    	        Cell cell5 = row.createCell(5);
+    	        cell5.setCellValue(day.format(dateobj));
 	        }
  
 	       // XSSFCell cell2 = row.createCell(2);
@@ -1035,6 +1118,8 @@ public class AttendanceGUIController implements Initializable{
 	void avail_attendances() throws IOException {
 		
 		day_spinner.setDisable(true);
+		exp_month.setDisable(true);
+		exp_all.setDisable(true);
 		
 	    ArrayList<String> month = new ArrayList<String>();
 
@@ -1099,7 +1184,7 @@ public class AttendanceGUIController implements Initializable{
 	        Sheet sheet = workbook.getSheet(date);
 	        Row row = sheet.getRow(0);
 	        int r = row.getLastCellNum();
-	        for (int j = 4; j < r ; j++ ) {
+	        for (int j = 5; j < r ; j++ ) {
 	        	if (row.getCell(j) != null) {
 	        		Cell c0 = row.getCell(j);
 	        		days.add(c0.getStringCellValue());
@@ -1118,6 +1203,8 @@ public class AttendanceGUIController implements Initializable{
 
 		if (days.size() > 0) {
 			day_spinner.setDisable(false);
+			exp_month.setDisable(false);
+			exp_all.setDisable(false);
 			valueFactory = new SpinnerValueFactory.ListSpinnerValueFactory<String>(days);			
 
 
@@ -1154,7 +1241,7 @@ public class AttendanceGUIController implements Initializable{
 	        Row row = sheet.getRow(0);
 	        int r = sheet.getLastRowNum();
 	        int lc = row.getLastCellNum();
-	        for (int j = 4; j < lc ; j++ ) {
+	        for (int j = 5; j < lc ; j++ ) {
 	        	if (row.getCell(j) != null) {
 	        		Cell c0 = row.getCell(j);
 	        		if (c0.getStringCellValue().equals(day)) {
@@ -1229,4 +1316,141 @@ public class AttendanceGUIController implements Initializable{
 	    }
 	
 	}
+    @FXML
+    void export_all(ActionEvent event) {
+    	File selectedDirectory = directoryChooser.showSaveDialog(attendancegui_window);
+     	if (selectedDirectory != null) {
+                export(0, selectedDirectory.getAbsolutePath());
+     	}
+    }
+
+    @FXML
+    void export_month(ActionEvent event) {
+     	File selectedDirectory = directoryChooser.showSaveDialog(attendancegui_window);
+     	if (selectedDirectory != null) {
+     		export(1, selectedDirectory.getAbsolutePath());
+     	}
+
+    }
+    void export(int mode, String loc) {
+    	FileInputStream myxls = null;
+	    Workbook workbook = null;
+	    ArrayList<Sheet> sheets = new ArrayList<Sheet>();
+	       
+
+	    try {
+	       
+	        myxls = new FileInputStream(ClassSessionController.attendance_excel);
+		    workbook = new HSSFWorkbook(myxls);
+
+	        if (mode == 1) {
+	        	Sheet sheet = workbook.getSheet(date);
+	        	sheets.add(sheet);
+
+	        }
+	        else {
+	        	for (Sheet sh: workbook) {
+	        		sheets.add(sh);
+	        	}
+	        }
+
+	        
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    finally {
+	    	if (myxls != null) {try {myxls.close();} catch (IOException e) {e.printStackTrace();}}
+	        if (workbook != null) {try {workbook.close();} 
+	        catch (IOException e) {e.printStackTrace();}}
+	    }
+	    try {
+	    	workbook = new HSSFWorkbook();
+	    	Sheet s = sheets.get(0);
+	    	Row r = s.getRow(0);
+	    	int lc = r.getLastCellNum()-1;
+	    	for (int i = 0 ; i < sheets.size(); i++) {
+	    		Sheet sh = sheets.get(i);
+	    		Sheet sheet = workbook.createSheet(sh.getSheetName());
+	    		
+	    		CellStyle wrapStyle = workbook.createCellStyle();
+	    		wrapStyle.setWrapText(true);
+	    		wrapStyle.setAlignment(HorizontalAlignment.CENTER);
+	    		wrapStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+	    		
+	    		Row head = sheet.createRow(0);
+	    		Cell course = head.createCell(0); 
+	            course.setCellValue(ClassSessionController.course + ",\n" +ClassSessionController.subject);
+	            course.setCellStyle(wrapStyle);
+	            String sch = "";
+	            for (int h = 0; h < scheds.size(); h++) {
+	            	sch += sch + scheds.get(h) + ",\n";
+	            }
+	            Cell schedules = head.createCell(1);
+	            schedules.setCellStyle(wrapStyle);
+	            schedules.setCellValue("Schedules: " +sch);
+	            sheet.autoSizeColumn(0);
+	            sheet.autoSizeColumn(1);
+
+	    		int rowIndex = 1;
+	    		for (Row rw: sh) {
+	    			Row row = sheet.createRow(rowIndex);
+	    			for (int cellIndex = 0 ; cellIndex < lc ; cellIndex++) {
+	    				Cell newCell = null;
+	    				
+	    				switch (cellIndex) {
+	    				  case 0:
+	    					  newCell = row.createCell(1);
+	    					    break;
+	    				  case 1:
+	    					  newCell = row.createCell(2);
+	    					    break;
+	    				  case 2:
+	    					  newCell = row.createCell(0);
+	    					    break;
+	    				  default:
+	    					  newCell = row.createCell(cellIndex);
+	    			
+	    				}
+	    				Cell cll = rw.getCell(cellIndex+1);
+	    				if (cll != null && !cll.getStringCellValue().equals("")) {
+		    				newCell.setCellValue(cll.getStringCellValue());
+	    				}
+	    				else {
+		    				newCell.setCellValue("Absent");
+	    				}
+
+	
+	    			}rowIndex++;
+	    			
+	    		}
+	    	}
+
+	    	
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    finally {
+	    	if (workbook != null) 
+	    	{
+		        try (FileOutputStream outputStream = new FileOutputStream(loc)) {
+		            workbook.write(outputStream);
+		            outputStream.flush();
+		            outputStream.close();
+		        }
+		        catch (Exception e) {
+		        	e.printStackTrace();
+		        }
+		        try {
+		            workbook.close();
+		        }
+		        catch (Exception e) {
+		        	e.printStackTrace();
+		        }
+	    	}
+
+	    	
+	    }
+    }
 }

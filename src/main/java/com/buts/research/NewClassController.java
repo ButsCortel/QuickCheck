@@ -234,10 +234,13 @@ public class NewClassController implements Initializable{
 		        cell1.setCellValue("NAME");
 		        
 		        Cell cell2 = row.createCell(2);
-		        cell2.setCellValue("ID NO.");
+		        cell2.setCellValue("SEX");
 		        
 		        Cell cell3 = row.createCell(3);
-		        cell3.setCellValue("COURSE CODE/ GRADE LEVEL");
+		        cell3.setCellValue("ID NO.");
+		        
+		        Cell cell4 = row.createCell(4);
+		        cell4.setCellValue("COURSE CODE/ GRADE LEVEL");  
 
 		       // XSSFCell cell2 = row.createCell(2);
 		       // cell2.setCellValue("Percent Change");
@@ -342,10 +345,13 @@ public class NewClassController implements Initializable{
 		        cell1.setCellValue("NAME");
 		        
 		        Cell cell2 = row.createCell(2);
-		        cell2.setCellValue("ID NO.");
+		        cell2.setCellValue("SEX");
 		        
 		        Cell cell3 = row.createCell(3);
-		        cell3.setCellValue("COURSE CODE/ GRADE LEVEL");   
+		        cell3.setCellValue("ID NO.");
+		        
+		        Cell cell4 = row.createCell(4);
+		        cell4.setCellValue("COURSE CODE/ GRADE LEVEL");   
 
 		       // XSSFCell cell2 = row.createCell(2);
 		       // cell2.setCellValue("Percent Change");

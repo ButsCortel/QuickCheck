@@ -144,9 +144,11 @@ public class ClassSessionController implements Initializable{
 		Workbook wb = null;
 		ArrayList<String> students_code = new ArrayList<String>();
 		ArrayList<String> students_name = new ArrayList<String>();
+		ArrayList<String> students_sex = new ArrayList<String>();
 		ArrayList<String> students_id = new ArrayList<String>();
 		ArrayList<String> students_course= new ArrayList<String>();
 		ArrayList<Label> students_display = new ArrayList<Label>();
+		students_display.add(null);
 		students_display.add(null);
 		students_display.add(null);
 		students_display.add(null);
@@ -172,10 +174,13 @@ public class ClassSessionController implements Initializable{
 	        students_name.add(c1.getStringCellValue());
 	        
 	        Cell c2 = wb.getSheetAt(0).getRow(i).getCell(2);
-	        students_id.add(c2.getStringCellValue());
+	        students_sex.add(c2.getStringCellValue());
 	        
 	        Cell c3 = wb.getSheetAt(0).getRow(i).getCell(3);
-	        students_course.add(c3.getStringCellValue());
+	        students_id.add(c3.getStringCellValue());
+	        
+	        Cell c4 = wb.getSheetAt(0).getRow(i).getCell(4);
+	        students_course.add(c4.getStringCellValue());
 
 
 	    } 
@@ -202,18 +207,21 @@ public class ClassSessionController implements Initializable{
 	    	Label row = new Label(Integer.toString(c+1) + ".");
 	    	Label scode = new Label(students_code.get(c));
 	    	Label sname = new Label(name);
+	    	Label ssex = new Label(students_sex.get(c));
 	    	Label sid = new Label(students_id.get(c));
 	    	Label scourse = new Label(students_course.get(c));
 	    	
 	    	row.setFont(new Font("Arial Black",15));
 	    	scode.setFont(new Font("Arial Black",15));
 			sname.setFont(new Font("Arial black",15));
+			ssex.setFont(new Font("Arial black",15));
 			sid.setFont(new Font("Arial black",15));
 			scourse.setFont(new Font("Arial black",15));
 			
 			row.setTextFill(Color.BLACK);
 			scode.setTextFill(Color.BLACK);
 			sname.setTextFill(Color.BLACK);
+			ssex.setTextFill(Color.BLACK);
 			sid.setTextFill(Color.BLACK);
 			scourse.setTextFill(Color.BLACK);
 			
@@ -221,31 +229,37 @@ public class ClassSessionController implements Initializable{
 			sname.setMinHeight(30);
 			sname.setMaxWidth(230);
 			sname.setMinWidth(230);
-			sname.setAlignment(Pos.CENTER);
+			sname.setAlignment(Pos.CENTER_LEFT);
+			
+			ssex.setMaxHeight(Double.MAX_VALUE);
+			ssex.setMinHeight(sname.getPrefHeight());
+			ssex.setMaxWidth(40);
+			ssex.setMinWidth(40);
+			ssex.setAlignment(Pos.CENTER_LEFT);
 			
 			row.setMaxHeight(Double.MAX_VALUE);
 			row.setMinHeight(sname.getPrefHeight());
-			row.setMaxWidth(50);
-			row.setMinWidth(50);
+			row.setMaxWidth(40);
+			row.setMinWidth(40);
 			row.setAlignment(Pos.CENTER);
 			
 			scode.setMaxHeight(Double.MAX_VALUE);
 			scode.setMinHeight(sname.getPrefHeight());
 			scode.setMaxWidth(70);
 			scode.setMinWidth(70);
-			scode.setAlignment(Pos.CENTER);
+			scode.setAlignment(Pos.CENTER_LEFT);
 			
 			sid.setMaxHeight(Double.MAX_VALUE);
 			sid.setMinHeight(sname.getPrefHeight());
-			sid.setMaxWidth(120);
-			sid.setMinWidth(120);
-			sid.setAlignment(Pos.CENTER);
+			sid.setMaxWidth(130);
+			sid.setMinWidth(130);
+			sid.setAlignment(Pos.CENTER_LEFT);
 			
 			scourse.setMaxHeight(Double.MAX_VALUE);
 			scourse.setMinHeight(sname.getPrefHeight());
-			scourse.setMaxWidth(150);
-			scourse.setMinWidth(150);
-			scourse.setAlignment(Pos.CENTER);
+			scourse.setMaxWidth(120);
+			scourse.setMinWidth(120);
+			scourse.setAlignment(Pos.CENTER_LEFT);
 			
 			/*students_display.set(0, row);
 			students_display.set(1, scode);
@@ -257,8 +271,9 @@ public class ClassSessionController implements Initializable{
 				gridpane.add(row, 0, c);
 				gridpane.add(scode, 1, c);
 				gridpane.add(sname, 2, c);
-				gridpane.add(sid, 3, c);
-				gridpane.add(scourse, 4, c);
+				gridpane.add(ssex, 3, c);
+				gridpane.add(sid, 4, c);
+				gridpane.add(scourse, 5, c);
 
 
 			c++;
