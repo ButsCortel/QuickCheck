@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.ColorAdjust?>
@@ -25,10 +26,13 @@
       </ImageView>
       <Pane fx:id="select_class_pane" layoutX="26.0" layoutY="22.0" prefHeight="391.0" prefWidth="688.0" style="-fx-background-color: brown;">
          <children>
-            <JFXButton buttonType="RAISED" layoutX="524.0" layoutY="317.0" onAction="#classNext" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Next &gt;&gt;" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="524.0" layoutY="317.0" onAction="#classNext" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Next &gt;&gt;" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
             <Label layoutX="249.0" layoutY="8.0" text="Select Class" textFill="WHITE">
                <font>
@@ -50,10 +54,13 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <JFXButton fx:id="new_class" buttonType="RAISED" layoutX="401.0" layoutY="317.0" onAction="#openNew" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="New" textFill="WHITE">
+            <JFXButton fx:id="new_class" buttonType="RAISED" layoutX="401.0" layoutY="317.0" onAction="#openNew" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="New" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="313.0" layoutY="54.0" text="Subject" textAlignment="JUSTIFY" textFill="WHITE">
                <font>
@@ -70,10 +77,13 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <JFXButton fx:id="new_class1" buttonType="RAISED" layoutX="56.0" layoutY="317.0" onAction="#deleteClass" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Delete" textFill="WHITE">
+            <JFXButton fx:id="new_class1" buttonType="RAISED" layoutX="56.0" layoutY="317.0" onAction="#deleteClass" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
          </children>
       </Pane>

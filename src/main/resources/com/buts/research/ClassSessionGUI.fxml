@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,87 +20,101 @@
             <Image url="@bg.png" />
          </image>
       </ImageView>
-      <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="46.0" prefHeight="370.0" prefWidth="604.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="8.0" layoutY="43.0" prefHeight="370.0" prefWidth="616.0">
          <content>
-            <GridPane fx:id="gridpane" gridLinesVisible="true" onMouseClicked="#clickGrid" prefHeight="367.0" prefWidth="604.0" style="-fx-background-color: white;">
+            <GridPane fx:id="gridpane" onMouseClicked="#clickGrid" prefHeight="367.0" prefWidth="604.0" style="-fx-background-color: white;">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="230.0" prefWidth="230.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="220.0" prefWidth="220.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
               </columnConstraints>
             </GridPane>
          </content>
       </ScrollPane>
-      <Label layoutX="76.0" layoutY="17.0" text="CODE" textFill="WHITE">
+      <Label layoutX="52.0" layoutY="18.0" text="CODE" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-      <Label layoutX="497.0" layoutY="2.0" prefHeight="48.0" prefWidth="107.0" text="COURSE CODE/ GRADE LVL" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label layoutX="492.0" layoutY="2.0" prefHeight="48.0" prefWidth="107.0" text="COURSE CODE/ GRADE LVL" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-      <Label layoutX="190.0" layoutY="17.0" text="STUDENT'S NAME" textFill="WHITE">
+      <Label layoutX="134.0" layoutY="18.0" text="STUDENT'S NAME" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-      <Label layoutX="397.0" layoutY="18.0" text="ID NO." textFill="WHITE">
+      <Label layoutX="393.0" layoutY="18.0" text="ID NO." textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-      <Label fx:id="course_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="88.0" prefHeight="17.0" prefWidth="97.0" text="COURSE" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label fx:id="course_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="83.0" prefHeight="17.0" prefWidth="97.0" text="COURSE" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <Label fx:id="subject_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="110.0" prefHeight="17.0" prefWidth="97.0" text="SUBJECT" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label fx:id="subject_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="105.0" prefHeight="17.0" prefWidth="97.0" text="SUBJECT" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="659.0" layoutY="145.0" onAction="#import_list" prefHeight="25.0" prefWidth="129.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Existing Class" textFill="WHITE" wrapText="true">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </JFXButton>
-      <Pane layoutX="645.0" layoutY="261.0" prefHeight="114.0" prefWidth="157.0" style="-fx-background-color: #2F4F4F; -fx-border-color: white;">
+      <Pane layoutX="633.0" layoutY="182.0" prefHeight="80.0" prefWidth="177.0" style="-fx-background-color: #708090;">
          <children>
-            <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="10.0" onAction="#start_attendance" prefHeight="44.0" prefWidth="138.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Attendance" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="19.0" />
-               </font>
-            </JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="61.0" prefHeight="44.0" prefWidth="138.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Test" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="19.0" />
-               </font>
-            </JFXButton>
-         </children>
-      </Pane>
-      <Pane layoutX="645.0" layoutY="179.0" prefHeight="76.0" prefWidth="157.0" style="-fx-background-color: #2F4F4F; -fx-border-color: white;">
-         <children>
-            <JFXButton fx:id="add" buttonType="RAISED" layoutX="14.0" layoutY="10.0" onAction="#addStudent" prefHeight="25.0" prefWidth="129.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text=" + Add student" textFill="WHITE" wrapText="true">
+            <JFXButton fx:id="add" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="10.0" onAction="#addStudent" prefHeight="25.0" prefWidth="129.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text=" + Add student" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
-            <JFXButton fx:id="del" buttonType="RAISED" layoutX="14.0" layoutY="42.0" onAction="#removeStudent" prefHeight="17.0" prefWidth="129.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="- Remove student" textFill="WHITE" wrapText="true">
+            <JFXButton fx:id="del" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="42.0" onAction="#removeStudent" prefHeight="17.0" prefWidth="129.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="- Remove student" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
          </children>
       </Pane>
-      <JFXButton fx:id="del1" buttonType="RAISED" layoutX="633.0" layoutY="391.0" onAction="#back" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="&lt;&lt; Back" textFill="WHITE" wrapText="true">
+      <Pane layoutX="633.0" layoutY="261.0" prefHeight="125.0" prefWidth="177.0" style="-fx-background-color: #2F4F4F;">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="12.0" onAction="#start_attendance" prefHeight="44.0" prefWidth="138.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Attendance" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="63.0" prefHeight="44.0" prefWidth="138.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Test" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </Pane>
+      <JFXButton fx:id="del1" buttonType="RAISED" layoutX="640.0" layoutY="391.0" onAction="#back" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="&lt;&lt; Back" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <JFXButton fx:id="del11" buttonType="RAISED" layoutX="726.0" layoutY="391.0" onAction="#removeStudent" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="Help" textFill="WHITE" wrapText="true">
+      <JFXButton fx:id="del11" buttonType="RAISED" layoutX="733.0" layoutY="391.0" onAction="#removeStudent" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="Help" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="706.0" layoutY="18.0" />
       <Label layoutX="680.0" layoutY="60.0" text="QuickCheck" textFill="WHITE">
@@ -110,6 +126,29 @@
          <image>
             <Image url="@86190431_876636742794473_8673000457800515584_n.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
+      <Label layoutX="334.0" layoutY="18.0" text="SEX" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Pane layoutX="633.0" layoutY="134.0" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #696969;">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="24.0" layoutY="13.0" onAction="#import_list" prefHeight="25.0" prefWidth="129.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Existing Class" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </Pane>
    </children>
+   <effect>
+      <ColorAdjust />
+   </effect>
 </AnchorPane>

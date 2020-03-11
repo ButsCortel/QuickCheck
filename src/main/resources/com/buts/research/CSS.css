@@ -5,7 +5,7 @@
 }
 
 .jfx-decorator {
-    -fx-decorator-color: black;
+    -fx-decorator-color:  #696969;
 }
 
 .jfx-decorator .jfx-decorator-buttons-container {
@@ -15,5 +15,5 @@
 
 .jfx-decorator .resize-border {
     -fx-border-color: -fx-decorator-color;
-    -fx-border-width: 0 1 2 1;
+    -fx-border-width: 0 2 2 2;
 }
