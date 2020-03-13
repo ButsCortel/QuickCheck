@@ -1,91 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="430.0" minWidth="740.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.ClassGUIController">
+<AnchorPane maxHeight="430.0" maxWidth="810.0" minHeight="430.0" minWidth="810.0" prefHeight="430.0" prefWidth="810.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.ClassGUIController">
    <children>
-      <ImageView fitHeight="436.0" fitWidth="740.0" layoutY="-1.0">
+      <ImageView fitHeight="430.0" fitWidth="666.0">
          <image>
             <Image url="@bg.png" />
          </image>
-         <effect>
-            <ColorAdjust contrast="0.09" />
-         </effect>
       </ImageView>
-      <Pane fx:id="select_class_pane" layoutX="26.0" layoutY="22.0" prefHeight="391.0" prefWidth="688.0" style="-fx-background-color: brown;">
-         <children>
-            <JFXButton buttonType="RAISED" layoutX="524.0" layoutY="317.0" onAction="#classNext" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Next &gt;&gt;" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-            <Label layoutX="249.0" layoutY="8.0" text="Select Class" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="32.0" />
-               </font>
-            </Label>
-            <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" layoutX="20.0" layoutY="88.0" pannable="true" prefHeight="216.0" prefWidth="646.0">
-               <content>
-                  <GridPane fx:id="gridpane" alignment="TOP_CENTER" gridLinesVisible="true" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="650.0" style="-fx-background-color: white;">
-                    <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="63.0" minWidth="10.0" percentWidth="6.0" prefWidth="63.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="188.0" minWidth="162.0" prefWidth="162.0" />
-                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" prefWidth="100.0" />
-                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" prefWidth="100.0" />
-                    </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints />
-                     </rowConstraints>
-                  </GridPane>
-               </content>
-            </ScrollPane>
-            <JFXButton fx:id="new_class" buttonType="RAISED" layoutX="401.0" layoutY="317.0" onAction="#openNew" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="New" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="313.0" layoutY="54.0" text="Subject" textAlignment="JUSTIFY" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="81.0" layoutY="54.0" prefWidth="147.0" text="Year - Section" textAlignment="JUSTIFY" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="517.0" layoutY="54.0" text="Schedule" textAlignment="JUSTIFY" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-            <JFXButton fx:id="new_class1" buttonType="RAISED" layoutX="56.0" layoutY="317.0" onAction="#deleteClass" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-         </children>
-      </Pane>
+      <JFXButton buttonType="RAISED" layoutX="514.0" layoutY="344.0" onAction="#classNext" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Next &gt;&gt;" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label layoutX="241.0" layoutY="22.0" text="Select Class" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Label>
+      <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" layoutX="10.0" layoutY="115.0" pannable="true" prefHeight="216.0" prefWidth="646.0" style="-fx-border-color: black;">
+         <content>
+            <GridPane fx:id="gridpane" alignment="TOP_CENTER" gridLinesVisible="true" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="650.0" style="-fx-background-color: white;">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="63.0" minWidth="10.0" percentWidth="6.0" prefWidth="63.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="188.0" minWidth="162.0" prefWidth="162.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" prefWidth="100.0" />
+               </columnConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
+      <JFXButton fx:id="new_class" buttonType="RAISED" layoutX="391.0" layoutY="344.0" onAction="#openNew" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="New" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="241.0" layoutY="81.0" text="Subject" textAlignment="JUSTIFY" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="81.0" prefWidth="147.0" text="Year - Section" textAlignment="JUSTIFY" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="507.0" layoutY="81.0" text="Schedule" textAlignment="JUSTIFY" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="new_class1" buttonType="RAISED" layoutX="46.0" layoutY="344.0" onAction="#deleteClass" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label layoutX="684.0" layoutY="99.0" text="QuickCheck" textFill="WHITE">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="21.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="84.0" fitWidth="91.0" layoutX="695.0" layoutY="14.0">
+         <image>
+            <Image url="@86190431_876636742794473_8673000457800515584_n.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <JFXTextField layoutX="684.0" layoutY="159.0" prefHeight="26.0" prefWidth="113.0" promptText="Search here" style="-fx-background-color: white;" unFocusColor="WHITE" />
    </children>
 </AnchorPane>
