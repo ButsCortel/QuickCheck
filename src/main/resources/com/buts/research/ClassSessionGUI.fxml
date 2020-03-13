@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="classS_anchor" maxHeight="466.0" maxWidth="810.0" minHeight="430.0" minWidth="810.0" prefHeight="437.0" prefWidth="810.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.ClassSessionController">
+<AnchorPane fx:id="classSPane" maxHeight="430.0" maxWidth="810.0" minHeight="430.0" minWidth="810.0" prefHeight="430.0" prefWidth="810.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.ClassSessionController">
    <children>
-      <Pane fx:id="ClassS_pane" prefHeight="437.0" prefWidth="633.0">
+      <Pane fx:id="ClassS_pane" prefHeight="430.0" prefWidth="633.0">
          <children>
-            <ImageView fitHeight="437.0" fitWidth="633.0">
+            <ImageView fitHeight="430.0" fitWidth="633.0">
                <image>
                   <Image url="@bg.png" />
                </image>
@@ -95,7 +95,7 @@
       </Pane>
       <Pane layoutX="633.0" layoutY="264.0" prefHeight="125.0" prefWidth="177.0" style="-fx-background-color: #2F4F4F;">
          <children>
-            <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="12.0" onAction="#start_attendance" prefHeight="44.0" prefWidth="138.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Attendance" textFill="WHITE">
+            <JFXButton fx:id="start_attendance_button" buttonType="RAISED" layoutX="20.0" layoutY="12.0" onAction="#start_attendance" prefHeight="44.0" prefWidth="138.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Attendance" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
@@ -103,7 +103,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="63.0" prefHeight="44.0" prefWidth="138.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Test" textFill="WHITE">
+            <JFXButton fx:id="start_test__button" buttonType="RAISED" layoutX="20.0" layoutY="63.0" prefHeight="44.0" prefWidth="138.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Test" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>

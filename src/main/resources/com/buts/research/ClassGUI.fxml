@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="430.0" maxWidth="810.0" minHeight="430.0" minWidth="810.0" prefHeight="430.0" prefWidth="810.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.ClassGUIController">
+<AnchorPane fx:id="classGPane" maxHeight="430.0" maxWidth="810.0" minHeight="430.0" minWidth="810.0" prefHeight="430.0" prefWidth="810.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.ClassGUIController">
    <children>
       <ImageView fitHeight="430.0" fitWidth="666.0">
          <image>

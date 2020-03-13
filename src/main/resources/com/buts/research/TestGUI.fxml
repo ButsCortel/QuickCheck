@@ -1,22 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="501.0" prefWidth="725.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.TestGUIController">
+<AnchorPane maxHeight="430.0" maxWidth="810.0" minHeight="430.0" minWidth="810.0" prefHeight="430.0" prefWidth="810.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="507.0" fitWidth="555.0" layoutX="170.0" layoutY="-5.0">
+      <Pane layoutX="633.0" layoutY="125.0" prefHeight="96.0" prefWidth="177.0" style="-fx-background-color: #696969;">
+         <children>
+            <Label fx:id="date_label" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" prefHeight="66.0" prefWidth="165.0" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="time_label" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="62.0" prefHeight="29.0" prefWidth="165.0" text="Time" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="23.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="633.0" layoutY="221.0" prefHeight="88.0" prefWidth="177.0" style="-fx-background-color: #708090;" />
+      <Pane layoutX="633.0" layoutY="308.0" prefHeight="79.0" prefWidth="177.0" style="-fx-background-color: #2F4F4F;" />
+      <ImageView fitHeight="436.0" fitWidth="633.0" layoutY="-6.0">
          <image>
             <Image url="@bg.png" />
          </image>
          <effect>
-            <ColorAdjust contrast="0.08" saturation="0.02" />
+            <ColorAdjust brightness="0.07" contrast="0.15" />
          </effect>
       </ImageView>
-      <Button layoutX="35.0" layoutY="44.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="91.0" style="-fx-background-color: gray;" text="Class" />
+      <JFXButton fx:id="take_attendance" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="658.0" layoutY="230.0" onAction="#takeAttendance" prefHeight="66.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Take Attendance" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label layoutX="680.0" layoutY="60.0" text="QuickCheck" textFill="WHITE">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="16.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="52.0" fitWidth="59.0" layoutX="693.0" layoutY="8.0" onMouseClicked="#home">
+         <image>
+            <Image url="@86190431_876636742794473_8673000457800515584_n.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <JFXButton buttonType="RAISED" layoutX="640.0" layoutY="391.0" onAction="#back" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="&lt;&lt; Back" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="del11" buttonType="RAISED" layoutX="733.0" layoutY="391.0" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="Help" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label fx:id="course_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="81.0" prefHeight="17.0" prefWidth="97.0" text="COURSE" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="subject_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="103.0" prefHeight="17.0" prefWidth="97.0" text="SUBJECT" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="test_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="658.0" layoutY="322.0" prefHeight="44.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Test" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="view_attendance" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="658.0" layoutY="230.0" onAction="#viewAttendance" prefHeight="66.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="View Attendance" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Pane fx:id="attendance_pane" prefHeight="430.0" prefWidth="633.0" />
    </children>
 </AnchorPane>

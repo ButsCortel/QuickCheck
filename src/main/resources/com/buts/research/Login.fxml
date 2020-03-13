@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="430.0" maxWidth="810.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="810.0" style="-fx-background-color: maroon;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.LoginController">
+<AnchorPane fx:id="loginPane" maxHeight="430.0" maxWidth="810.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="810.0" style="-fx-background-color: maroon;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.LoginController">
    <children>
       <ImageView fitHeight="430.0" fitWidth="405.0" layoutX="405.0">
          <image>
