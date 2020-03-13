@@ -25,8 +25,9 @@ public class LoginController {
     	//if (passcode.equals("4114")) {
         	
         	ClassGUIController startClass = new ClassGUIController();
+        	//SplashController.stage.hide();
         	startClass.classGUIWindow();
-        	App.window.close();
+        	//SplashController.stage.close();
     	
     	//}else {
     		//pass_check.setText("Invalid Passcode!");

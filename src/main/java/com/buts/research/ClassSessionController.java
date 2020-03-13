@@ -50,7 +50,7 @@ public class ClassSessionController implements Initializable{
 	static int rowIndex = 0;
 	int dispStudents = 0;
 	boolean student_selected = false;
-	static Stage class_window;
+	//static Stage class_window;
 	private String scode = "";
 	private ArrayList<Integer> sh = null;
 	private ArrayList<Integer> rw = null;
@@ -74,21 +74,22 @@ public class ClassSessionController implements Initializable{
 
 	public void startClass() {
     	try {
-    		class_window = new Stage();
+    		//class_window = new Stage();
     		Parent root = FXMLLoader.load(App.class.getResource("ClassSessionGUI.fxml"));
-			JFXDecorator decorator = new JFXDecorator(class_window , root, false, false, true);
-			decorator.setCustomMaximize(true); 
-			String uri = App.class.getResource("CSS.css").toExternalForm();
-			Scene class_scene = new Scene(decorator, 810, 460);
-			class_scene.getStylesheets().add(uri) ;
-			class_window.setScene(class_scene);
-			class_window.setTitle("QuickCheck");
-			class_window.initStyle(StageStyle.UNDECORATED);
-			class_window.setResizable(false);
-			class_window.show();
+			//JFXDecorator decorator = new JFXDecorator(class_window , root, false, false, true);
+			//decorator.setCustomMaximize(true); 
+			//String uri = App.class.getResource("CSS.css").toExternalForm();
+			Scene class_scene = new Scene(root);
+			//class_scene.getStylesheets().add(uri) ;
+			SplashController.stage.setScene(class_scene);
+			//class_window.setTitle("QuickCheck");
+			//class_window.initStyle(StageStyle.UNDECORATED);
+			//class_window.setResizable(false);
+
+			//class_window.show();
 			
 	
-			class_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
+			/*class_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
 			    @Override
 			    public void handle(WindowEvent t) {
 		        	AlertBoxController.label_text = "Are you sure you want to exit?";
@@ -101,7 +102,7 @@ public class ClassSessionController implements Initializable{
 		        	}
 
 			    }
-			});
+			});*/
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -112,7 +113,7 @@ public class ClassSessionController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
- 
+		
 
 		try {
 			checkStudents();
@@ -520,7 +521,7 @@ public class ClassSessionController implements Initializable{
     @FXML
     void start_attendance(ActionEvent event) {
     	AttendanceGUIController start = new AttendanceGUIController(); 	
-    	class_window.hide();
+    	//class_window.hide();
     	start.attendanceGUIWindow(); 
     	
 
@@ -530,15 +531,17 @@ public class ClassSessionController implements Initializable{
     @FXML
     void back(ActionEvent event) {
     	
-    	class_window.close();
-    	ClassGUIController.classgui_window.show();
+    	ClassGUIController startClass = new ClassGUIController();
+    	//SplashController.stage.hide();
+    	startClass.classGUIWindow();
     }
 
     @FXML
     void home(MouseEvent event) {
     	
-    	class_window.close();
-    	ClassGUIController.classgui_window.show();
+    	ClassGUIController startClass = new ClassGUIController();
+    	//SplashController.stage.hide();
+    	startClass.classGUIWindow();
     }
     public void check_scode()
     {	

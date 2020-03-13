@@ -16,6 +16,9 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXDecorator;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -35,6 +38,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import javafx.scene.Node;
 
 public class ClassGUIController implements Initializable{
@@ -43,7 +47,7 @@ public class ClassGUIController implements Initializable{
 	Rectangle rect;
 	int dispclasses2 = 0;
 	boolean class_selected = false;
-	static Stage classgui_window;
+	//static Stage classgui_window;
 
 
     @FXML
@@ -56,22 +60,22 @@ public class ClassGUIController implements Initializable{
     	class_selected = false;
     	checkClasses();
     }
+    static Parent root = null;
 	public void classGUIWindow() {
     	try {
-    		classgui_window = new Stage();
-    		Parent root = FXMLLoader.load(App.class.getResource("ClassGUI.fxml"));
-			JFXDecorator decorator = new JFXDecorator(classgui_window , root, false, false, true);
-			decorator.setCustomMaximize(true); 
-			String uri = App.class.getResource("CSS.css").toExternalForm();
-			Scene class_scene = new Scene(decorator, 740, 460);
-			class_scene.getStylesheets().add(uri) ;
-			classgui_window.setScene(class_scene);
-			classgui_window.setTitle("QuickCheck");
-			classgui_window.initStyle(StageStyle.UNDECORATED);
-			classgui_window.setResizable(false);
+    		//classgui_window = new Stage();
+    		root = FXMLLoader.load(App.class.getResource("ClassGUI.fxml"));
+			//JFXDecorator decorator = new JFXDecorator(classgui_window , root, false, false, true);
+			//decorator.setCustomMaximize(true); 
+			//String uri = App.class.getResource("CSS.css").toExternalForm();
+			Scene class_scene = new Scene(root);
+			//class_scene.getStylesheets().add(uri) ;
+			SplashController.stage.setScene(class_scene);
+			//classgui_window.setTitle("QuickCheck");
+			//classgui_window.initStyle(StageStyle.UNDECORATED);
+			//classgui_window.setResizable(false);
 
-			classgui_window.show();
-			classgui_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
+			/*classgui_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
 			    @Override
 			    public void handle(WindowEvent t) {
 		        	AlertBoxController.label_text = "Are you sure you want to exit?";
@@ -84,7 +88,7 @@ public class ClassGUIController implements Initializable{
 		        	}
 
 			    }
-			});
+			});*/
 			
 	
 			
@@ -161,13 +165,13 @@ public class ClassGUIController implements Initializable{
 				coursel.setMinHeight(schedl.getPrefHeight());
 				coursel.setMinWidth(200);
 				coursel.setMaxWidth(200);
-				coursel.setAlignment(Pos.CENTER);
+				coursel.setAlignment(Pos.CENTER_LEFT);
 				
 				subjl.setMaxHeight(Double.MAX_VALUE);
 				subjl.setMinHeight(schedl.getPrefHeight());
 				subjl.setMinWidth(200);
 				subjl.setMaxWidth(200);
-				subjl.setAlignment(Pos.CENTER);			
+				subjl.setAlignment(Pos.CENTER_LEFT);			
 				
 				rows.setMaxHeight(Double.MAX_VALUE);											
 				rows.setMinHeight(schedl.getPrefHeight());												
@@ -331,9 +335,14 @@ public class ClassGUIController implements Initializable{
     		ClassSessionController.course = classes_string[0];
     		ClassSessionController.subject = classes_string[1];
     		ClassSessionController start = new ClassSessionController();
-    		classgui_window.hide();
+			//classgui_window.hide();
+            start.startClass();
+            
 
-    		start.startClass();
+    		
+
+
+    		
 
     		
     	}

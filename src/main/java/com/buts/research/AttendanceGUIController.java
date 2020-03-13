@@ -15,7 +15,6 @@ import java.util.Comparator;
 import java.util.ResourceBundle;
 import javafx.animation.Timeline;
 
-import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -24,8 +23,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-
 import com.github.sarxos.webcam.Webcam;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
@@ -53,11 +50,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
@@ -67,7 +66,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -97,6 +95,8 @@ public class AttendanceGUIController implements Initializable{
     private JFXButton take_attendance;
     @FXML
     private JFXButton view_attendance;
+    @FXML
+    private ScrollPane scrollpane;
     @FXML
     private Label in_status;
     @FXML
@@ -161,7 +161,7 @@ public class AttendanceGUIController implements Initializable{
 
     static ArrayList<String> sheetNames;
     
-    static Stage attendancegui_window;
+    //static Stage attendancegui_window;
     private int webcam_num = 0;
     
     private String grace_time = "";
@@ -185,7 +185,7 @@ public class AttendanceGUIController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		scrollpane.setPadding(new Insets(0, 0, 0, 10));
 	    directoryChooser = new FileChooser();
 	    directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
 	    directoryChooser.getExtensionFilters().add(
@@ -617,20 +617,21 @@ public class AttendanceGUIController implements Initializable{
 
 	public void attendanceGUIWindow() {
     	try {
-    		attendancegui_window = new Stage();
+    		//attendancegui_window = new Stage();
     		Parent root = FXMLLoader.load(App.class.getResource("AttendanceGUI.fxml"));
-			JFXDecorator decorator = new JFXDecorator(attendancegui_window , root, false, false, true);
-			decorator.setCustomMaximize(true); 
-			String uri = App.class.getResource("CSS.css").toExternalForm();
-			Scene att_scene = new Scene(decorator, 810, 460);
-			att_scene.getStylesheets().add(uri) ;
-			attendancegui_window.setScene(att_scene);
-			attendancegui_window.setTitle("QuickCheck");
-			attendancegui_window.initStyle(StageStyle.UNDECORATED);
-			attendancegui_window.setResizable(false);
+			//JFXDecorator decorator = new JFXDecorator(attendancegui_window , root, false, false, true);
+			//decorator.setCustomMaximize(true); 
+			//String uri = App.class.getResource("CSS.css").toExternalForm();
+			Scene att_scene = new Scene(root);
+			//att_scene.getStylesheets().add(uri) ;
+			SplashController.stage.setScene(att_scene);
+			/*attendancegui_window.setTitle("QuickCheck");
+			//attendancegui_window.initStyle(StageStyle.UNDECORATED);
+			//attendancegui_window.setResizable(false);
 
 			
 			attendancegui_window.show();
+			ClassSessionController.class_window.hide(); 
 
 			
 			attendancegui_window.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
@@ -652,11 +653,12 @@ public class AttendanceGUIController implements Initializable{
 			    }
 			});
 			
-			
+			*/
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
 	}
 	void checkCurrentAttendance() throws IOException {
 		take_gridpane.getChildren().clear();
@@ -746,9 +748,9 @@ public class AttendanceGUIController implements Initializable{
 	    	n.setFont(new Font("Arial black",15));
 			t.setFont(new Font("Arial black",15));
 			
-			rs.setAlignment(Pos.CENTER);
-			n.setAlignment(Pos.CENTER);
-			t.setAlignment(Pos.CENTER);
+			rs.setAlignment(Pos.CENTER_LEFT);
+			n.setAlignment(Pos.CENTER_LEFT);
+			t.setAlignment(Pos.CENTER_LEFT);
 			
 			rs.setMinHeight(30);
 			n.setMinHeight(30);
@@ -780,17 +782,28 @@ public class AttendanceGUIController implements Initializable{
     void back(ActionEvent event) {
 		disposeCamera();
 
+		//attendancegui_window.hide();
 		
-		attendancegui_window.close();
-		ClassSessionController.class_window.show();
+		//ClassSessionController.classGUIwindow();
+		//attendancegui_window.close();
+		ClassSessionController start = new ClassSessionController();
+		//classgui_window.hide();
+        start.startClass();
     }
     @FXML
     void home(MouseEvent event) {
     	disposeCamera();
-    	attendancegui_window.close();
-    	ClassGUIController.classgui_window.show();
+    	ClassGUIController startClass = new ClassGUIController();
+    	//SplashController.stage.hide();
+    	startClass.classGUIWindow();
+    	//attendancegui_window.hide();
+    	
+    	//ClassGUIController.classgui_window.show();
+    	//attendancegui_window.close();
 
     }
+    @FXML
+   Pane attendance_pane;
     @FXML
     void takeAttendance(ActionEvent event) {
     	try {
@@ -844,13 +857,14 @@ public class AttendanceGUIController implements Initializable{
     		startCamera();
     	}
     	
-    	
     	take_attendance.setVisible(false);
     	view_attendance.setVisible(true);
+ 
     }
 
     @FXML
     void viewAttendance(ActionEvent event) {
+    	
     	last = "";
     	stopCamera();
 		try {
@@ -864,6 +878,8 @@ public class AttendanceGUIController implements Initializable{
     	
     	take_attendance.setVisible(true);
     	view_attendance.setVisible(false);
+    	attendance_pane.setDisable(false);
+
     }
 
 
@@ -1297,9 +1313,9 @@ public class AttendanceGUIController implements Initializable{
 	    	tIn.setFont(new Font("Arial black",15));
 			stat.setFont(new Font("Arial black",15));
 			
-			name.setAlignment(Pos.CENTER);
-			tIn.setAlignment(Pos.CENTER);
-			stat.setAlignment(Pos.CENTER);
+			name.setAlignment(Pos.CENTER_LEFT);
+			tIn.setAlignment(Pos.CENTER_LEFT);
+			stat.setAlignment(Pos.CENTER_LEFT);
 			
 			name.setMinHeight(30);
 			tIn.setMinHeight(30);
@@ -1318,7 +1334,7 @@ public class AttendanceGUIController implements Initializable{
 	}
     @FXML
     void export_all(ActionEvent event) {
-    	File selectedDirectory = directoryChooser.showSaveDialog(attendancegui_window);
+    	File selectedDirectory = directoryChooser.showSaveDialog(SplashController.stage);
      	if (selectedDirectory != null) {
                 export(0, selectedDirectory.getAbsolutePath());
      	}
@@ -1326,7 +1342,7 @@ public class AttendanceGUIController implements Initializable{
 
     @FXML
     void export_month(ActionEvent event) {
-     	File selectedDirectory = directoryChooser.showSaveDialog(attendancegui_window);
+     	File selectedDirectory = directoryChooser.showSaveDialog(SplashController.stage);
      	if (selectedDirectory != null) {
      		export(1, selectedDirectory.getAbsolutePath());
      	}
@@ -1389,8 +1405,15 @@ public class AttendanceGUIController implements Initializable{
 	            Cell schedules = head.createCell(1);
 	            schedules.setCellStyle(wrapStyle);
 	            schedules.setCellValue("Schedules: " +sch);
+
+	            Cell month = head.createCell(1);
+	            month.setCellStyle(wrapStyle);
+	            month.setCellValue("Attendance for: " +sh.getSheetName());
+	            
 	            sheet.autoSizeColumn(0);
 	            sheet.autoSizeColumn(1);
+	            sheet.autoSizeColumn(2);
+	            
 
 	    		int rowIndex = 1;
 	    		for (Row rw: sh) {

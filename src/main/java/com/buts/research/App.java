@@ -1,5 +1,6 @@
 package com.buts.research;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,7 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,31 +29,26 @@ public class App extends Application{
 	static String textName;
     @Override
     public void start(Stage stage) throws IOException {
-    	window = stage;
-    	Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getResource("Splash.fxml"));
     	
-    	//stage.getIcons().setAll(new Image("http://icons.iconarchive.com/icons/tooschee/misc/128/Present-icon.png"));
-        JFXDecorator decorator = new JFXDecorator(stage , root, false, false, true);
-        
-        decorator.setCustomMaximize(true);   
-        String uri = App.class.getResource("CSS.css").toExternalForm();
-        Scene scene = new Scene(decorator, 740, 455);
-        scene.getStylesheets().add(uri) ;
-        stage.setTitle("QuickCheck"); 
 
-        stage.initStyle(StageStyle.TRANSPARENT);
-        //stage.getIcons().setAll(new Image(App.class.getResourceAsStream("icon.png")));
-        //stage.getIcons().add(new Image("C:\\Users\\Ana\\eclipse-workspace2\\research\\src\\main\\resources\\com\\buts\\research\\icon.png"));
-        /*Image icon = new Image(getClass().getResourceAsStream("icon.png"));
-        Image icon1 = new Image(getClass().getResourceAsStream("icon1.png"));
-        stage.getIcons().addAll(icon, icon1);*/		
+        Scene scene = new Scene(root);
+
+        stage.initStyle(StageStyle.UNDECORATED);
+		
         stage.setScene(scene);
-
-        //stage.initStyle(StageStyle.UNDECORATED);
-        stage.setResizable(false);
-       
-        stage.show();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
+
+
+
+        
+        
+        Dimension d= Toolkit.getDefaultToolkit().getScreenSize(); // get screen size
+        stage.show(); //show stage because you wouldn't be able to get Height & width of the stage
+        stage.setX(d.width/2-(stage.getWidth()/2));
+        stage.setY(d.height/2-(stage.getHeight()/2));
+        
+
     }
     
     
