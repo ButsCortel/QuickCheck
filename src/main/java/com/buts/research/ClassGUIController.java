@@ -31,6 +31,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -52,13 +53,17 @@ public class ClassGUIController implements Initializable{
 
     @FXML
     private GridPane gridpane;
+    @FXML
+    private AnchorPane classGPane;
     
     @FXML
     void openNew() throws IOException {
+    	classGPane.setDisable(true);
     	NewClassController newclass = new NewClassController();
     	newclass.openNew();
     	class_selected = false;
     	checkClasses();
+    	classGPane.setDisable(false);
     }
     static Parent root = null;
 	public void classGUIWindow() {
@@ -258,7 +263,9 @@ public class ClassGUIController implements Initializable{
     }
     @FXML
     void deleteClass(ActionEvent event) throws IOException {
+    	classGPane.setDisable(true);
     	if (class_selected) {
+    		classGPane.setDisable(true);
         	AlertBoxController.label_text = "Delete this class?";
         	if(AlertBoxController.display("Delete Class!")) {
         		deleteDirectory(classes.get(rowIndex));
@@ -269,10 +276,11 @@ public class ClassGUIController implements Initializable{
     		
         	else {
         		AlertBoxController.alert_box.close();
+        		
         	}
     		
 
-    	}
+    	}classGPane.setDisable(false);
     	
     }
     String loadSched(String pathname) {
@@ -315,29 +323,38 @@ public class ClassGUIController implements Initializable{
    public void classNext() {
     	if (class_selected) {
     		
-    		String[] classes_string;
-    		 
-    		String path = classes.get(rowIndex).toString().replace(App.fullp, "");
-    		classes_string = path.split("\\s+");
-    		
-    		
-    		ClassSessionController.path = classes.get(rowIndex).toString();
-    		try {
-				loadSchedules(ClassSessionController.path);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		ClassSessionController.student_excel = ClassSessionController.path + "\\Students.xls";
-    		//ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
-    		ClassSessionController.test_excel = ClassSessionController.path + "\\Tests.xls";
-    		ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
-    		ClassSessionController.course = classes_string[0];
-    		ClassSessionController.subject = classes_string[1];
-    		ClassSessionController start = new ClassSessionController();
-			//classgui_window.hide();
-            start.startClass();
-            
+        	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), classGPane);
+        	fadeOutTransition.setFromValue(1.0);
+        	fadeOutTransition.setToValue(0.5);
+        	fadeOutTransition.play();
+        	classGPane.setDisable(true);
+        	fadeOutTransition.setOnFinished((e) -> {
+        		
+        		String[] classes_string;
+        		 
+        		String path = classes.get(rowIndex).toString().replace(App.fullp, "");
+        		classes_string = path.split("\\s+");
+        		
+        		
+        		ClassSessionController.path = classes.get(rowIndex).toString();
+        		try {
+    				loadSchedules(ClassSessionController.path);
+    			} catch (IOException e1) {
+    				// TODO Auto-generated catch block
+    				e1.printStackTrace();
+    			}
+        		ClassSessionController.student_excel = ClassSessionController.path + "\\Students.xls";
+        		//ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
+        		ClassSessionController.test_excel = ClassSessionController.path + "\\Tests.xls";
+        		ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
+        		ClassSessionController.course = classes_string[0];
+        		ClassSessionController.subject = classes_string[1];
+        		ClassSessionController start = new ClassSessionController();
+    			//classgui_window.hide();
+                start.startClass();
+                
+        	});
+
 
     		
 

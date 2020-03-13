@@ -67,11 +67,11 @@ public class ImportClassController implements Initializable {
 			importclass_window = new Stage();
 			
 			Parent root = FXMLLoader.load(App.class.getResource("ImportClass.fxml"));
-			//JFXDecorator decorator = new JFXDecorator(importclass_window , root, false, false, false);
-			//decorator.setCustomMaximize(true); 
-			//String uri = App.class.getResource("CSS.css").toExternalForm();
-			Scene class_scene = new Scene(root);
-			//class_scene.getStylesheets().add(uri) ;
+			JFXDecorator decorator = new JFXDecorator(importclass_window , root, false, false, false);
+			decorator.setCustomMaximize(true); 
+			String uri = App.class.getResource("CSS.css").toExternalForm();
+			Scene class_scene = new Scene(decorator);
+			class_scene.getStylesheets().add(uri) ;
 			importclass_window.setScene(class_scene);
 			importclass_window.setTitle("Import Student List");
 			importclass_window.initModality(Modality.APPLICATION_MODAL);

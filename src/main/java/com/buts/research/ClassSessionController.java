@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,12 +32,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 
 public class ClassSessionController implements Initializable{
@@ -69,6 +72,12 @@ public class ClassSessionController implements Initializable{
     private JFXButton del;
     @FXML
     private GridPane gridpane;
+    
+    @FXML
+    private JFXButton start_attendance_button;
+
+    @FXML
+    private JFXButton start_test__button;
     
 
 
@@ -130,6 +139,7 @@ public class ClassSessionController implements Initializable{
 		
 	}
 	public void addStudent() {
+		classSPane.setDisable(true);
 		AddStudentController student = new AddStudentController();
 		student.newStudent();
 		try {
@@ -139,6 +149,7 @@ public class ClassSessionController implements Initializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}student_selected = false;
+		classSPane.setDisable(false);
 	}
 	void checkStudents() throws IOException {
 	    FileInputStream fi = null;
@@ -165,6 +176,17 @@ public class ClassSessionController implements Initializable{
 		Sheet sh = wb.getSheetAt(0);
 	    int starRow = sh.getFirstRowNum();
 	    int endRow = sh.getLastRowNum();
+	    if (endRow > 0) {
+	    	start_attendance_button.setDisable(false);
+
+	    	start_test__button.setDisable(false);
+	    	
+	    }
+	    else {
+	    	start_attendance_button.setDisable(true);
+
+	    	start_test__button.setDisable(true);
+	    }
 
 
 	    for (int i = starRow + 1; i <= endRow; i++) {
@@ -308,6 +330,7 @@ public class ClassSessionController implements Initializable{
 
     }
     public void removeStudent() throws FileNotFoundException {
+    	classSPane.setDisable(true);
 	    if (student_selected)
 	    {
 	        AlertBoxController.label_text = "Remove Student?";
@@ -319,12 +342,6 @@ public class ClassSessionController implements Initializable{
 				e.printStackTrace();
 			}
 	    	check_scode();
-	    	for (int x: sh) {
-	    		System.out.println(x + "sh");
-	    		for (int y:rw) {
-	    			System.out.println(y + "rw");
-	    		}
-	    	}
 	    	try {
 	    		for (int i = 0; i < sh.size() ; i++) {
 					deleteRow(sh.get(i) , attendance_excel,  rw.get(i) , false );
@@ -336,7 +353,8 @@ public class ClassSessionController implements Initializable{
 			}
 	    	}
 	    	
-	    }student_selected = false;
+	    }classSPane.setDisable(false);
+	    
     }
     public void deleteRow(int s, String excelPath, int rowNo, boolean t) throws IOException {
     	scode = "";
@@ -351,7 +369,6 @@ public class ClassSessionController implements Initializable{
                 if (t) {
                     Cell c0 = workbook.getSheetAt(0).getRow(rowNo).getCell(0);
                     scode = c0.getStringCellValue();
-                    System.out.println(scode + "dup");
                 }
 
 
@@ -408,6 +425,7 @@ public class ClassSessionController implements Initializable{
 
     @FXML
     public void import_list() {
+    	classSPane.setDisable(true);
     	ImportClassController import_class = new ImportClassController();
     	import_class.importList();
     	try {
@@ -416,6 +434,7 @@ public class ClassSessionController implements Initializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	classSPane.setDisable(false);
     }
     
 
@@ -519,10 +538,21 @@ public class ClassSessionController implements Initializable{
             }
         }
     @FXML
+    private AnchorPane classSPane;
+    @FXML
     void start_attendance(ActionEvent event) {
-    	AttendanceGUIController start = new AttendanceGUIController(); 	
-    	//class_window.hide();
-    	start.attendanceGUIWindow(); 
+    	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), classSPane);
+    	fadeOutTransition.setFromValue(1.0);
+    	fadeOutTransition.setToValue(0.5);
+    	fadeOutTransition.play();
+    	classSPane.setDisable(true);
+    	
+    	fadeOutTransition.setOnFinished((e) -> {
+        	AttendanceGUIController start = new AttendanceGUIController(); 	
+        	//class_window.hide();
+        	start.attendanceGUIWindow(); 
+    	});
+
     	
 
 
@@ -530,18 +560,33 @@ public class ClassSessionController implements Initializable{
 
     @FXML
     void back(ActionEvent event) {
+    	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), classSPane);
+    	fadeOutTransition.setFromValue(1.0);
+    	fadeOutTransition.setToValue(0.5);
+    	fadeOutTransition.play();
+    	classSPane.setDisable(true);
     	
-    	ClassGUIController startClass = new ClassGUIController();
-    	//SplashController.stage.hide();
-    	startClass.classGUIWindow();
+    	fadeOutTransition.setOnFinished((e) -> {
+        	ClassGUIController startClass = new ClassGUIController();
+        	startClass.classGUIWindow();
+    	});
+    	
+
     }
 
     @FXML
     void home(MouseEvent event) {
     	
-    	ClassGUIController startClass = new ClassGUIController();
-    	//SplashController.stage.hide();
-    	startClass.classGUIWindow();
+    	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), classSPane);
+    	fadeOutTransition.setFromValue(1.0);
+    	fadeOutTransition.setToValue(0.5);
+    	fadeOutTransition.play();
+    	classSPane.setDisable(true);
+    	
+    	fadeOutTransition.setOnFinished((e) -> {
+        	ClassGUIController startClass = new ClassGUIController();
+        	startClass.classGUIWindow();
+    	});
     }
     public void check_scode()
     {	
@@ -555,10 +600,10 @@ public class ClassSessionController implements Initializable{
 		{fi = new FileInputStream(attendance_excel);
 		wb = new HSSFWorkbook(fi);
 		for (Sheet sheet: wb) {
-			System.out.println(sheet.getLastRowNum() + "scode");
+			
 			for (Row row: sheet) {
 				Cell c0 = row.getCell(0);
-				System.out.println(c0.getStringCellValue() + "c0");
+				
 				if (c0 != null && c0.getStringCellValue().equals(scode)) {
 					sh.add(she);
 					rw.add(c0.getRowIndex());

@@ -42,7 +42,7 @@ public class AlertBoxController implements Initializable {
 			JFXDecorator decorator = new JFXDecorator(alert_box , root, false, false, false);
 			decorator.setCustomMaximize(true); 
 			String uri = App.class.getResource("CSS.css").toExternalForm();
-			Scene class_scene = new Scene(decorator, 250, 150);
+			Scene class_scene = new Scene(decorator);
 			class_scene.getStylesheets().add(uri) ;
 			alert_box.setScene(class_scene);
 			alert_box.setTitle(title);
