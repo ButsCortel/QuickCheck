@@ -34,7 +34,7 @@
       </Label>
       <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" layoutX="10.0" layoutY="115.0" pannable="true" prefHeight="216.0" prefWidth="646.0" style="-fx-border-color: black;">
          <content>
-            <GridPane fx:id="gridpane" alignment="TOP_CENTER" gridLinesVisible="true" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="650.0" style="-fx-background-color: white;">
+            <GridPane fx:id="gridpane" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="650.0" style="-fx-background-color: white;">
                <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="63.0" minWidth="10.0" percentWidth="6.0" prefWidth="63.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="188.0" minWidth="162.0" prefWidth="162.0" />
@@ -62,7 +62,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="507.0" layoutY="81.0" text="Schedule" textAlignment="JUSTIFY" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="493.0" layoutY="81.0" text="Schedule" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -88,6 +88,23 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <JFXTextField layoutX="684.0" layoutY="159.0" prefHeight="26.0" prefWidth="113.0" promptText="Search here" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXTextField fx:id="searchB" layoutX="684.0" layoutY="159.0" onAction="#searchClass" onKeyTyped="#searchClass" prefHeight="26.0" prefWidth="113.0" promptText="Search here" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <Label layoutX="688.0" layoutY="192.0" prefHeight="62.0" prefWidth="106.0" text="Hover over a schedule to see complete list." textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="699.0" layoutY="394.0" prefHeight="25.0" prefWidth="84.0" ripplerFill="BLACK" text="Contact us" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="701.0" layoutY="369.0" ripplerFill="BLACK" text="Need Help?" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
    </children>
 </AnchorPane>

@@ -22,26 +22,26 @@
                   <Image url="@bg.png" />
                </image>
             </ImageView>
-            <ScrollPane hbarPolicy="NEVER" layoutX="9.0" layoutY="46.0" prefHeight="373.0" prefWidth="616.0" style="-fx-border-color: black; -fx-background-color: white;">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="9.0" layoutY="46.0" pannable="true" prefHeight="373.0" prefWidth="616.0" style="-fx-border-color: black; -fx-background-color: white;">
                <content>
-                  <GridPane fx:id="gridpane" onMouseClicked="#clickGrid" prefHeight="367.0" prefWidth="604.0" style="-fx-background-color: white;">
+                  <GridPane fx:id="gridpane" onMouseClicked="#clickGrid" prefHeight="368.0" prefWidth="612.0" style="-fx-background-color: white;">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="220.0" prefWidth="220.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="34.0" prefWidth="34.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="72.0" minWidth="65.0" prefWidth="72.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="210.0" prefWidth="216.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="30.0" prefWidth="34.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="127.0" prefWidth="132.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="120.0" prefWidth="124.0" />
                     </columnConstraints>
                   </GridPane>
                </content>
             </ScrollPane>
-            <Label layoutX="53.0" layoutY="21.0" text="CODE" textFill="WHITE">
+            <Label layoutX="49.0" layoutY="21.0" text="CODE" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="494.0" layoutY="5.0" prefHeight="48.0" prefWidth="107.0" text="COURSE CODE/ GRADE LVL" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Label layoutX="487.0" layoutY="4.0" prefHeight="48.0" prefWidth="107.0" text="COURSE CODE/ GRADE LVL" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -51,12 +51,12 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="389.0" layoutY="21.0" text="ID NO." textFill="WHITE">
+            <Label layoutX="393.0" layoutY="21.0" text="ID NO." textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="338.0" layoutY="21.0" text="SEX" textFill="WHITE">
+            <Label layoutX="327.0" layoutY="21.0" text="SEX" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -75,7 +75,7 @@
       </Label>
       <Pane layoutX="633.0" layoutY="185.0" prefHeight="80.0" prefWidth="177.0" style="-fx-background-color: #708090;">
          <children>
-            <JFXButton fx:id="add" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="10.0" onAction="#addStudent" prefHeight="25.0" prefWidth="129.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text=" + Add student" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <JFXButton fx:id="add" buttonType="RAISED" layoutX="24.0" layoutY="10.0" onAction="#addStudent" prefHeight="25.0" prefWidth="129.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text=" + Add student" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -83,7 +83,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="del" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="42.0" onAction="#removeStudent" prefHeight="17.0" prefWidth="129.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="- Remove student" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <JFXButton fx:id="del" buttonType="RAISED" layoutX="24.0" layoutY="42.0" onAction="#removeStudent" prefHeight="17.0" prefWidth="129.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="- Remove student" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

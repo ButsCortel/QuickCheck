@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.ImportClassController">
    <children>
-      <ScrollPane fx:id="scrollpane" hbarPolicy="NEVER" layoutX="21.0" layoutY="46.0" prefHeight="83.0" prefWidth="239.0" style="-fx-background-color: gray;">
+      <ScrollPane fx:id="scrollpane" fitToWidth="true" hbarPolicy="NEVER" layoutX="21.0" layoutY="46.0" pannable="true" prefHeight="83.0" prefWidth="239.0" style="-fx-background-color: gray;">
          <content>
             <GridPane fx:id="gridpane" alignment="TOP_CENTER" maxWidth="237.0" minWidth="230.0" onMouseClicked="#clickGrid" prefHeight="81.0" prefWidth="237.0" style="-fx-background-color: white;">
               <columnConstraints>
