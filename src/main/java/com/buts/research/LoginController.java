@@ -27,10 +27,10 @@ public class LoginController {
     private AnchorPane loginPane;
     @FXML
     private void switchToPrimary() throws IOException {
-    	
+
     	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), loginPane);
     	fadeOutTransition.setFromValue(1.0);
-    	fadeOutTransition.setToValue(0.5);
+    	fadeOutTransition.setToValue(0);
     	fadeOutTransition.play();
     	loginPane.setDisable(true);
     	

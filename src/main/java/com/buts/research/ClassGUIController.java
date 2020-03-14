@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
+import com.jfoenix.controls.JFXTextField;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -30,9 +32,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -148,6 +155,7 @@ public class ClassGUIController implements Initializable{
 				Label subjl = new Label(subject);
 				Label schedl = new Label(sched);
 				schedl.setWrapText(true);
+				schedl.setTooltip(new Tooltip(sched));
 				Label rows = new Label(Integer.toString(row +1)+".");
 				coursel.setFont(new Font("Arial Black",15));
 				subjl.setFont(new Font("Arial black",15));
@@ -160,26 +168,26 @@ public class ClassGUIController implements Initializable{
 				
 
 
-				schedl.setMaxHeight(Control.USE_PREF_SIZE);
-				schedl.setMinHeight(Control.USE_PREF_SIZE);
-				schedl.setMinWidth(218);
-				schedl.setMaxWidth(218);
+				schedl.setMaxHeight(30);
+				schedl.setMinHeight(30);
+				schedl.setMinWidth(225);
+				schedl.setMaxWidth(225);
 				schedl.setAlignment(Pos.CENTER_LEFT);
 				
 				coursel.setMaxHeight(Double.MAX_VALUE);
-				coursel.setMinHeight(schedl.getPrefHeight());
+				coursel.setMinHeight(schedl.getMinHeight());
 				coursel.setMinWidth(200);
 				coursel.setMaxWidth(200);
 				coursel.setAlignment(Pos.CENTER_LEFT);
 				
 				subjl.setMaxHeight(Double.MAX_VALUE);
-				subjl.setMinHeight(schedl.getPrefHeight());
+				subjl.setMinHeight(schedl.getMinHeight());
 				subjl.setMinWidth(200);
 				subjl.setMaxWidth(200);
 				subjl.setAlignment(Pos.CENTER_LEFT);			
 				
 				rows.setMaxHeight(Double.MAX_VALUE);											
-				rows.setMinHeight(schedl.getPrefHeight());												
+				rows.setMinHeight(schedl.getMinHeight());												
 				rows.setMaxWidth(100);
 				rows.setMinWidth(100);
 				rows.setAlignment(Pos.CENTER);
@@ -203,20 +211,36 @@ public class ClassGUIController implements Initializable{
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+    	classGPane.setOpacity(0);
+    	classGPane.setDisable(true);
+		FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), classGPane);
+    	fadeOutTransition.setFromValue(0);
+    	fadeOutTransition.setToValue(1);
+    	fadeOutTransition.play();
+    	
+    	fadeOutTransition.setOnFinished((e) -> {
+    		
+    		try {
+    			checkClasses();
+    		} catch (IOException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+    		classGPane.setDisable(false);
+            
+    	});
 
-		try {
-			checkClasses();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 
 	}
+	@FXML
+	private ScrollPane scrollpane;
+	
     @FXML
     public void clickGrid(MouseEvent event) {
+    	if (event.isStillSincePress()) {
         Node clickedNode = event.getPickResult().getIntersectedNode();
-
+        
         if (clickedNode != gridpane) {
         	Node parent = clickedNode.getParent();
             while (parent != gridpane) {
@@ -234,8 +258,61 @@ public class ClassGUIController implements Initializable{
             	
             }class_selected = true;
         	}
+    	}
         
 
+    }
+    @FXML
+    private JFXTextField searchB;
+    @FXML
+    void searchClass() {
+    	//gridpane.setAlignment(Pos.TOP_CENTER);
+    	ArrayList<Integer> indices = new ArrayList<Integer>();
+        for (Node node : gridpane.getChildren()) {
+        	node.setStyle("-fx-background-color: white;");
+        	if(containsIgnoreCase(((Labeled) node).getText(), searchB.getText())) {
+ 
+        		indices.add(GridPane.getRowIndex(node));
+        	}
+        	
+        }
+        for (Node node : gridpane.getChildren()) {
+        	//double h = ((Region) node).getHeight();
+        	if (indices.contains(GridPane.getRowIndex(node))) {
+           		//System.out.println(GridPane.getRowIndex(node) + " "+((Labeled) node).getText() );
+        		
+        		node.setVisible(true);
+           		node.setManaged(true);
+        		
+        	}
+        	else {
+        		
+        		node.setVisible(false);
+        		node.setManaged(false);
+        	}
+
+        }
+        class_selected = false;
+    }
+    public boolean containsIgnoreCase(String src, String what) {
+        final int length = what.length();
+        if (length == 0)
+            return true; // Empty string is contained
+
+        final char firstLo = Character.toLowerCase(what.charAt(0));
+        final char firstUp = Character.toUpperCase(what.charAt(0));
+
+        for (int i = src.length() - length; i >= 0; i--) {
+            // Quick check before calling the more expensive regionMatches() method:
+            final char ch = src.charAt(i);
+            if (ch != firstLo && ch != firstUp)
+                continue;
+
+            if (src.regionMatches(true, i, what, 0, length))
+                return true;
+        }
+
+        return false;
     }
     public void deleteDirectory(Path directoryFilePath) throws IOException
     {
@@ -325,7 +402,7 @@ public class ClassGUIController implements Initializable{
     		
         	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), classGPane);
         	fadeOutTransition.setFromValue(1.0);
-        	fadeOutTransition.setToValue(0.5);
+        	fadeOutTransition.setToValue(0);
         	fadeOutTransition.play();
         	classGPane.setDisable(true);
         	fadeOutTransition.setOnFinished((e) -> {

@@ -122,18 +122,32 @@ public class ClassSessionController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-
-		try {
-			checkStudents();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//gridpane.setFillWidth(arg0, arg1);
+    	classSPane.setOpacity(0);
+    	classSPane.setDisable(true);
 		course_label.setText(course.replaceAll("_", " "));
 		subject_label.setText(subject.replaceAll("_", " "));
-		add.setAlignment(Pos.BASELINE_LEFT);
-		del.setAlignment(Pos.BASELINE_LEFT);
+		add.setAlignment(Pos.CENTER);
+		del.setAlignment(Pos.CENTER);
+    	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), classSPane);
+    	fadeOutTransition.setFromValue(0);
+    	fadeOutTransition.setToValue(1);
+    	fadeOutTransition.play();
+    	
+    	
+    	fadeOutTransition.setOnFinished((e) -> {
+    		try {
+    			checkStudents();
+    		} catch (IOException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+
+
+    		classSPane.setDisable(false);
+    	});
+
+
 
 
 		
@@ -250,8 +264,8 @@ public class ClassSessionController implements Initializable{
 			
 			sname.setMaxHeight(Control.USE_PREF_SIZE);
 			sname.setMinHeight(30);
-			sname.setMaxWidth(230);
-			sname.setMinWidth(230);
+			sname.setMaxWidth(250);
+			sname.setMinWidth(250);
 			sname.setAlignment(Pos.CENTER_LEFT);
 			
 			ssex.setMaxHeight(Double.MAX_VALUE);
@@ -268,20 +282,20 @@ public class ClassSessionController implements Initializable{
 			
 			scode.setMaxHeight(Double.MAX_VALUE);
 			scode.setMinHeight(sname.getPrefHeight());
-			scode.setMaxWidth(70);
-			scode.setMinWidth(70);
+			scode.setMaxWidth(75);
+			scode.setMinWidth(75);
 			scode.setAlignment(Pos.CENTER_LEFT);
 			
 			sid.setMaxHeight(Double.MAX_VALUE);
 			sid.setMinHeight(sname.getPrefHeight());
-			sid.setMaxWidth(130);
-			sid.setMinWidth(130);
+			sid.setMaxWidth(135);
+			sid.setMinWidth(135);
 			sid.setAlignment(Pos.CENTER_LEFT);
 			
 			scourse.setMaxHeight(Double.MAX_VALUE);
 			scourse.setMinHeight(sname.getPrefHeight());
-			scourse.setMaxWidth(120);
-			scourse.setMinWidth(120);
+			scourse.setMaxWidth(140);
+			scourse.setMinWidth(140);
 			scourse.setAlignment(Pos.CENTER_LEFT);
 			
 			/*students_display.set(0, row);
@@ -307,6 +321,7 @@ public class ClassSessionController implements Initializable{
 
 	}
     public void clickGrid(MouseEvent event) {
+    	if (event.isStillSincePress()) {
     Node clickedNode = event.getPickResult().getIntersectedNode();
 
     if (clickedNode != gridpane) {
@@ -325,6 +340,7 @@ public class ClassSessionController implements Initializable{
         	}
         }student_selected = true;
 
+    	}
     	}
     
 
@@ -543,7 +559,7 @@ public class ClassSessionController implements Initializable{
     void start_attendance(ActionEvent event) {
     	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), classSPane);
     	fadeOutTransition.setFromValue(1.0);
-    	fadeOutTransition.setToValue(0.5);
+    	fadeOutTransition.setToValue(0);
     	fadeOutTransition.play();
     	classSPane.setDisable(true);
     	

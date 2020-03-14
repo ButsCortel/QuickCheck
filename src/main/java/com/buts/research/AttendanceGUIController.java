@@ -191,66 +191,80 @@ public class AttendanceGUIController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		scrollpane.setPadding(new Insets(0, 0, 0, 10));
-	    directoryChooser = new FileChooser();
-	    directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
-	    directoryChooser.getExtensionFilters().add(
-	    	     new FileChooser.ExtensionFilter("XLS files", "*.xls")
-	    	);
-		day_spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
-		    
-		        display_att();
-		    
-		});
-		items = FXCollections.observableArrayList();
-		date_combo.setItems(items);
-		date_combo.setEditable(true);
-
-		day_spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
-		
-
-		
-
-		try {
-			importStudents();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	try {
-			createAttendance();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-    	try {
-			sortSheet();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			avail_attendances();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		initClock();
-
-		name_label.setText("");
-		name_label.setMaxWidth(260);
-		timein_label.setText("");
-		in_status.setText("");
-    	attendanceRPane.setVisible(true);  	
-    	attendanceCPane.setVisible(false);
+		attendanceGPane.setOpacity(0);
+		attendanceGPane.setDisable(true);
+		FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), attendanceGPane);
+    	fadeOutTransition.setFromValue(0);
+    	fadeOutTransition.setToValue(1);
+    	fadeOutTransition.play();
+    	initClock();
     	
-    	take_attendance.setVisible(true);
-    	view_attendance.setVisible(false);
-    	
+    	fadeOutTransition.setOnFinished((e) -> {
+    		
+    		scrollpane.setPadding(new Insets(0, 0, 0, 10));
+    	    directoryChooser = new FileChooser();
+    	    directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+    	    directoryChooser.getExtensionFilters().add(
+    	    	     new FileChooser.ExtensionFilter("XLS files", "*.xls")
+    	    	);
+    		day_spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+    		    
+    		        display_att();
+    		    
+    		});
+    		items = FXCollections.observableArrayList();
+    		date_combo.setItems(items);
+    		date_combo.setEditable(true);
 
-		course_label.setText(ClassSessionController.course);
-		subject_label.setText(ClassSessionController.subject);
+    		day_spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
+    		
+
+    		
+
+    		try {
+    			importStudents();
+    		} catch (IOException e2) {
+    			// TODO Auto-generated catch block
+    			e2.printStackTrace();
+    		}
+        	try {
+    			createAttendance();
+    		} catch (IOException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+        	try {
+    			sortSheet();
+    		} catch (IOException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+    		try {
+    			avail_attendances();
+    		} catch (IOException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+    		
+
+
+    		name_label.setText("");
+    		name_label.setMaxWidth(260);
+    		timein_label.setText("");
+    		in_status.setText("");
+        	attendanceRPane.setVisible(true);  	
+        	attendanceCPane.setVisible(false);
+        	
+        	take_attendance.setVisible(true);
+        	view_attendance.setVisible(false);
+        	
+
+    		course_label.setText(ClassSessionController.course.replaceAll("_", " "));
+    		subject_label.setText(ClassSessionController.subject.replaceAll("_", " "));
+    		attendanceGPane.setDisable(false);
+
+    	});
+		
 
 		
 	}
@@ -354,7 +368,7 @@ public class AttendanceGUIController implements Initializable{
 										{
 											last = result.getText();
 											results = last.split("\\s+");
-									        if (results.length > 3 && results[results.length -1].chars().allMatch(Character::isDigit) && results[results.length -1].length() == 4 )
+									        if (results.length > 3 && results[results.length -1].chars().allMatch(Character::isDigit) && results[results.length -1].length() > 3)
 									        {
 									        	
 									        	try {
@@ -566,12 +580,13 @@ public class AttendanceGUIController implements Initializable{
 
 	        
 	    }
+	    name_label.setText(info.get(1));
+        timein_label.setText(tid);
 	    if (dup) {
         		row = sh.getRow(gRow);
         		if (row.getCell(current_att) == null) {
         			row.createCell(current_att).setCellValue(ti);
-        			name_label.setText(info.get(1));
-        			timein_label.setText(tid);
+        		
         			if (late == 1) {
         				in_status.setText("LATE");
         			}
@@ -597,9 +612,6 @@ public class AttendanceGUIController implements Initializable{
 		       	row.createCell(3).setCellValue(info.get(3));
 		       	row.createCell(4).setCellValue(info.get(4));
 		       	row.createCell(current_att).setCellValue(ti);
-    			name_label.setText(info.get(1));
-    			
-    			timein_label.setText(tid);
     			if (late == 1) {
     				in_status.setText("LATE");
     			}
@@ -809,33 +821,38 @@ public class AttendanceGUIController implements Initializable{
 	
 	@FXML
     void back(ActionEvent event) {
-    	disposeCamera();
+		
     	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), attendanceCPane);
     	fadeOutTransition.setFromValue(1.0);
-    	fadeOutTransition.setToValue(0.5);
+    	fadeOutTransition.setToValue(0);	
     	fadeOutTransition.play();
     	attendanceGPane.setDisable(true);
     	fadeOutTransition.setOnFinished((e) -> {
+
     		ClassSessionController start = new ClassSessionController();
 
             start.startClass();
- 
+         	disposeCamera();
 
     	});
 
     }
     @FXML
     void home(MouseEvent event) {
-    	disposeCamera();
+    	
     	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), attendanceCPane);
     	fadeOutTransition.setFromValue(1.0);
-    	fadeOutTransition.setToValue(0.5);
-    	fadeOutTransition.play();
+    	fadeOutTransition.setToValue(0);
     	attendanceGPane.setDisable(true);
+    	fadeOutTransition.play();
+    	
     	fadeOutTransition.setOnFinished((e) -> {
+
+    		
+
         	ClassGUIController startClass = new ClassGUIController();
         	startClass.classGUIWindow();
- 
+     		disposeCamera();
 
     	});
 

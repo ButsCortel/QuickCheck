@@ -152,6 +152,7 @@ public class ImportClassController implements Initializable {
 
 	}
     public void clickGrid(MouseEvent event) throws IOException {
+    	if (event.isStillSincePress()) {
         Node clickedNode = event.getPickResult().getIntersectedNode();
 
         if (clickedNode != gridpane) {
@@ -171,6 +172,7 @@ public class ImportClassController implements Initializable {
             }student_selected = true;
             //System.out.println(classes.get(rowIndex));
         	}
+    	}
         
 
     }
