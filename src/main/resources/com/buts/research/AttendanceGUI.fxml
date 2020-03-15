@@ -210,12 +210,12 @@
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
-                  <Label layoutX="21.0" layoutY="358.0" text="Export Summary:" wrapText="true">
+                  <Label layoutX="21.0" layoutY="362.0" text="Export Summary:" wrapText="true">
                      <font>
                         <Font name="Berlin Sans FB Demi Bold" size="17.0" />
                      </font>
                   </Label>
-                  <Spinner fx:id="day_spinner" layoutX="485.0" layoutY="357.0" prefHeight="22.0" prefWidth="97.0">
+                  <Spinner fx:id="day_spinner" layoutX="481.0" layoutY="360.0" prefHeight="22.0" prefWidth="97.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -236,11 +236,19 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="139.0" prefHeight="53.0" prefWidth="334.0" text="Attendance Record" textFill="WHITE">
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="145.0" prefHeight="53.0" prefWidth="334.0" text="Attendance Record" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="36.0" />
                      </font>
                   </Label>
+                  <JFXButton fx:id="exp_month1" buttonType="RAISED" layoutX="333.0" layoutY="357.0" onAction="#export_month" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
                </children>
             </Pane>
          </children>
