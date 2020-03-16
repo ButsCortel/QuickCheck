@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
+import com.jfoenix.controls.JFXTextField;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -31,6 +32,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -193,13 +195,13 @@ public class ClassSessionController implements Initializable{
 	    if (endRow > 0) {
 	    	start_attendance_button.setDisable(false);
 
-	    	start_test__button.setDisable(false);
+	    	//start_test__button.setDisable(false);
 	    	
 	    }
 	    else {
 	    	start_attendance_button.setDisable(true);
 
-	    	start_test__button.setDisable(true);
+	    	//start_test__button.setDisable(true);
 	    }
 
 
@@ -294,8 +296,8 @@ public class ClassSessionController implements Initializable{
 			
 			scourse.setMaxHeight(Double.MAX_VALUE);
 			scourse.setMinHeight(sname.getPrefHeight());
-			scourse.setMaxWidth(140);
-			scourse.setMinWidth(140);
+			scourse.setMaxWidth(160);
+			scourse.setMinWidth(160);
 			scourse.setAlignment(Pos.CENTER_LEFT);
 			
 			/*students_display.set(0, row);
@@ -317,8 +319,6 @@ public class ClassSessionController implements Initializable{
 
 	    }
 
-
-
 	}
     public void clickGrid(MouseEvent event) {
     	if (event.isStillSincePress()) {
@@ -336,7 +336,7 @@ public class ClassSessionController implements Initializable{
         		node.setStyle("-fx-background-color: 	#D3D3D3;");
         	}
         	else {
-        		node.setStyle("-fx-background-color: white;");
+        		node.setStyle(null);
         	}
         }student_selected = true;
 
@@ -646,6 +646,58 @@ public class ClassSessionController implements Initializable{
 			}
 
 	 
+    }
+    @FXML
+    private JFXTextField searchB;
+    @FXML
+    void searchClass() {
+    	//gridpane.setAlignment(Pos.TOP_CENTER);
+    	ArrayList<Integer> indices = new ArrayList<Integer>();
+        for (Node node : gridpane.getChildren()) {
+        	node.setStyle(null);
+        	if(containsIgnoreCase(((Labeled) node).getText(), searchB.getText())) {
+ 
+        		indices.add(GridPane.getRowIndex(node));
+        	}
+        	
+        }
+        for (Node node : gridpane.getChildren()) {
+        	//double h = ((Region) node).getHeight();
+        	if (indices.contains(GridPane.getRowIndex(node))) {
+           		//System.out.println(GridPane.getRowIndex(node) + " "+((Labeled) node).getText() );
+        		
+        		node.setVisible(true);
+           		node.setManaged(true);
+        		
+        	}
+        	else {
+        		
+        		node.setVisible(false);
+        		node.setManaged(false);
+        	}
+
+        }
+        student_selected = false;
+    }
+    public boolean containsIgnoreCase(String src, String what) {
+        final int length = what.length();
+        if (length == 0)
+            return true; // Empty string is contained
+
+        final char firstLo = Character.toLowerCase(what.charAt(0));
+        final char firstUp = Character.toUpperCase(what.charAt(0));
+
+        for (int i = src.length() - length; i >= 0; i--) {
+            // Quick check before calling the more expensive regionMatches() method:
+            final char ch = src.charAt(i);
+            if (ch != firstLo && ch != firstUp)
+                continue;
+
+            if (src.regionMatches(true, i, what, 0, length))
+                return true;
+        }
+
+        return false;
     }
 }
 

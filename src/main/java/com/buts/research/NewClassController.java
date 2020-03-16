@@ -20,6 +20,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -82,6 +83,11 @@ public class NewClassController implements Initializable{
     private Spinner<String> day;
     private Spinner<String> am;
     private Spinner<String> am2;
+    
+    @FXML
+    private void exit(ActionEvent event) {
+    	newclass_window.close();
+    }
     
 	    void openNew() {
 	    	try {
@@ -383,8 +389,9 @@ public class NewClassController implements Initializable{
 		    }
 		}
 		void config() {
-
-	        try (OutputStream output = new FileOutputStream(folderName + "\\config.properties")) {
+			OutputStream output = null;
+	        try  {
+	        	output = new FileOutputStream(folderName + "\\config.properties");
 	        	Properties prop = new Properties();
 	     
 	        	
@@ -402,14 +409,29 @@ public class NewClassController implements Initializable{
 	            // save properties to project root folder
 	            prop.store(output, null);
 	            //System.out.println(prop.getProperty("db.url"));
-	            output.flush();
-	            output.close();
+
 	            
 
 	        } catch (IOException io) {
 	            io.printStackTrace();
 	        }
+	        finally {
+	        	if (output != null) {
+		            try {
+						output.flush();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		            try {
+						output.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	        	}
 
+	        }
 	    }
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {

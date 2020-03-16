@@ -189,6 +189,7 @@ public class AttendanceGUIController implements Initializable{
 	private ObservableList<String> items = null;
 	private FileChooser directoryChooser = null;
 
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		attendanceGPane.setOpacity(0);
@@ -227,18 +228,13 @@ public class AttendanceGUIController implements Initializable{
     			// TODO Auto-generated catch block
     			e2.printStackTrace();
     		}
-        	try {
+        	/*try {
     			createAttendance();
     		} catch (IOException e1) {
     			// TODO Auto-generated catch block
     			e1.printStackTrace();
-    		}
-        	try {
-    			sortSheet();
-    		} catch (IOException e1) {
-    			// TODO Auto-generated catch block
-    			e1.printStackTrace();
-    		}
+    		}*/
+
     		try {
     			avail_attendances();
     		} catch (IOException e1) {
@@ -879,7 +875,7 @@ public class AttendanceGUIController implements Initializable{
     	attendanceGPane.setDisable(true); 	
     	fadeOutTransition.setOnFinished((e) -> {
         	try {
-    			//createAttendance();
+    			createAttendance();
     			checkCurrentAttendance();
     		} catch (IOException e1) {
     			// TODO Auto-generated catch block
@@ -1281,6 +1277,12 @@ public class AttendanceGUIController implements Initializable{
 	        catch (IOException e) {e.printStackTrace();}
 
 	    }
+    	try {
+			sortSheet();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	ArrayList<Row> studentsList = new ArrayList<Row>();
 	void importStudents() throws IOException {

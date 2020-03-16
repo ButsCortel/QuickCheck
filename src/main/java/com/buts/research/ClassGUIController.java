@@ -253,7 +253,7 @@ public class ClassGUIController implements Initializable{
             		node.setStyle("-fx-background-color: #D3D3D3;");
             	}
             	else {
-            		node.setStyle("-fx-background-color: white;");
+            		node.setStyle(null);
             	}
             	
             }class_selected = true;
@@ -269,7 +269,7 @@ public class ClassGUIController implements Initializable{
     	//gridpane.setAlignment(Pos.TOP_CENTER);
     	ArrayList<Integer> indices = new ArrayList<Integer>();
         for (Node node : gridpane.getChildren()) {
-        	node.setStyle("-fx-background-color: white;");
+        	node.setStyle(null);
         	if(containsIgnoreCase(((Labeled) node).getText(), searchB.getText())) {
  
         		indices.add(GridPane.getRowIndex(node));
@@ -480,5 +480,28 @@ public class ClassGUIController implements Initializable{
 		   }
 	   }
        
+   }
+   @FXML
+   void openTest(ActionEvent event) {
+    		
+        	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), classGPane);
+        	fadeOutTransition.setFromValue(1.0);
+        	fadeOutTransition.setToValue(0);
+        	fadeOutTransition.play();
+        	classGPane.setDisable(true);
+        	fadeOutTransition.setOnFinished((e) -> {
+        		TestGUIController test = new TestGUIController();
+        		test.testGUIWindow();
+                
+        	});
+
+
+    		
+
+
+    		
+
+    		
+    	
    }
 }

@@ -27,6 +27,8 @@ public class App extends Application{
 	static String fullp;
 	static Stage window;
 	static String textName;
+	static String tests;
+	static String testp;
     @Override
     public void start(Stage stage) throws IOException {
     	Parent root = FXMLLoader.load(getClass().getResource("Splash.fxml"));
@@ -58,11 +60,15 @@ public class App extends Application{
 
     public static void main(String[] args) throws IOException {
     	fileName = "\\QuickCheck-workspace\\Files\\Classes\\";
+    	tests = "\\QuickCheck-workspace\\Files\\Tests\\";
     	textName = "\\QuickCheck-workspace\\Files\\";
     	String sys = System.getProperty("user.home");
     	fullp =  sys + fileName;
+    	testp = sys + tests;
         Path path1 = Paths.get(fullp);
-        Path path2 = Paths.get("C:"+ fileName);
+        //Path path2 = Paths.get("C:"+ fileName);
+        Path testPath = Paths.get(testp);
+        //Path testPath2 = Paths.get("C:"+ tests);
         String data = "Student Codes";
         if (Files.exists(path1)) {
 
@@ -70,14 +76,18 @@ public class App extends Application{
         else {
             try {
             	fullp = sys+ fileName;
+            	testp = sys + tests;
     			Files.createDirectories(path1);
+    			Files.createDirectories(testPath);
     			
     			Files.write(Paths.get(sys + textName + "codes.txt"), data.getBytes());
     		} catch (IOException e) {
     			fullp = "C:" + fileName;
+    			testp = "C:" + tests;
     			// TODO Auto-generated catch block
     			e.printStackTrace();
-    			Files.createDirectories(path2);
+    			Files.createDirectories(path1);
+    			Files.createDirectories(testPath);
     			Files.write(Paths.get("C:"+textName + "codes.txt"), data.getBytes());
     		}
         }

@@ -19,6 +19,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -54,6 +55,11 @@ public class AddStudentController implements Initializable{
     
     @FXML
     private Spinner<String> student_sex;
+    
+    @FXML
+    private void exit(ActionEvent event) {
+    	newstudent_window.close();
+    }
 	void newStudent() {
 		try {
 			newstudent_window = new Stage();
