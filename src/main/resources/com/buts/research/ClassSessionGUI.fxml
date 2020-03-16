@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -22,43 +23,53 @@
                   <Image url="@bg.png" />
                </image>
             </ImageView>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="9.0" layoutY="46.0" pannable="true" prefHeight="373.0" prefWidth="616.0" style="-fx-border-color: black; -fx-background-color: white;">
+            <ScrollPane fitToWidth="true" layoutX="9.0" layoutY="85.0" pannable="true" prefHeight="280.0" prefWidth="616.0" style="-fx-border-color: black;" vbarPolicy="ALWAYS">
                <content>
-                  <GridPane fx:id="gridpane" onMouseClicked="#clickGrid" prefHeight="368.0" prefWidth="612.0" style="-fx-background-color: white;">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="34.0" prefWidth="34.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="72.0" minWidth="65.0" prefWidth="72.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="210.0" prefWidth="216.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="30.0" prefWidth="34.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="127.0" prefWidth="132.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="120.0" prefWidth="124.0" />
-                    </columnConstraints>
-                  </GridPane>
+                  <AnchorPane maxWidth="590.0" minWidth="590.0" prefHeight="270.0" prefWidth="590.0">
+                     <children>
+                        <GridPane fx:id="gridpane" maxWidth="590.0" minWidth="590.0" onMouseClicked="#clickGrid" prefHeight="273.0" prefWidth="590.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="34.0" prefWidth="34.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="72.0" minWidth="65.0" prefWidth="72.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="210.0" prefWidth="216.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="30.0" prefWidth="34.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="127.0" prefWidth="132.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="120.0" prefWidth="124.0" />
+                          </columnConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
                </content>
             </ScrollPane>
-            <Label layoutX="49.0" layoutY="21.0" text="CODE" textFill="WHITE">
+            <Label layoutX="49.0" layoutY="60.0" text="CODE" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="487.0" layoutY="4.0" prefHeight="48.0" prefWidth="107.0" text="COURSE CODE/ GRADE LVL" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Label layoutX="474.0" layoutY="43.0" prefHeight="48.0" prefWidth="107.0" text="COURSE CODE/ GRADE LVL" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="122.0" layoutY="21.0" text="STUDENT'S NAME" textFill="WHITE">
+            <Label layoutX="122.0" layoutY="60.0" text="STUDENT'S NAME" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="393.0" layoutY="21.0" text="ID NO." textFill="WHITE">
+            <Label layoutX="382.0" layoutY="60.0" text="ID NO." textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="327.0" layoutY="21.0" text="SEX" textFill="WHITE">
+            <Label layoutX="323.0" layoutY="60.0" text="SEX" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="searchB" focusColor="BLACK" labelFloat="true" layoutX="486.0" layoutY="376.0" onAction="#searchClass" onKeyTyped="#searchClass" prefHeight="26.0" prefWidth="113.0" promptText="Search here" style="-fx-background-color: white; -fx-border-color: gray;" unFocusColor="WHITE" />
+            <Label layoutX="257.0" layoutY="4.0" text="Students" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="32.0" />
                </font>
             </Label>
          </children>

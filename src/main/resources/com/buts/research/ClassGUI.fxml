@@ -10,29 +10,42 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="classGPane" maxHeight="430.0" maxWidth="810.0" minHeight="430.0" minWidth="810.0" prefHeight="430.0" prefWidth="810.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.ClassGUIController">
    <children>
-      <ImageView fitHeight="430.0" fitWidth="666.0">
+      <ImageView fitHeight="430.0" fitWidth="663.0">
          <image>
             <Image url="@bg.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="514.0" layoutY="344.0" onAction="#classNext" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Next &gt;&gt;" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXButton>
-      <Label layoutX="241.0" layoutY="22.0" text="Select Class" textFill="WHITE">
+      <Pane layoutX="663.0" layoutY="142.0" prefHeight="103.0" prefWidth="147.0" style="-fx-background-color: #2F4F4F;">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="21.0" layoutY="58.0" onAction="#classNext" prefHeight="30.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Open" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="new_class" buttonType="RAISED" layoutX="21.0" layoutY="13.0" onAction="#openNew" prefHeight="33.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="New" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </Pane>
+      <Label layoutX="279.0" layoutY="27.0" text="Classes" textFill="WHITE" underline="true">
          <font>
             <Font name="System Bold" size="32.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" layoutX="10.0" layoutY="115.0" pannable="true" prefHeight="216.0" prefWidth="646.0" style="-fx-border-color: black;">
+      <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="8.0" layoutY="109.0" pannable="true" prefHeight="234.0" prefWidth="646.0" style="-fx-border-color: black;" vbarPolicy="ALWAYS">
          <content>
             <GridPane fx:id="gridpane" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="650.0" style="-fx-background-color: white;">
                <columnConstraints>
@@ -44,43 +57,27 @@
             </GridPane>
          </content>
       </ScrollPane>
-      <JFXButton fx:id="new_class" buttonType="RAISED" layoutX="391.0" layoutY="344.0" onAction="#openNew" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="New" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXButton>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="241.0" layoutY="81.0" text="Subject" textAlignment="JUSTIFY" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="239.0" layoutY="77.0" text="Subject" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="81.0" prefWidth="147.0" text="Year - Section" textAlignment="JUSTIFY" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="77.0" prefWidth="147.0" text="Year - Section" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="493.0" layoutY="81.0" text="Schedule" textAlignment="JUSTIFY" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="491.0" layoutY="77.0" text="Schedule" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <JFXButton fx:id="new_class1" buttonType="RAISED" layoutX="46.0" layoutY="344.0" onAction="#deleteClass" prefHeight="39.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
+      <Label layoutX="695.0" layoutY="65.0" text="QuickCheck" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXButton>
-      <Label layoutX="684.0" layoutY="99.0" text="QuickCheck" textFill="WHITE">
-         <font>
-            <Font name="Berlin Sans FB Demi Bold" size="21.0" />
+            <Font name="Berlin Sans FB Demi Bold" size="16.0" />
          </font>
       </Label>
-      <ImageView fitHeight="84.0" fitWidth="91.0" layoutX="695.0" layoutY="14.0">
+      <ImageView fitHeight="52.0" fitWidth="59.0" layoutX="709.0" layoutY="7.0">
          <image>
             <Image url="@86190431_876636742794473_8673000457800515584_n.png" />
          </image>
@@ -88,9 +85,8 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <JFXTextField fx:id="searchB" layoutX="684.0" layoutY="159.0" onAction="#searchClass" onKeyTyped="#searchClass" prefHeight="26.0" prefWidth="113.0" promptText="Search here" style="-fx-background-color: white;" unFocusColor="WHITE" />
-      <Label layoutX="688.0" layoutY="192.0" prefHeight="62.0" prefWidth="106.0" text="Hover over a schedule to see complete list." textAlignment="CENTER" textFill="WHITE" wrapText="true" />
-      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="699.0" layoutY="394.0" prefHeight="25.0" prefWidth="84.0" ripplerFill="BLACK" text="Contact us" textAlignment="CENTER" textFill="WHITE">
+      <Label layoutX="686.0" layoutY="80.0" prefHeight="62.0" prefWidth="106.0" text="Hover over a schedule to see complete list." textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="694.0" layoutY="400.0" prefHeight="25.0" prefWidth="84.0" ripplerFill="BLACK" text="Contact us" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -98,7 +94,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="701.0" layoutY="369.0" ripplerFill="BLACK" text="Need Help?" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="696.0" layoutY="375.0" ripplerFill="BLACK" text="Need Help?" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -106,5 +102,30 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
+      <Pane layoutX="663.0" layoutY="245.0" prefHeight="62.0" prefWidth="147.0" style="-fx-background-color: #708090;">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="21.0" layoutY="14.0" onAction="#deleteClass" prefHeight="26.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Delete" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </Pane>
+      <JFXTextField fx:id="searchB" focusColor="BLACK" labelFloat="true" layoutX="520.0" layoutY="354.0" onAction="#searchClass" onKeyTyped="#searchClass" prefHeight="26.0" prefWidth="113.0" promptText="Search here" style="-fx-background-color: white; -fx-border-color: gray;" unFocusColor="WHITE" />
+      <Pane layoutX="663.0" layoutY="307.0" prefHeight="52.0" prefWidth="147.0" style="-fx-background-color: #696969;">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="21.0" layoutY="9.0" onAction="#openTest" prefHeight="26.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Test" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
