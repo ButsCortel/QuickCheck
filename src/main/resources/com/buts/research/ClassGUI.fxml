@@ -20,7 +20,7 @@
             <Image url="@bg.png" />
          </image>
       </ImageView>
-      <Pane layoutX="663.0" layoutY="142.0" prefHeight="103.0" prefWidth="147.0" style="-fx-background-color: #2F4F4F;">
+      <Pane layoutX="663.0" layoutY="184.0" prefHeight="103.0" prefWidth="147.0" style="-fx-background-color: #2F4F4F;">
          <children>
             <JFXButton buttonType="RAISED" layoutX="21.0" layoutY="58.0" onAction="#classNext" prefHeight="30.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Open" textFill="WHITE">
                <font>
@@ -47,37 +47,37 @@
       </Label>
       <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="8.0" layoutY="109.0" pannable="true" prefHeight="234.0" prefWidth="646.0" style="-fx-border-color: black;" vbarPolicy="ALWAYS">
          <content>
-            <GridPane fx:id="gridpane" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="650.0" style="-fx-background-color: white;">
+            <GridPane fx:id="gridpane" gridLinesVisible="true" onMouseClicked="#clickGrid" prefHeight="211.0" prefWidth="650.0" style="-fx-background-color: white;">
                <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="63.0" minWidth="10.0" percentWidth="6.0" prefWidth="63.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="188.0" minWidth="162.0" prefWidth="162.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="167.0" prefWidth="169.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="255.0" minWidth="200.0" prefWidth="211.0" />
                </columnConstraints>
             </GridPane>
          </content>
       </ScrollPane>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="239.0" layoutY="77.0" text="Subject" textAlignment="JUSTIFY" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="258.0" layoutY="77.0" text="Subject" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="77.0" prefWidth="147.0" text="Year - Section" textAlignment="JUSTIFY" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="54.0" layoutY="77.0" prefWidth="147.0" text="Year - Section" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="491.0" layoutY="77.0" text="Schedule" textAlignment="JUSTIFY" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="484.0" layoutY="77.0" text="Schedule" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="695.0" layoutY="65.0" text="QuickCheck" textFill="WHITE">
+      <Label layoutX="695.0" layoutY="92.0" text="QuickCheck" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="16.0" />
          </font>
       </Label>
-      <ImageView fitHeight="52.0" fitWidth="59.0" layoutX="709.0" layoutY="7.0">
+      <ImageView fitHeight="73.0" fitWidth="81.0" layoutX="697.0" layoutY="14.0">
          <image>
             <Image url="@86190431_876636742794473_8673000457800515584_n.png" />
          </image>
@@ -85,7 +85,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Label layoutX="686.0" layoutY="80.0" prefHeight="62.0" prefWidth="106.0" text="Hover over a schedule to see complete list." textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+      <Label layoutX="686.0" layoutY="119.0" prefHeight="62.0" prefWidth="106.0" text="Hover over a schedule to see complete list." textAlignment="CENTER" textFill="WHITE" wrapText="true" />
       <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="694.0" layoutY="400.0" prefHeight="25.0" prefWidth="84.0" ripplerFill="BLACK" text="Contact us" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
@@ -102,7 +102,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <Pane layoutX="663.0" layoutY="245.0" prefHeight="62.0" prefWidth="147.0" style="-fx-background-color: #708090;">
+      <Pane layoutX="663.0" layoutY="287.0" prefHeight="62.0" prefWidth="147.0" style="-fx-background-color: #708090;">
          <children>
             <JFXButton buttonType="RAISED" layoutX="21.0" layoutY="14.0" onAction="#deleteClass" prefHeight="26.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Delete" textFill="WHITE">
                <font>
@@ -115,17 +115,5 @@
          </children>
       </Pane>
       <JFXTextField fx:id="searchB" focusColor="BLACK" labelFloat="true" layoutX="520.0" layoutY="354.0" onAction="#searchClass" onKeyTyped="#searchClass" prefHeight="26.0" prefWidth="113.0" promptText="Search here" style="-fx-background-color: white; -fx-border-color: gray;" unFocusColor="WHITE" />
-      <Pane layoutX="663.0" layoutY="307.0" prefHeight="52.0" prefWidth="147.0" style="-fx-background-color: #696969;">
-         <children>
-            <JFXButton buttonType="RAISED" layoutX="21.0" layoutY="9.0" onAction="#openTest" prefHeight="26.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Test" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-         </children>
-      </Pane>
    </children>
 </AnchorPane>

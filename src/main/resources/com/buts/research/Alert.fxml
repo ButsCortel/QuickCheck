@@ -13,7 +13,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <JFXButton fx:id="confirm" buttonType="RAISED" layoutX="33.0" layoutY="60.0" style="-fx-background-color: GRAY;" text="Confirm" textFill="WHITE" AnchorPane.leftAnchor="33.0">
+      <JFXButton fx:id="confirm" buttonType="RAISED" layoutX="33.0" layoutY="60.0" prefHeight="30.0" prefWidth="74.0" style="-fx-background-color: GRAY;" text="Cancel" textFill="WHITE" AnchorPane.leftAnchor="33.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -21,7 +21,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="cancel" buttonType="RAISED" layoutX="154.0" layoutY="60.0" style="-fx-background-color: GRAY;" text="Cancel" textFill="WHITE" AnchorPane.rightAnchor="32.0">
+      <JFXButton fx:id="cancel" buttonType="RAISED" layoutX="154.0" layoutY="60.0" style="-fx-background-color: GRAY;" text="Confirm" textFill="WHITE" AnchorPane.rightAnchor="32.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

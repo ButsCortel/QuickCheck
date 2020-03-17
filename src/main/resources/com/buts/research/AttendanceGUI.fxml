@@ -63,7 +63,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="640.0" layoutY="391.0" onAction="#back" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="&lt;&lt; Class" textFill="WHITE" wrapText="true">
+      <JFXButton buttonType="RAISED" layoutX="640.0" layoutY="391.0" onAction="#back" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="&lt;&lt; Back" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -81,15 +81,15 @@
       </JFXButton>
       <Label fx:id="course_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="81.0" prefHeight="17.0" prefWidth="97.0" text="COURSE" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
-            <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+            <Font name="System Bold" size="17.0" />
          </font>
       </Label>
       <Label fx:id="subject_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="103.0" prefHeight="17.0" prefWidth="97.0" text="SUBJECT" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
-            <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+            <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <JFXButton fx:id="test_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="658.0" layoutY="322.0" prefHeight="44.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Test" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton fx:id="test_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="658.0" layoutY="322.0" onAction="#openTest" prefHeight="44.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="Test" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>

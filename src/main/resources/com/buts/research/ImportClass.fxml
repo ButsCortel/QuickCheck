@@ -21,7 +21,7 @@
             </GridPane>
          </content>
       </ScrollPane>
-      <JFXButton buttonType="RAISED" layoutX="175.0" layoutY="142.0" onAction="#import_list" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Import" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="168.0" layoutY="147.0" onAction="#import_list" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Import" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -39,5 +39,13 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
+      <JFXButton buttonType="RAISED" layoutX="31.0" layoutY="147.0" onAction="#close" prefHeight="39.0" prefWidth="83.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Cancel" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
    </children>
 </AnchorPane>
