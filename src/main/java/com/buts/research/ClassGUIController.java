@@ -27,6 +27,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -68,8 +69,11 @@ public class ClassGUIController implements Initializable{
     	classGPane.setDisable(true);
     	NewClassController newclass = new NewClassController();
     	newclass.openNew();
-    	class_selected = false;
-    	checkClasses();
+    	if (NewClassController.changed) {
+        	class_selected = false;
+        	checkClasses();
+        	
+    	}
     	classGPane.setDisable(false);
     }
     static Parent root = null;
@@ -156,6 +160,8 @@ public class ClassGUIController implements Initializable{
 				Label schedl = new Label(sched);
 				schedl.setWrapText(true);
 				schedl.setTooltip(new Tooltip(sched));
+				coursel.setTooltip(new Tooltip(course));
+				subjl.setTooltip(new Tooltip(subject));
 				Label rows = new Label(Integer.toString(row +1)+".");
 				coursel.setFont(new Font("Arial Black",15));
 				subjl.setFont(new Font("Arial black",15));
@@ -173,24 +179,29 @@ public class ClassGUIController implements Initializable{
 				schedl.setMinWidth(225);
 				schedl.setMaxWidth(225);
 				schedl.setAlignment(Pos.CENTER_LEFT);
+				//schedl.setPadding(new Insets(0,20,0,0));
 				
 				coursel.setMaxHeight(Double.MAX_VALUE);
 				coursel.setMinHeight(schedl.getMinHeight());
 				coursel.setMinWidth(200);
 				coursel.setMaxWidth(200);
 				coursel.setAlignment(Pos.CENTER_LEFT);
+				coursel.setPadding(new Insets(0,20,0,0));
 				
 				subjl.setMaxHeight(Double.MAX_VALUE);
 				subjl.setMinHeight(schedl.getMinHeight());
 				subjl.setMinWidth(200);
 				subjl.setMaxWidth(200);
-				subjl.setAlignment(Pos.CENTER_LEFT);			
+				subjl.setAlignment(Pos.CENTER_LEFT);
+				subjl.setPadding(new Insets(0,20,0,0));
 				
 				rows.setMaxHeight(Double.MAX_VALUE);											
 				rows.setMinHeight(schedl.getMinHeight());												
 				rows.setMaxWidth(100);
 				rows.setMinWidth(100);
 				rows.setAlignment(Pos.CENTER);
+				subjl.setPadding(new Insets(0,10,0,0));
+				
 		        
 
 
@@ -421,6 +432,7 @@ public class ClassGUIController implements Initializable{
     				e1.printStackTrace();
     			}
         		ClassSessionController.student_excel = ClassSessionController.path + "\\Students.xls";
+        		ClassSessionController.testQ = ClassSessionController.path + "\\TestConfig\\";
         		//ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
         		ClassSessionController.test_excel = ClassSessionController.path + "\\Tests.xls";
         		ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
@@ -481,27 +493,5 @@ public class ClassGUIController implements Initializable{
 	   }
        
    }
-   @FXML
-   void openTest(ActionEvent event) {
-    		
-        	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), classGPane);
-        	fadeOutTransition.setFromValue(1.0);
-        	fadeOutTransition.setToValue(0);
-        	fadeOutTransition.play();
-        	classGPane.setDisable(true);
-        	fadeOutTransition.setOnFinished((e) -> {
-        		TestGUIController test = new TestGUIController();
-        		test.testGUIWindow();
-                
-        	});
-
-
-    		
-
-
-    		
-
-    		
-    	
-   }
+   
 }

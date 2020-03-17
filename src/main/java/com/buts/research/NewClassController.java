@@ -53,6 +53,7 @@ public class NewClassController implements Initializable{
     static String masterList = "";
     static String attendance = "";
     static String tests = "";
+    static String testQ = "";
     final int initialValue = 1;
     static ArrayList<String> sched;
     static ArrayList<String> hours;
@@ -83,6 +84,7 @@ public class NewClassController implements Initializable{
     private Spinner<String> day;
     private Spinner<String> am;
     private Spinner<String> am2;
+    static boolean changed = false;
     
     @FXML
     private void exit(ActionEvent event) {
@@ -161,11 +163,14 @@ public class NewClassController implements Initializable{
 	            masterList = App.fullp + cnew + " " + snew + "\\Students.xls";
 	            attendance = App.fullp + cnew + " " + snew + "\\Attendance.xls";
 	            tests = App.fullp + cnew + " " + snew + "\\Tests.xls";
+	            testQ = App.fullp + cnew + " " + snew + "\\TestConfig\\";
 	            Path path = Paths.get(folderName);
+	            Path testPath = Paths.get(testQ);
 	            if (Files.exists(path)) {
 	            	AlertBoxController.label_text = "Overwrite Existing Class?";
 	            	if(AlertBoxController.display("Existing Class!")) {
 	            		try {
+	            			changed = true;
 							AlertBoxController.alert_box.hide();
 							FileUtils.cleanDirectory( new File(path.toString()));
 							Files.createDirectories(path);
@@ -174,6 +179,7 @@ public class NewClassController implements Initializable{
 		        			testWorkbook();
 		        			//schedString();
 		        			config();
+		        			Files.createDirectories(testPath);
 							AlertBoxController.alert_box.close();
 							newclass_window.close();
 						} catch (IOException e1) {
@@ -184,15 +190,18 @@ public class NewClassController implements Initializable{
 
 	        		
 	            	else {
+	            		changed = false;
 	            		AlertBoxController.alert_box.close();
 	            	}
 	            }
 	            else {
 	                try {
+	                	changed = true;
 	        			Files.createDirectories(path);
 	        			attendanceWorkbook();
 	        			studentWorkbook();
 	        			testWorkbook();
+	        			Files.createDirectories(testPath);
 	        			//schedString();
 	        			config();
 	        			newclass_window.close();

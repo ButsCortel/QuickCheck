@@ -66,11 +66,11 @@ public class AlertBoxController implements Initializable {
 		// TODO Auto-generated method stub
 		alert_label.setText(label_text);
 		confirm.setOnAction(e -> {
-			result = true;
+			result = false;
 			alert_box.close();
 		});
 		cancel.setOnAction(e -> {
-			result = false;
+			result = true;
 			alert_box.close();
 		});
 		

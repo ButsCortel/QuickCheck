@@ -78,7 +78,7 @@ public class App extends Application{
             	fullp = sys+ fileName;
             	testp = sys + tests;
     			Files.createDirectories(path1);
-    			Files.createDirectories(testPath);
+    			//Files.createDirectories(testPath);
     			
     			Files.write(Paths.get(sys + textName + "codes.txt"), data.getBytes());
     		} catch (IOException e) {
@@ -87,7 +87,7 @@ public class App extends Application{
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     			Files.createDirectories(path1);
-    			Files.createDirectories(testPath);
+    			//Files.createDirectories(testPath);
     			Files.write(Paths.get("C:"+textName + "codes.txt"), data.getBytes());
     		}
         }

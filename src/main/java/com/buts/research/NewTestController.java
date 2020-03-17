@@ -48,7 +48,7 @@ public class NewTestController {
     void create(ActionEvent event) {
     	String testName = test_name.getText();
     	String testDate = test_date.getText();
-    	File testDir = new File(App.testp);
+    	File testDir = new File(ClassSessionController.testQ);
     	randomCode = RandomStringUtils.randomAlphanumeric(7);
     	String[] configNames = testDir.list();
     	List<String> list = Arrays.asList(configNames);
@@ -76,22 +76,26 @@ public class NewTestController {
     			test_status.setText("Test already exists.");
             	AlertBoxController.label_text = "Overwrite test?";
             	if(AlertBoxController.display("Test Already Exists!")) {
-        			System.out.println(testName + " " + testDate + " " + randomCode);
+        			//System.out.println(testName + " " + testDate + " " + randomCode);
         			config(randomCode, testName, testDate);
+        			changed = true;
         			new_test.close();
+        			
             	}
 
         		
             	else {
+            		changed = false;
             		AlertBoxController.alert_box.close();
-            		
             	}
     				
     			}
     		else {
-    			System.out.println(testName + " " + testDate + " " + randomCode);
+    			//System.out.println(testName + " " + testDate + " " + randomCode);
     			config(randomCode, testName, testDate);
+    			changed = true;
     			new_test.close();
+    			
     		}
     	}
     	
@@ -105,8 +109,8 @@ public class NewTestController {
     		InputStream input = null;
  	   		try
  	   			{
- 	   			System.out.println(file);
-     	  	input = new FileInputStream(App.testp + file);
+ 	   			//System.out.println(file);
+     	  	input = new FileInputStream(ClassSessionController.testQ + file);
 
             Properties prop = new Properties();
 
@@ -132,7 +136,7 @@ public class NewTestController {
 	void config(String file, String name, String date ) {
 		OutputStream output = null;
         try  {
-        	output = new FileOutputStream(App.testp + "\\" + file + ".properties");
+        	output = new FileOutputStream(ClassSessionController.testQ + "\\" + file + ".properties");
         	Properties prop = new Properties();
      
         	
@@ -140,6 +144,7 @@ public class NewTestController {
             // set the properties value
             prop.setProperty("Date", date);
             prop.setProperty("Name", name);
+            prop.setProperty("Items", "1");
 
  
             
@@ -199,6 +204,7 @@ public class NewTestController {
 		return result;
 
 	}
+	static boolean changed = false;
 	void display() {
 
     	try {
@@ -223,6 +229,7 @@ public class NewTestController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	//return changed;
 		
 	}
 	

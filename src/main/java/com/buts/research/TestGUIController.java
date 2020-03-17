@@ -2,6 +2,8 @@ package com.buts.research;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXTextField;
 
@@ -19,6 +22,7 @@ import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,9 +34,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -40,17 +50,42 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class TestGUIController implements Initializable {
+    @FXML
+    private JFXButton open_button;
+
+    @FXML
+    private JFXButton new_button;
+
+    @FXML
+    private JFXButton delete_button;
+    
+    @FXML
+    private JFXButton back0;
+    
+    @FXML
+    private JFXButton back1;
 
 
     @FXML
+    private Pane select_test_pane;
+
+    @FXML
+    private Label course_label;
+
+    @FXML
+    private Label subject_label;
+    @FXML
     private GridPane gridpane;
+    @FXML
+    private GridPane open_gridpane;
 
     @FXML
     private JFXTextField searchB;
     @FXML
     private AnchorPane testPane;
 
-    
+    boolean test_selected = false;
+    static int mode = 0;
     @FXML
     void back(ActionEvent event) {
     	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), testPane);
@@ -60,8 +95,17 @@ public class TestGUIController implements Initializable {
     	testPane.setDisable(true);
     	
     	fadeOutTransition.setOnFinished((e) -> {
-        	ClassGUIController startClass = new ClassGUIController();
-        	startClass.classGUIWindow();
+    		if (mode == 0) {
+        		ClassSessionController start = new ClassSessionController();
+                start.startClass();
+    		}
+    		else if (mode == 1){
+            	AttendanceGUIController start = new AttendanceGUIController(); 	
+            
+            	start.attendanceGUIWindow(); 
+    		}
+
+
     	});
     	
 
@@ -69,6 +113,21 @@ public class TestGUIController implements Initializable {
 
     @FXML
     void deleteTest(ActionEvent event) {
+    	if (test_selected) {
+    		File file = new File(ClassSessionController.testQ + test_codes[rowIndex]);
+
+        	AlertBoxController.label_text = "Delete Test?";
+        	if(AlertBoxController.display("Delete Test")) {
+        		file.delete();
+        		loadTests();
+        		
+        	}
+        	else {
+        		AlertBoxController.alert_box.close();
+        		
+        	}
+
+    	}
 
     }
  
@@ -91,12 +150,20 @@ public class TestGUIController implements Initializable {
     void newTest(ActionEvent event) {
     	NewTestController test = new NewTestController();
     	test.display();
-    	loadTests();
+    	System.out.println(NewTestController.changed);
+    	if (NewTestController.changed) {
+    		loadTests();
+    	}
+    	
     }
+
 
     @FXML
     void openTest(ActionEvent event) {
-
+    	if (test_selected) {
+    		loadSelectedTest();
+    	}
+    	
     }
 
     @FXML
@@ -165,6 +232,8 @@ public class TestGUIController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		course_label.setText(ClassSessionController.course.replaceAll("_", " "));
+		subject_label.setText(ClassSessionController.subject.replaceAll("_", " "));
 		testPane.setOpacity(0);
     	testPane.setDisable(true);
 		FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), testPane);
@@ -172,6 +241,7 @@ public class TestGUIController implements Initializable {
     	fadeOutTransition.setToValue(1);
     	fadeOutTransition.play();
     	initClock();
+		 back1.setVisible(false);
     	
     	fadeOutTransition.setOnFinished((e) -> {
     		loadTests();
@@ -190,17 +260,19 @@ public class TestGUIController implements Initializable {
 	String[] test_codes = null;
 	
 	void loadTests() {
+		
+		test_selected = false;
 		testCodes = new ArrayList<String>();
 		testNames = new ArrayList<String>();
 		testDates = new ArrayList<String>();
 		gridpane.getChildren().clear();
-		File testDir = new File(App.testp);
+		File testDir = new File(ClassSessionController.testQ);
 		test_codes = testDir.list();
     	for (String file: test_codes) {
     		InputStream input = null;
  	   		try
  	   			{
-     	  	input = new FileInputStream(App.testp + file);
+     	  	input = new FileInputStream(ClassSessionController.testQ + file);
 
             Properties prop = new Properties();
 
@@ -221,15 +293,16 @@ public class TestGUIController implements Initializable {
 	 	   }
 	    }
     	for (int testNum = 0; testNum < testCodes.size(); testNum++) {
-    		
+    		String name = testNames.get(testNum);
     		Label codes = new Label(testCodes.get(testNum));
-    		Label names = new Label(testNames.get(testNum));
+    		Label names = new Label(name);
     		Label dates = new Label(testDates.get(testNum));
     		Label rows = new Label(Integer.toString(testNum+1) +".");
     		
     		rows.setFont(new Font("Arial Black",15));
 			codes.setFont(new Font("Arial black",15));
 			names.setFont(new Font("Arial black",15));
+			names.setTooltip(new Tooltip(name));
 			dates.setFont(new Font("Arial black",15));
 			rows.setTextFill(Color.BLACK);
 			codes.setTextFill(Color.BLACK);
@@ -300,7 +373,7 @@ public class TestGUIController implements Initializable {
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
 	}
-	static int rowIndex = 0;
+	int rowIndex = 0;
 	 @FXML
 	    public void clickGrid(MouseEvent event) {
 	    	if (event.isStillSincePress()) {
@@ -313,6 +386,7 @@ public class TestGUIController implements Initializable {
 	                parent = clickedNode.getParent();
 	            }
 	            rowIndex = GridPane.getRowIndex(clickedNode);
+	            //System.out.println(test_codes[rowIndex]);
 	            for (Node node : gridpane.getChildren()) {
 	            	if (GridPane.getRowIndex(node) == rowIndex) {
 	            		node.setStyle("-fx-background-color: #D3D3D3;");
@@ -321,11 +395,283 @@ public class TestGUIController implements Initializable {
 	            		node.setStyle(null);
 	            	}
 	            	
-	            }//class_selected = true;
+	            }test_selected = true;
 	        	}
 	    	}
 	        
 
 	    }
+	    @FXML
+	    private Label code_label;
+
+	    @FXML
+	    private Label name_label;
+
+	    @FXML
+	    private Label date_labelt;
+	    @FXML
+	    private Spinner<Integer> item_spinner;
+	    
+
+
+	    @FXML
+	    private JFXButton check_button;
+
+
+
+	    @FXML
+	    private JFXButton records_button;
+	    
+	    @FXML
+	    private Pane test_settings_pane;
+	    
+	   static String answerKey ="";
+	   static String cd = "";
+	 void loadSelectedTest() 
+	 	{
+		 edit_button.setText("Edit");
+		 back0.setVisible(false);
+		 back1.setVisible(true);
+		 select_test_pane.setVisible(false);
+		 new_button.setVisible(false);
+		 open_button.setVisible(false);
+		 delete_button.setVisible(false);
+ 		open_gridpane.setDisable(true);
+ 		item_spinner.setDisable(true);
+		 
+		 InputStream input = null;
+		 try
+ 			{
+			 cd = test_codes[rowIndex];
+			 input = new FileInputStream(ClassSessionController.testQ + cd);
+			 //open_gridpane.setDisable(true);
+			 Properties prop = new Properties();
+			 prop.load(input);
+			 code_label.setText(cd.substring(0,7));
+			 name_label.setText(prop.getProperty("Name"));
+			 date_labelt.setText(prop.getProperty("Date"));
+			 answerKey = prop.getProperty("Answers");
+			 final int initialValue = Integer.parseInt(prop.get("Items").toString());
+			 SpinnerValueFactory<Integer> valueFactory = //
+		                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, initialValue);
+			 item_spinner.setValueFactory(valueFactory);
+			 loadItems();
+			 item_spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+				addItems();
+				 
+	    		    
+ 		        //display_att();
+ 		    
+ 		});
+     
+			 check_button.setVisible(true);
+			 records_button.setVisible(true);
+			 test_settings_pane.setVisible(true);
+
+ 			}
+	    catch(Exception e)
+		    {
+		    	e.printStackTrace();
+		    }
+	   finally {
+		   		if (input != null){try {input.close();} catch (IOException e) {e.printStackTrace();}}
+	   		}
+ 
+	 }
+	 ArrayList<ToggleGroup> radio_values = null;
+	 void loadItems() {
+		 radio_values = new ArrayList<ToggleGroup>();		 
+		 open_gridpane.getChildren().clear();
+		 for(int rows = 0; rows < item_spinner.getValue(); rows++) {
+			 Label no = new Label(Integer.toString(rows +1) + ".");
+			 ToggleGroup tg = new ToggleGroup();
+			 RadioButton a = new RadioButton("A");					
+			 RadioButton b = new RadioButton("B"); 
+			 RadioButton c = new RadioButton("C");	
+			 RadioButton d = new RadioButton("D"); 
+			 RadioButton e = new RadioButton("E");
+			 radio_values.add(tg);
+			 
+	    	no.setFont(new Font("Arial Black",15));
+			a.setFont(new Font("Arial black",15));
+			b.setFont(new Font("Arial black",15));
+			c.setFont(new Font("Arial black",15));
+			d.setFont(new Font("Arial black",15));
+			e.setFont(new Font("Arial black",15));
+			no.setTextFill(Color.BLACK);
+			a.setTextFill(Color.BLACK);
+			b.setTextFill(Color.BLACK);
+			c.setTextFill(Color.BLACK);
+			d.setTextFill(Color.BLACK);
+			e.setTextFill(Color.BLACK);
+			 
+			 no.setAlignment(Pos.CENTER);
+			 a.setAlignment(Pos.CENTER);
+			 b.setAlignment(Pos.CENTER);
+			 c.setAlignment(Pos.CENTER);
+			 d.setAlignment(Pos.CENTER);
+			 e.setAlignment(Pos.CENTER);
+			 
+			 a.setToggleGroup(tg);
+			 b.setToggleGroup(tg);
+			 c.setToggleGroup(tg);
+			 d.setToggleGroup(tg);
+			 e.setToggleGroup(tg);
+			 if (answerKey != null) {
+				 String[] answers = answerKey.split("\\s+");
+				 switch(answers[rows]) {
+				 
+				 case "A":
+	
+					 a.setSelected(true);
+					 break;
+				 case "B":
+
+					 b.setSelected(true);
+					 break;
+				 case "C":
+					 c.setSelected(true);
+					 break;
+				 case "D":	
+					 d.setSelected(true);
+					 break;
+				 case "E":
+					 e.setSelected(true);
+					 break;				 
+				 }
+					 
+			 }
+			 else {
+				 a.setSelected(true);
+			 }
+			 open_gridpane.add(no, 0, rows);
+			 open_gridpane.add(a, 1, rows);
+			 open_gridpane.add(b, 2, rows);
+			 open_gridpane.add(c, 3, rows);
+			 open_gridpane.add(d, 4, rows);
+			 open_gridpane.add(e, 5, rows);
+		 }
+		 
+	 }
+	 void addItems() {
+		 int rowCount = open_gridpane.getRowCount();
+		 System.out.println(rowCount);
+		 System.out.println(item_spinner.getValue());
+		 if (rowCount < item_spinner.getValue()) {
+
+			 Label no = new Label(Integer.toString(rowCount +1));
+			 ToggleGroup tg = new ToggleGroup();
+			 RadioButton a = new RadioButton("A");					
+			 RadioButton b = new RadioButton("B"); 
+			 RadioButton c = new RadioButton("C");	
+			 RadioButton d = new RadioButton("D"); 
+			 RadioButton e = new RadioButton("E");
+			 radio_values.add(tg);
+			 
+		    	no.setFont(new Font("Arial Black",15));
+				a.setFont(new Font("Arial black",15));
+				b.setFont(new Font("Arial black",15));
+				c.setFont(new Font("Arial black",15));
+				d.setFont(new Font("Arial black",15));
+				e.setFont(new Font("Arial black",15));
+				no.setTextFill(Color.BLACK);
+				a.setTextFill(Color.BLACK);
+				b.setTextFill(Color.BLACK);
+				c.setTextFill(Color.BLACK);
+				d.setTextFill(Color.BLACK);
+				e.setTextFill(Color.BLACK);
+			 
+			 no.setAlignment(Pos.CENTER);
+			 a.setAlignment(Pos.CENTER);
+			 b.setAlignment(Pos.CENTER);
+			 c.setAlignment(Pos.CENTER);
+			 d.setAlignment(Pos.CENTER);
+			 e.setAlignment(Pos.CENTER);
+			 
+			 a.setToggleGroup(tg);
+			 b.setToggleGroup(tg);
+			 c.setToggleGroup(tg);
+			 d.setToggleGroup(tg);
+			 e.setToggleGroup(tg);
+
+			 a.setSelected(true);
+			 
+			 open_gridpane.add(no, 0, rowCount);
+			 open_gridpane.add(a, 1, rowCount);
+			 open_gridpane.add(b, 2, rowCount);
+			 open_gridpane.add(c, 3, rowCount);
+			 open_gridpane.add(d, 4, rowCount);
+			 open_gridpane.add(e, 5, rowCount);
+		 }
+		 else {
+			 open_gridpane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == rowCount - 1);
+			 radio_values.remove(rowCount - 1);
+		 }
+		 
+	 }
+	    @FXML
+	    void openRecords(ActionEvent event) {
+
+	    }
+
+
+
+	    @FXML
+	    void quickCheck(ActionEvent event) {
+
+	    }
+	    @FXML
+	    private JFXButton edit_button;
+	    @FXML
+	    void edit(ActionEvent event) {
+	    	String answer = "";
+	    	int items = 0;
+	    	if(edit_button.getText().equals("Edit")) {
+	    		open_gridpane.setDisable(false);
+	    		item_spinner.setDisable(false);
+	    		edit_button.setText("Save");
+	    	}
+	    	else{
+	    		
+	    		for (ToggleGroup tg: radio_values) {
+	    			RadioButton rb = (RadioButton) tg.getSelectedToggle();
+	    			System.out.println(rb.getText());
+	    			answer += rb.getText() + " ";
+	    			items++;
+	    		}
+	    		try {
+					changeProperty(ClassSessionController.testQ + cd, "Answers", answer, "Items", Integer.toString(items));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		open_gridpane.setDisable(true);
+	    		item_spinner.setDisable(true);
+	    		edit_button.setText("Edit");
+	    	}
+	    }
+	    @FXML
+	    void back_1() {
+            for (Node node : gridpane.getChildren()) {
+        		node.setStyle(null);
+        	}
+		 select_test_pane.setVisible(true);
+		 new_button.setVisible(true);
+		 open_button.setVisible(true);
+		 delete_button.setVisible(true);
+		 test_settings_pane.setVisible(false);
+		 check_button.setVisible(false);
+		 records_button.setVisible(false);
+		 test_selected = false;
+		 back0.setVisible(true);
+		 back1.setVisible(false);
+	    }
+	    public static void changeProperty(String filename, String key, String value, String key2, String value2) throws FileNotFoundException, IOException  {
+	    	   Properties prop =new Properties();
+	    	   prop.load(new FileInputStream(filename));
+	    	   prop.setProperty(key, value);
+	    	   prop.setProperty(key2, value2);
+	    	   prop.store(new FileOutputStream(filename),null);
+	    	}
 
 }

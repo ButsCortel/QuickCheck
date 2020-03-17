@@ -26,6 +26,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -33,6 +34,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -50,6 +52,7 @@ public class ClassSessionController implements Initializable{
 	static String student_excel;
 	static String attendance_excel;
 	static String test_excel;
+	static String testQ;
 	static String course;
 	static String subject;
 	static int rowIndex = 0;
@@ -158,13 +161,15 @@ public class ClassSessionController implements Initializable{
 		classSPane.setDisable(true);
 		AddStudentController student = new AddStudentController();
 		student.newStudent();
-		try {
-			sortSheet();
-			checkStudents();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}student_selected = false;
+		if (AddStudentController.changed) {
+			try {
+				sortSheet();
+				checkStudents();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}student_selected = false;
+		}
 		classSPane.setDisable(false);
 	}
 	void checkStudents() throws IOException {
@@ -195,13 +200,13 @@ public class ClassSessionController implements Initializable{
 	    if (endRow > 0) {
 	    	start_attendance_button.setDisable(false);
 
-	    	//start_test__button.setDisable(false);
+	    	start_test__button.setDisable(false);
 	    	
 	    }
 	    else {
 	    	start_attendance_button.setDisable(true);
 
-	    	//start_test__button.setDisable(true);
+	    	start_test__button.setDisable(true);
 	    }
 
 
@@ -250,6 +255,12 @@ public class ClassSessionController implements Initializable{
 	    	Label sid = new Label(students_id.get(c));
 	    	Label scourse = new Label(students_course.get(c));
 	    	
+	    	
+	    	scode.setTooltip(new Tooltip(students_code.get(c)));
+			sname.setTooltip(new Tooltip(name));
+			sid.setTooltip(new Tooltip(students_id.get(c)));
+			scourse.setTooltip(new Tooltip(students_course.get(c)));
+	    	
 	    	row.setFont(new Font("Arial Black",15));
 	    	scode.setFont(new Font("Arial Black",15));
 			sname.setFont(new Font("Arial black",15));
@@ -269,6 +280,7 @@ public class ClassSessionController implements Initializable{
 			sname.setMaxWidth(250);
 			sname.setMinWidth(250);
 			sname.setAlignment(Pos.CENTER_LEFT);
+			sname.setPadding(new Insets(0,20,0,0));
 			
 			ssex.setMaxHeight(Double.MAX_VALUE);
 			ssex.setMinHeight(sname.getPrefHeight());
@@ -278,27 +290,31 @@ public class ClassSessionController implements Initializable{
 			
 			row.setMaxHeight(Double.MAX_VALUE);
 			row.setMinHeight(sname.getPrefHeight());
-			row.setMaxWidth(40);
-			row.setMinWidth(40);
+			row.setMaxWidth(50);
+			row.setMinWidth(50);
 			row.setAlignment(Pos.CENTER);
+			row.setPadding(new Insets(0,5,0,0));
 			
 			scode.setMaxHeight(Double.MAX_VALUE);
 			scode.setMinHeight(sname.getPrefHeight());
 			scode.setMaxWidth(75);
 			scode.setMinWidth(75);
 			scode.setAlignment(Pos.CENTER_LEFT);
+			scode.setPadding(new Insets(0,20,0,0));
 			
 			sid.setMaxHeight(Double.MAX_VALUE);
 			sid.setMinHeight(sname.getPrefHeight());
 			sid.setMaxWidth(135);
 			sid.setMinWidth(135);
-			sid.setAlignment(Pos.CENTER_LEFT);
+			sid.setAlignment(Pos.CENTER_LEFT);	
+			sid.setPadding(new Insets(0,20,0,0));
 			
 			scourse.setMaxHeight(Double.MAX_VALUE);
 			scourse.setMinHeight(sname.getPrefHeight());
 			scourse.setMaxWidth(160);
 			scourse.setMinWidth(160);
 			scourse.setAlignment(Pos.CENTER_LEFT);
+			scourse.setPadding(new Insets(0,20,0,0));
 			
 			/*students_display.set(0, row);
 			students_display.set(1, scode);
@@ -444,12 +460,15 @@ public class ClassSessionController implements Initializable{
     	classSPane.setDisable(true);
     	ImportClassController import_class = new ImportClassController();
     	import_class.importList();
-    	try {
-   			checkStudents();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	if (ImportClassController.changed) {
+        	try {
+       			checkStudents();
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
+
     	classSPane.setDisable(false);
     }
     
@@ -698,6 +717,22 @@ public class ClassSessionController implements Initializable{
         }
 
         return false;
+    }
+    @FXML
+    void openTest(ActionEvent event) {
+     		
+         	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), classSPane);
+         	fadeOutTransition.setFromValue(1.0);
+         	fadeOutTransition.setToValue(0);
+         	fadeOutTransition.play();
+         	classSPane.setDisable(true);
+         	fadeOutTransition.setOnFinished((e) -> {
+         		TestGUIController test = new TestGUIController();
+         		TestGUIController.mode = 0;
+         		test.testGUIWindow();
+                 
+         	});
+    	
     }
 }
 

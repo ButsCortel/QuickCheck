@@ -37,6 +37,7 @@ public class AddStudentController implements Initializable{
 	static String course = "";
 	static String subject = "";
 	static String dup = "";
+	static boolean changed = false;
 
 	@FXML
     private JFXTextField student_code;
@@ -58,6 +59,7 @@ public class AddStudentController implements Initializable{
     
     @FXML
     private void exit(ActionEvent event) {
+    	changed = false;
     	newstudent_window.close();
     }
 	void newStudent() {
@@ -135,6 +137,7 @@ public class AddStudentController implements Initializable{
 		if (!code.equals("") && !name.equals("") && !id.equals("") && !course.equals("") && code.length() >3 && name.length() >5 && code.chars().allMatch(Character::isDigit)) {
 			if (!checkDup(code, name, id)) {
 				writeStudent(code, name, id, course, sex);
+				changed = true;
 				newstudent_window.close();
 			}
 			else {

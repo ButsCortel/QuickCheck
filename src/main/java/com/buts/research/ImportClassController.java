@@ -42,6 +42,7 @@ public class ImportClassController implements Initializable {
 	static int dispclasses2 = 0;
 	static int rowIndex = 0;
 	static boolean student_selected = false;
+	static boolean changed = false;
 	ArrayList<Path> classes = null;
     @FXML
     private ScrollPane scrollpane;
@@ -53,6 +54,7 @@ public class ImportClassController implements Initializable {
     	if (student_selected) {
     		try {
 				implist();
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -176,6 +178,12 @@ public class ImportClassController implements Initializable {
         
 
     }
+
+    @FXML
+    void close(ActionEvent event) {
+    	changed = false;
+    	importclass_window.close();
+    }
 	public void implist() throws IOException {
 	       FileSystem system = FileSystems.getDefault();
 	        Path original = system.getPath(classes.get(rowIndex).toString() + "\\Students.xls");
@@ -187,7 +195,7 @@ public class ImportClassController implements Initializable {
 	        } catch (Exception ex) {
 	            ex.printStackTrace();
 	        }
-
+	        changed = true;
 	}
 
 	public  void checkClasses() throws IOException {

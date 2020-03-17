@@ -199,6 +199,8 @@ public class AttendanceGUIController implements Initializable{
     	fadeOutTransition.setToValue(1);
     	fadeOutTransition.play();
     	initClock();
+		course_label.setText(ClassSessionController.course.replaceAll("_", " "));
+		subject_label.setText(ClassSessionController.subject.replaceAll("_", " "));
     	
     	fadeOutTransition.setOnFinished((e) -> {
     		
@@ -255,8 +257,7 @@ public class AttendanceGUIController implements Initializable{
         	view_attendance.setVisible(false);
         	
 
-    		course_label.setText(ClassSessionController.course.replaceAll("_", " "));
-    		subject_label.setText(ClassSessionController.subject.replaceAll("_", " "));
+
     		attendanceGPane.setDisable(false);
 
     	});
@@ -1687,6 +1688,23 @@ public class AttendanceGUIController implements Initializable{
 
 	    	
 	    }
+    }
+    @FXML
+    void openTest(ActionEvent event) {
+     		
+         	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), attendanceGPane);
+         	fadeOutTransition.setFromValue(1.0);
+         	fadeOutTransition.setToValue(0);
+         	fadeOutTransition.play();
+         	attendanceGPane.setDisable(true);
+         	fadeOutTransition.setOnFinished((e) -> {
+         		TestGUIController test = new TestGUIController();
+         		TestGUIController.mode = 1;
+         		test.testGUIWindow();
+             	disposeCamera();
+                 
+         	});
+    	
     }
     
 }
