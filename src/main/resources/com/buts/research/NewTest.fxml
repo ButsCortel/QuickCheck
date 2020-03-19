@@ -13,7 +13,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="test_name" layoutX="17.0" layoutY="38.0" prefHeight="25.0" prefWidth="223.0" style="-fx-background-color: white;" />
+      <JFXTextField fx:id="test_name" layoutX="17.0" layoutY="38.0" prefHeight="25.0" prefWidth="223.0" promptText="Max. 30 Characters." style="-fx-background-color: white;" />
       <Label layoutX="17.0" layoutY="65.0" text="Date:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />

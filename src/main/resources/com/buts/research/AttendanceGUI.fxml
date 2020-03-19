@@ -97,7 +97,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="view_attendance" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="658.0" layoutY="230.0" onAction="#viewAttendance" prefHeight="66.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="View Attendance" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <JFXButton fx:id="view_attendance" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="658.0" layoutY="230.0" onAction="#viewAttendance" prefHeight="66.0" prefWidth="130.0" ripplerFill="BLACK" style="-fx-background-color: gray; -fx-border-color: white;" text="View Attendance" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
@@ -169,6 +169,15 @@
                         <Font name="System Bold" size="36.0" />
                      </font>
                   </Label>
+                  <Pane fx:id="blockCamera" layoutX="-2.0" layoutY="86.0" prefHeight="193.0" prefWidth="267.0" style="-fx-background-color: black;">
+                     <children>
+                        <Label layoutX="60.0" layoutY="60.0" prefHeight="74.0" prefWidth="148.0" text="Please select Camera first." textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
             <Pane fx:id="attendanceRPane" layoutX="11.0" layoutY="13.0" prefHeight="403.0" prefWidth="611.0">
@@ -249,14 +258,6 @@
                         <Font name="System Bold" size="36.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="exp_month1" buttonType="RAISED" layoutX="333.0" layoutY="357.0" onAction="#export_month" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
                </children>
             </Pane>
          </children>
