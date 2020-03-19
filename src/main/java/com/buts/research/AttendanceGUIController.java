@@ -112,6 +112,9 @@ public class AttendanceGUIController implements Initializable{
     private JFXButton exp_all;
     
     @FXML
+    private Pane blockCamera;
+    
+    @FXML
     private AnchorPane attendanceGPane;
     ArrayList<String> month = null;
     ObservableList<String> days =null;
@@ -192,6 +195,7 @@ public class AttendanceGUIController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
 		attendanceGPane.setOpacity(0);
 		attendanceGPane.setDisable(true);
 		FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), attendanceGPane);
@@ -218,7 +222,6 @@ public class AttendanceGUIController implements Initializable{
     		items = FXCollections.observableArrayList();
     		date_combo.setItems(items);
     		date_combo.setEditable(true);
-
     		day_spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
     		
 
@@ -251,7 +254,7 @@ public class AttendanceGUIController implements Initializable{
     		timein_label.setText("");
     		in_status.setText("");
         	attendanceRPane.setVisible(true);  	
-        	attendanceCPane.setVisible(false);
+        	
         	
         	take_attendance.setVisible(true);
         	view_attendance.setVisible(false);
@@ -259,6 +262,8 @@ public class AttendanceGUIController implements Initializable{
 
 
     		attendanceGPane.setDisable(false);
+    		blockCamera.setVisible(true);
+    		//attendanceCPane.setVisible(false);
 
     	});
 		
@@ -322,7 +327,7 @@ public class AttendanceGUIController implements Initializable{
 					selWebCam.open();
 				}
 				startWebCamStream();
-				attendanceGPane.setDisable(false);
+				blockCamera.setVisible(false);
 				return null;
 				
 			}
@@ -348,15 +353,24 @@ public class AttendanceGUIController implements Initializable{
 				while (!stopCamera) {
 
 					try {
-						if ((grabbedImage = selWebCam.getImage()) != null) {
+						grabbedImage = selWebCam.getImage();
+						if (grabbedImage!= null) {
 							
 
 							Platform.runLater(new Runnable() {
 
 								@Override
 								public void run() {
-									LuminanceSource source = new BufferedImageLuminanceSource(grabbedImage);
-									BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+									LuminanceSource source = null;
+									BinaryBitmap bitmap = null;
+									try {
+										source = new BufferedImageLuminanceSource(grabbedImage);
+										bitmap = new BinaryBitmap(new HybridBinarizer(source));
+									}
+									catch (Exception e) {
+										
+									}
+									
 									Result result = null;
 									
 									try {
@@ -379,8 +393,7 @@ public class AttendanceGUIController implements Initializable{
 														in_status.setText("No Record!");
 													}
 												} catch (IOException e) {
-													// TODO Auto-generated catch block
-													e.printStackTrace();
+
 												}
 									            
 									        }
@@ -390,6 +403,9 @@ public class AttendanceGUIController implements Initializable{
 										}
 
 									} catch (NotFoundException e) {
+										// TODO Auto-generated catch block
+									}
+									catch (Exception e) {
 										// TODO Auto-generated catch block
 									}
 									
@@ -883,7 +899,7 @@ public class AttendanceGUIController implements Initializable{
     			e1.printStackTrace();
     		}
     		attendanceRPane.setVisible(false);  	
-        	attendanceCPane.setVisible(true);
+        	//attendanceCPane.setVisible(true);
 
         	if (!camOpen) {
         		ObservableList<WebCamInfo> options = FXCollections.observableArrayList();
@@ -903,14 +919,14 @@ public class AttendanceGUIController implements Initializable{
         				@Override
         				public void changed(ObservableValue<? extends WebCamInfo> arg0, WebCamInfo arg1, WebCamInfo arg2) {
         					if (arg2 != null) {
-        						webcam_num = arg2.getWebCamIndex();
+        						initializeWebCam(arg2.getWebCamIndex());
+        						
         					}
         				}
         			});
         		}
         		else {
-        			cbCameraOptions.setDisable(true);
-        			webcam_num = 0;
+        			initializeWebCam(0);
         		}
 
         		Platform.runLater(new Runnable() {
@@ -921,7 +937,7 @@ public class AttendanceGUIController implements Initializable{
         			}
         		});
 
-        		initializeWebCam(webcam_num);
+        		
         	}
         	else {
         		startCamera();
@@ -935,6 +951,7 @@ public class AttendanceGUIController implements Initializable{
            	attendanceCPane.setOpacity(1);
      
     	});
+    	attendanceGPane.setDisable(false);
     	
     }
 
@@ -1697,11 +1714,12 @@ public class AttendanceGUIController implements Initializable{
          	fadeOutTransition.setToValue(0);
          	fadeOutTransition.play();
          	attendanceGPane.setDisable(true);
+         	disposeCamera();
          	fadeOutTransition.setOnFinished((e) -> {
          		TestGUIController test = new TestGUIController();
          		TestGUIController.mode = 1;
          		test.testGUIWindow();
-             	disposeCamera();
+             	
                  
          	});
     	

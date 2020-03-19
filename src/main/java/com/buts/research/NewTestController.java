@@ -56,7 +56,7 @@ public class NewTestController {
     		  randomCode = RandomStringUtils.randomAlphanumeric(7) ;
     	  }
 
-    	if (testName.length() >0 && testDate.length() >0) {
+    	if (testName.length() >0 &&  testDate.length() >0 && testName.length() < 31) {
     		if (checkString(testName) ||
 					checkString(testDate) ) 
 				{
@@ -71,6 +71,10 @@ public class NewTestController {
     				{
     					test_status.setText("Invalid date format.");
     				}
+    		else if (!(testName.length() < 31)) 
+			{
+				test_status.setText("Test name exceeds character limit.");
+			}
     		else if (check_test_name(configNames, testName)) //check for dup test name
     			{
     			test_status.setText("Test already exists.");
@@ -144,7 +148,8 @@ public class NewTestController {
             // set the properties value
             prop.setProperty("Date", date);
             prop.setProperty("Name", name);
-            prop.setProperty("Items", "1");
+            prop.setProperty("Items", "0");
+           // prop.setProperty("Answers", "x");
 
  
             

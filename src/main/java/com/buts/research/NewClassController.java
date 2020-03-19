@@ -349,7 +349,7 @@ public class NewClassController implements Initializable{
 		        fos = new FileOutputStream(new File(tests));
 		        workbook = new HSSFWorkbook();            
 
-		        Sheet sheet = workbook.createSheet(cnew + "-" + snew);  
+		       /* Sheet sheet = workbook.createSheet(cnew + "-" + snew);  
 
 		        Row row = sheet.createRow(0); 
 		        
@@ -366,7 +366,7 @@ public class NewClassController implements Initializable{
 		        cell3.setCellValue("ID NO.");
 		        
 		        Cell cell4 = row.createCell(4);
-		        cell4.setCellValue("COURSE CODE/ GRADE LEVEL");   
+		        cell4.setCellValue("COURSE CODE/ GRADE LEVEL"); */  
 
 		       // XSSFCell cell2 = row.createCell(2);
 		       // cell2.setCellValue("Percent Change");
