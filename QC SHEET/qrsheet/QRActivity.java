@@ -1,0 +1,114 @@
+package com.example.qrsheet;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.qrcode.encoder.ByteMatrix;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Hashtable;
+
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.WHITE;
+import static android.graphics.Color.luminance;
+
+public class QRActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_qr);
+        final String id_number = getIntent().getStringExtra("id_number_key").replaceAll("\\s+", "/");
+        final String test_code = getIntent().getStringExtra("test_code_key");
+        final String answers = getIntent().getStringExtra("answer_key");
+        final String time_start = getIntent().getStringExtra("time_start_key").replaceAll("\\s+", "/");
+        final String items = getIntent().getStringExtra("no_of_items");
+        DateFormat tf = new SimpleDateFormat("h:mm a");
+        String time_end = tf.format(Calendar.getInstance().getTime()).replaceAll("\\s+", "/");
+
+        //TextView qrstring = (TextView) findViewById(R.id.QR_string) ;
+        String all_values = test_code + " " + id_number + " " + items+ " " + answers + " " + time_start + " End:/" + time_end;
+        //qrstring.setText(all_values);
+        ImageView qrimage = (ImageView) findViewById(R.id.imageView) ;
+        try {
+            qrimage.setImageBitmap(generateQrCode(all_values));
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        Button resultButton = findViewById(R.id.results);
+        resultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(QRActivity.this,"Scan QR code from your proctor", Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(QRActivity.this, MainActivity.class);
+                intent.putExtra("mode", "result");
+                startActivity(intent);
+            }
+        });
+
+    }
+    @Override
+    public void onBackPressed()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(QRActivity.this);
+        builder.setMessage("Are you sure you want to Exit?");
+        builder.setCancelable(true);
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+    public static Bitmap generateQrCode(String myCodeText) throws WriterException {
+        Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<>();
+        hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H); // H = 30% damage
+
+        QRCodeWriter writer = new QRCodeWriter();
+
+        int size = 512;
+
+        BitMatrix bitMatrix = writer.encode(myCodeText, BarcodeFormat.QR_CODE, size, size);
+        int width = bitMatrix.getWidth();
+        int height = bitMatrix.getHeight();
+        int[] pixels = new int[width * height];
+        for (int y = 0; y < height; y++) {
+            int offset = y * width;
+            for (int x = 0; x < width; x++) {
+                pixels[offset + x] = bitMatrix.get(x, y) ? BLACK : WHITE;
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bitmap;
+    }
+}
