@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.ImportClassController">
+   <children>
+      <ScrollPane fx:id="scrollpane" fitToWidth="true" hbarPolicy="NEVER" layoutX="21.0" layoutY="46.0" pannable="true" prefHeight="83.0" prefWidth="239.0" style="-fx-background-color: gray;" vbarPolicy="ALWAYS">
+         <content>
+            <AnchorPane prefHeight="81.0" prefWidth="241.0">
+               <children>
+                  <GridPane fx:id="gridpane" alignment="TOP_CENTER" maxWidth="237.0" minWidth="223.0" onMouseClicked="#clickGrid" prefHeight="81.0" prefWidth="223.0" style="-fx-background-color: white;">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="115.0" prefWidth="115.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
+                    </columnConstraints>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+      <JFXButton buttonType="RAISED" layoutX="168.0" layoutY="147.0" onAction="#import_list" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Import" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label layoutX="51.0" layoutY="14.0" text="Class" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="163.0" layoutY="14.0" text="Subject" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <JFXButton buttonType="RAISED" layoutX="31.0" layoutY="147.0" onAction="#close" prefHeight="39.0" prefWidth="83.0" ripplerFill="BLACK" style="-fx-background-color: gray;" text="Cancel" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+   </children>
+</AnchorPane>

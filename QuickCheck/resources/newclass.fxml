@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="430.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.NewClassController">
+   <children>
+      <JFXTextField fx:id="course_text" alignment="CENTER" focusColor="MAROON" layoutX="184.0" layoutY="19.0" prefHeight="25.0" prefWidth="237.0" promptText="ex. BTTE - E4K" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXTextField fx:id="subject_text" alignment="CENTER" focusColor="MAROON" layoutX="184.0" layoutY="49.0" prefHeight="25.0" prefWidth="237.0" promptText="ex. BTTE13" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <Label layoutX="11.0" layoutY="16.0" text="Course-Section:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="11.0" layoutY="47.0" text="Subject:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="11.0" layoutY="77.0" text="Schedule:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="create_button" buttonType="RAISED" layoutX="303.0" layoutY="256.0" onAction="#newClass" prefHeight="39.0" prefWidth="106.0" style="-fx-background-color: Gray;" text="Create" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label fx:id="loginstat" layoutX="14.0" layoutY="221.0" text=" " textFill="WHITE" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Spinner fx:id="daysperweek" layoutX="183.0" layoutY="80.0" onMouseClicked="#schedDisplay" prefHeight="25.0" prefWidth="61.0" />
+      <Label layoutX="254.0" layoutY="77.0" prefHeight="30.0" prefWidth="97.0" text="/Week" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <ScrollPane hbarPolicy="NEVER" layoutX="8.0" layoutY="145.0" pannable="true" prefHeight="64.0" prefWidth="407.0" style="-fx-background-color: white;">
+         <content>
+            <AnchorPane maxWidth="390.0" minWidth="390.0" prefWidth="390.0">
+               <children>
+                  <GridPane fx:id="grid" alignment="CENTER" maxWidth="390.0" minWidth="390.0" prefHeight="62.0" prefWidth="390.0" style="-fx-background-color: white;">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="70.0" minWidth="60.0" prefWidth="64.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+                    </columnConstraints>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </content>
+         <padding>
+            <Insets left="4.0" />
+         </padding>
+      </ScrollPane>
+      <Label layoutX="16.0" layoutY="115.0" text="Day/s" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="219.0" layoutY="115.0" text="Time" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <JFXButton buttonType="RAISED" layoutX="26.0" layoutY="256.0" onAction="#exit" prefHeight="39.0" prefWidth="106.0" style="-fx-background-color: Gray;" text="Cancel" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+   </children>
+</AnchorPane>

@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="testPane" maxHeight="430.0" maxWidth="810.0" minHeight="430.0" minWidth="810.0" prefHeight="430.0" prefWidth="810.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.TestGUIController">
+   <children>
+      <Pane layoutX="633.0" layoutY="137.0" prefHeight="96.0" prefWidth="177.0" style="-fx-background-color: #696969;">
+         <children>
+            <Label fx:id="date_label" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" prefHeight="66.0" prefWidth="165.0" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="time_label" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="62.0" prefHeight="29.0" prefWidth="165.0" text="Time" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="23.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="633.0" layoutY="232.0" prefHeight="102.0" prefWidth="177.0" style="-fx-background-color: #708090;">
+         <children>
+            <JFXButton fx:id="open_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="54.0" onAction="#openTest" prefHeight="39.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Open" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></JFXButton>
+            <JFXButton fx:id="new_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="7.0" onAction="#newTest" prefHeight="39.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="New" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="settings_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="7.0" onAction="#settings" prefHeight="41.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Settings" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="check_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="54.0" onAction="#quickCheck" prefHeight="41.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="QuickCheck" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+         </children></Pane>
+      <Pane layoutX="633.0" layoutY="334.0" prefHeight="58.0" prefWidth="177.0" style="-fx-background-color: #2F4F4F;">
+         <children>
+            <JFXButton fx:id="delete_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="9.0" onAction="#deleteTest" prefHeight="34.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Delete" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="records_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="9.0" onAction="#openRecords" prefHeight="34.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Records" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+         </children></Pane>
+      <ImageView fitHeight="436.0" fitWidth="633.0" layoutY="-6.0">
+         <image>
+            <Image url="@bg.png" />
+         </image>
+         <effect>
+            <ColorAdjust contrast="0.07" />
+         </effect>
+      </ImageView>
+      <Label layoutX="680.0" layoutY="60.0" text="QuickCheck" textFill="WHITE">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="16.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="52.0" fitWidth="59.0" layoutX="693.0" layoutY="8.0" onMouseClicked="#home">
+         <image>
+            <Image url="@86190431_876636742794473_8673000457800515584_n.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <JFXButton fx:id="back0" buttonType="RAISED" layoutX="640.0" layoutY="398.0" onAction="#back" prefHeight="25.0" prefWidth="67.0" ripplerFill="BLACK" text="&lt;&lt; Back" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="del11" buttonType="RAISED" layoutX="733.0" layoutY="398.0" prefHeight="25.0" prefWidth="74.0" ripplerFill="BLACK" text="Help" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Pane fx:id="select_test_pane" layoutX="10.0" layoutY="8.0" prefHeight="414.0" prefWidth="608.0">
+         <children>
+            <ScrollPane hbarPolicy="NEVER" layoutY="73.0" pannable="true" prefHeight="267.0" prefWidth="608.0" vbarPolicy="ALWAYS">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="264.0" prefWidth="584.0">
+                     <children>
+                        <GridPane fx:id="gridpane" gridLinesVisible="true" layoutY="-1.0" onMouseClicked="#clickGrid" prefHeight="267.0" prefWidth="584.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="0.0" prefWidth="50.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="144.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="10.0" prefWidth="259.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="134.0" />
+                          </columnConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+            <Label layoutX="230.0" text="Select Test" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="searchB" focusColor="BLACK" labelFloat="true" layoutX="479.0" layoutY="352.0" onAction="#searchClass" onKeyTyped="#searchClass" prefHeight="26.0" prefWidth="113.0" promptText="Search here" style="-fx-background-color: white; -fx-border-color: gray;" unFocusColor="WHITE" />
+            <Label layoutX="46.0" layoutY="52.0" text="TEST CODE" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="211.0" layoutY="52.0" text="TEST NAME" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="462.0" layoutY="52.0" text="TEST DATE" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXButton fx:id="back1" buttonType="RAISED" layoutX="640.0" layoutY="398.0" onAction="#back_1" prefHeight="25.0" prefWidth="67.0" ripplerFill="BLACK" text="&lt;&lt; Back" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label fx:id="course_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="81.0" prefHeight="17.0" prefWidth="97.0" text="COURSE" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="subject_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="103.0" prefHeight="17.0" prefWidth="97.0" text="SUBJECT" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Pane fx:id="test_settings_pane" layoutX="10.0" layoutY="8.0" prefHeight="414.0" prefWidth="608.0" visible="false">
+         <children>
+            <Label layoutX="207.0" text="Test Settings" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="47.0" text="Code:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="72.0" text="Name:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="97.0" text="Date:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="code_label" layoutX="84.0" layoutY="47.0" text="Name:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="name_label" layoutX="84.0" layoutY="72.0" text="Name:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="date_labelt" layoutX="84.0" layoutY="97.0" text="Name:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="4.0" layoutY="152.0" prefHeight="196.0" prefWidth="600.0" vbarPolicy="ALWAYS">
+               <content>
+                  <AnchorPane prefHeight="174.0" prefWidth="585.0">
+                     <children>
+                        <GridPane fx:id="open_gridpane" gridLinesVisible="true" prefHeight="196.0" prefWidth="584.0" vgap="10.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="69.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+                          </columnConstraints>
+                           <padding>
+                              <Insets left="20.0" top="10.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+            <Spinner fx:id="item_spinner" layoutX="535.0" layoutY="98.0" prefHeight="25.0" prefWidth="59.0" />
+            <Label layoutX="417.0" layoutY="97.0" text="No. of Items:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="21.0" layoutY="123.0" text="No." textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="230.0" layoutY="123.0" text="Key to Correction" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="edit_button" buttonType="RAISED" layoutX="462.0" layoutY="355.0" onAction="#edit" prefHeight="41.0" prefWidth="130.0" style="-fx-background-color: gray; -fx-border-color: white;" text="Edit" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
+      <Pane fx:id="quickcheck_pane" layoutX="7.0" layoutY="8.0" prefHeight="414.0" prefWidth="608.0" visible="false">
+         <children>
+            <Pane fx:id="select_camera_first_pane" layoutY="135.0">
+               <children>
+                  <BorderPane fx:id="bpWebCamPaneHolder" layoutY="12.0" maxHeight="180.0" maxWidth="242.0" minHeight="150.0" minWidth="150.0" prefHeight="167.0" prefWidth="242.0">
+                     <center>
+                        <ImageView fx:id="imgWebCamCapturedImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+                  <Pane layoutX="283.0" prefHeight="248.0" prefWidth="326.0" style="-fx-background-color: white; -fx-border-color: black;">
+                     <children>
+                        <Label layoutX="14.0" layoutY="8.0" text="Name:">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="15.0" layoutY="105.0" text="Score:">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="check_student" layoutX="14.0" layoutY="37.0" prefHeight="66.0" prefWidth="299.0" text="Name:" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="check_score" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="131.0" prefHeight="31.0" prefWidth="299.0" text="100/100">
+                           <font>
+                              <Font name="System Bold" size="71.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Label fx:id="check_status" layoutX="14.0" layoutY="179.0" prefHeight="86.0" prefWidth="242.0" text="Label" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <ComboBox fx:id="cbCameraOptions" layoutX="15.0" layoutY="77.0" prefHeight="25.0" prefWidth="213.0" />
+            <Label layoutX="15.0" layoutY="59.0" text="CAMERA:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="211.0" layoutY="2.0" text="QuickCheck!" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Label>
+            <Label layoutX="294.0" layoutY="78.0" text="Test:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="294.0" layoutY="99.0" text="Code:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="499.0" layoutY="99.0" text="Items:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="check_name" layoutX="352.0" layoutY="78.0" maxHeight="26.0" maxWidth="280.0" minHeight="26.0" minWidth="257.0" prefHeight="26.0" prefWidth="257.0" text="name" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="check_code" layoutX="352.0" layoutY="99.0" maxHeight="26.0" maxWidth="186.0" minHeight="26.0" minWidth="139.0" prefHeight="26.0" prefWidth="139.0" text="name" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="items_label" layoutX="550.0" layoutY="99.0" text="100" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="start_button" buttonType="RAISED" layoutX="79.0" layoutY="106.0" onAction="#start_cam" prefHeight="25.0" prefWidth="86.0" style="-fx-background-color: gray;" text="Start Cam" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <Pane fx:id="blockCamera" layoutX="-4.0" layoutY="138.0" prefHeight="180.0" prefWidth="270.0" style="-fx-background-color: black;">
+               <children>
+                  <Label layoutX="58.0" layoutY="53.0" prefHeight="74.0" prefWidth="148.0" text="Please select Camera first." textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+         <effect>
+            <ColorAdjust />
+         </effect>
+      </Pane>
+      <Pane fx:id="test_records_pane" layoutX="7.0" layoutY="8.0" prefHeight="414.0" prefWidth="608.0" visible="false">
+         <children>
+            <Label layoutX="208.0" text="Test Records" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Label>
+            <Pane layoutX="353.0" layoutY="155.0" maxHeight="255.0" maxWidth="255.0" minHeight="255.0" minWidth="255.0" prefHeight="255.0" prefWidth="255.0" style="-fx-background-color: black;">
+               <children>
+                  <Label layoutX="10.0" layoutY="114.0" text="Please select a student first." textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="qr_imageview" fitHeight="250.0" fitWidth="250.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
+            <Label layoutX="381.0" layoutY="126.0" text="Student's answer sheet:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="155.0" pannable="true" prefHeight="255.0" prefWidth="326.0" style="-fx-background-color: black;" vbarPolicy="ALWAYS">
+              <content>
+                <AnchorPane maxHeight="254.0" maxWidth="310.0" minHeight="254.0" minWidth="310.0" prefHeight="254.0" prefWidth="310.0">
+                     <children>
+                        <GridPane fx:id="record_gridpane" onMouseClicked="#clickGridTest" prefHeight="256.0" prefWidth="310.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.0" minWidth="214.0" prefWidth="214.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="96.0" prefWidth="96.0" />
+                          </columnConstraints>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+            <Label layoutX="21.0" layoutY="126.0" text="Name" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="259.0" layoutY="126.0" text="Score" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="238.0" layoutY="90.0" text="Items:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="test_items_label" layoutX="297.0" layoutY="90.0" text="100" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="61.0" text="Test:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="89.0" text="Date:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="34.0" text="Code:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="test_code_label" layoutX="82.0" layoutY="34.0" text="Name:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="test_name_label" layoutX="82.0" layoutY="61.0" text="Name:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="test_date_label" layoutX="82.0" layoutY="89.0" text="Name:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
