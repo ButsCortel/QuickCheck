@@ -89,8 +89,12 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 public class TestGUIController implements Initializable {
     @FXML
@@ -158,10 +162,18 @@ public class TestGUIController implements Initializable {
     void deleteTest(ActionEvent event) {
     	if (test_selected) {
     		File file = new File(ClassSessionController.testQ + test_codes.get(rowIndex));
+    		Path test = Paths.get(ClassSessionController.answers + test_codes.get(rowIndex).substring(0,7));
 
         	AlertBoxController.label_text = "Delete Test?";
         	if(AlertBoxController.display("Delete Test")) {
         		file.delete();
+        		try {
+					deleteDirectory(test);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		deleteSheet(testNames.get(rowIndex));
         		loadTests();
         		
         	}
@@ -173,6 +185,72 @@ public class TestGUIController implements Initializable {
     	}
 
     }
+    void deleteSheet(String sheet_name) {
+    	FileInputStream input = null;
+    	Workbook wb = null;
+    	int sheet_num = 0;
+    	try {
+    		input = new FileInputStream(ClassSessionController.test_excel);
+    		wb = new HSSFWorkbook(input);
+    		Sheet sheet = wb.getSheet(sheet_name);
+    		if(sheet != null)   {
+    		    sheet_num = wb.getSheetIndex(sheet);
+    		    wb.removeSheetAt(sheet_num);
+    		}
+    	}
+    	catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	finally {
+    		if (input != null) {
+    			try {input.close();} catch(IOException e) {e.printStackTrace();}
+    		}
+    		FileOutputStream out = null;
+    		try {
+				out = new FileOutputStream(new File(ClassSessionController.test_excel));
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		if (wb != null && out != null){
+    			try {
+    				wb.write(out);
+    				wb.close();
+    				} 
+    			catch(IOException e) {e.printStackTrace();}
+    		}
+	        try {           
+	            out.flush();
+	            out.close();} 
+	        catch (IOException e) {e.printStackTrace();}
+
+	    }
+    	}
+    public void deleteDirectory(Path directoryFilePath) throws IOException
+    {
+        Path directory = directoryFilePath;
+
+        if (Files.exists(directory))
+        {
+            Files.walkFileTree(directory, new SimpleFileVisitor<Path>()
+            {
+                @Override
+                public FileVisitResult visitFile(Path path, BasicFileAttributes basicFileAttributes) throws IOException
+                {
+                    Files.delete(path);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path directory, IOException ioException) throws IOException
+                {
+                    Files.delete(directory);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        }
+    }
+
  
 
     @FXML
@@ -214,7 +292,7 @@ public class TestGUIController implements Initializable {
     	settings_button.setVisible(true);
     	check_button.setVisible(true);
     	records_button.setVisible(true);
-    	records_button.setDisableVisualFocus(false);
+    	records_button.setDisable(true);
     	settings_button.setDisable(true);
     	new_button.setVisible(false);
 		 open_button.setVisible(false);
@@ -840,7 +918,7 @@ public class TestGUIController implements Initializable {
 	    			ans = ans.substring(0, ans.length() - 2);
 	    			Alert alert = new Alert(AlertType.WARNING);
 	    			alert.setTitle("Blank item");
-	    			alert.setHeaderText("Each item should have a right answer.");
+	    			alert.setHeaderText("All items should have right answer.");
 	    			alert.setContentText("Item/s: " + ans);
 
 	    			alert.showAndWait();
@@ -1009,8 +1087,14 @@ public class TestGUIController implements Initializable {
 
 			double height = bpWebCamPaneHolder.getHeight();
 			double width = bpWebCamPaneHolder.getWidth();
-			System.out.println(height);
-			System.out.println(width);
+			/*select_camera_first_pane.setMinHeight(height);
+			select_camera_first_pane.setMinWidth(width);
+			select_camera_first_pane.setMaxHeight(height);
+			select_camera_first_pane.setMaxWidth(width);
+			*/
+	
+			//System.out.println(height);
+			//System.out.println(width);
 			imgWebCamCapturedImage.setFitHeight(height);
 			imgWebCamCapturedImage.setFitWidth(width);
 			imgWebCamCapturedImage.prefHeight(height);
@@ -1100,7 +1184,7 @@ public class TestGUIController implements Initializable {
 													String right_items = Integer.toString(quiz_items);
 													if (right_code.equals(test_code) && check_log(student_code) && no_of_items.equals(right_items))
 													{
-														checkAnswer(student_answer, student_info.get(1), quiz_name);
+														checkAnswer(student_answer, student_info.get(1), quiz_name, right_code);
 														for (String n: student_info) {
 															System.out.println(n);
 														}
@@ -1181,7 +1265,7 @@ public class TestGUIController implements Initializable {
 			//btnStopCamera.setDisable(true);
 			//btnStartCamera.setDisable(true);
 		}
-		public void checkAnswer(String answer, String sname, String qname) {
+		public void checkAnswer(String answer, String sname, String qname, String tcode) {
 			String[] ansarr = answer.split("/");
 			String rightAns ="";
 			for (String s: answers) {
@@ -1218,7 +1302,7 @@ public class TestGUIController implements Initializable {
 			String sc = ClassSessionController.course.replaceAll("_", "/");
 			
 	        try {
-	            generateQRCodeImage(qn + " " + qd + " " + answer + " " + rightAns + " " + right + " " + quiz_items + " " + sn + " " + sc, sname);
+	            generateQRCodeImage(tcode, qn + " " + qd + " " + answer + " " + rightAns + " " + right + " " + quiz_items + " " + sn + " " + sc, sname);
 	        } catch (WriterException e) {
 	            System.out.println("Could not generate QR Code, WriterException :: " + e.getMessage());
 	        } catch (IOException e) {
@@ -1244,6 +1328,8 @@ public class TestGUIController implements Initializable {
 						else {
 							score = row.createCell(5);
 							score.setCellValue(Integer.toString(right));
+							Cell ans = row.createCell(6);
+							ans.setCellValue(answer);
 						}
 
 						break;
@@ -1600,12 +1686,12 @@ public class TestGUIController implements Initializable {
 		}
 		// private static String imagepath = "./MyQRCode.png";
 
-		    private static void generateQRCodeImage(String text, String sname)
+		    private static void generateQRCodeImage(String tcode, String text, String sname)
 		            throws WriterException, IOException {
 		        QRCodeWriter qrCodeWriter = new QRCodeWriter();
 		        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 250, 250);
 
-		        Path path = Paths.get(ClassSessionController.answers + sname +".png");
+		        Path path = Paths.get(ClassSessionController.answers+ tcode +"\\" + sname +".png");
 		        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
 		    }
 		    @FXML
@@ -1685,9 +1771,11 @@ public class TestGUIController implements Initializable {
 
 		    @FXML
 		    private Label test_date_label;
+		    boolean record_selected = false;
 		    @FXML
 		    void clickGridTest(MouseEvent event) {
 		    	 int test_rowIndex = 0;
+		    	 record_selected = true;
 		    	if (event.isStillSincePress()) {
 			        Node clickedNode = event.getPickResult().getIntersectedNode();
 			        
@@ -1709,7 +1797,8 @@ public class TestGUIController implements Initializable {
 			            	}
 			            	
 			            }
-			            File file = new File(ClassSessionController.answers + sname.get(test_rowIndex) +".png");
+			            String tcode = cd.substring(0, 7);
+			            File file = new File(ClassSessionController.answers + tcode +"\\" +sname.get(test_rowIndex) +".png");
 			            Image image = new Image(file.toURI().toString());
 			           
 			            qr_imageview.setImage(image);
@@ -1717,5 +1806,9 @@ public class TestGUIController implements Initializable {
 			        }
 			    	}
 		    	
+		    }
+		    @FXML
+		    void deleteAnswer(ActionEvent event) {
+
 		    }
  }

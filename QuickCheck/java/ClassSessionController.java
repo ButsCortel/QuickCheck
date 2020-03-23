@@ -173,14 +173,19 @@ public class ClassSessionController implements Initializable{
 		}
 		classSPane.setDisable(false);
 	}
+	ArrayList<String> students_code = null;
+	ArrayList<String> students_name = null;
+	ArrayList<String> students_sex = null;
+	ArrayList<String> students_id = null;
+	ArrayList<String> students_course= null;
 	void checkStudents() throws IOException {
 	    FileInputStream fi = null;
-		Workbook wb = null;
-		ArrayList<String> students_code = new ArrayList<String>();
-		ArrayList<String> students_name = new ArrayList<String>();
-		ArrayList<String> students_sex = new ArrayList<String>();
-		ArrayList<String> students_id = new ArrayList<String>();
-		ArrayList<String> students_course= new ArrayList<String>();
+	    Workbook wb = null;
+		students_code = new ArrayList<String>();
+		students_name = new ArrayList<String>();
+		students_sex = new ArrayList<String>();
+		students_id = new ArrayList<String>();
+		students_course= new ArrayList<String>();
 		ArrayList<Label> students_display = new ArrayList<Label>();
 		students_display.add(null);
 		students_display.add(null);

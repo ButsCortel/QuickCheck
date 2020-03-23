@@ -195,6 +195,74 @@ public class AttendanceGUIController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		DateTimeFormatter day = DateTimeFormatter.ofPattern("EEE");
+		LocalDateTime dateobj = LocalDateTime.now();
+		for (String s: scheds_day) {
+			//System.out.println(s);
+			String[] t = s.split("\\s+");
+			//System.out.println(day.format(dateobj));
+			if (t[0].equals(day.format(dateobj))) {
+				String hr = t[1].substring(0,3);
+				String min = t[1].substring(3, 5);
+				//int m = Integer.parseInt(min) + 15;
+				//String min2 = Integer.toString(m);
+				//grace_time = hr+min2 + " " + t[2];
+				time_in = hr+min + " " + t[2];
+				//System.out.println(time_in);
+				//System.out.println(grace_time);
+				break;
+			}
+			else {
+				time_in = "11:59 PM";
+				//grace_time = "11:59 PM";
+			}
+			
+		}
+		
+		int hr = Integer.parseInt(time_in.substring(0, 2));
+		int min = Integer.parseInt(time_in.substring(3, 5));
+		String mr = time_in.substring(6);
+		// below, %02d says to java that I want my integer to be formatted as a 2 digit representation
+		//String temph = String.format("%02d", );
+		
+		// and if you want to do the reverse
+
+		/*ObservableList<Integer> h = FXCollections.observableArrayList();
+		ObservableList<Integer> m = FXCollections.observableArrayList();
+		
+		for (int i = 0; i < 13; i++) {
+			String temp = String.format("%02d", i);
+			h.add(Integer.parseInt(temp));
+			m.add(Integer.parseInt(temp));
+		}
+		for (int i = 13; i < 60; i++) {
+			m.add(i);
+		}*/
+		
+		
+		SpinnerValueFactory<Integer> hours = //
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(01, 12, hr);
+ 
+        
+        SpinnerValueFactory<Integer> minutes = //
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(00, 59, min);
+        
+        
+        hr_spin.setValueFactory(hours);
+        min_spin.setValueFactory(minutes);
+        
+        ObservableList<String> mer = FXCollections.observableArrayList("AM", "PM");
+  
+        //final Spinner<String> spinner = new Spinner<String>();
+  
+        // Value factory.
+        SpinnerValueFactory<String> meridian = //
+                new SpinnerValueFactory.ListSpinnerValueFactory<String>(mer);
+       
+        // Default value
+        meridian.setValue(mr);
+        
+        mer_spin.setValueFactory(meridian);
 
 		attendanceGPane.setOpacity(0);
 		attendanceGPane.setDisable(true);
@@ -378,6 +446,7 @@ public class AttendanceGUIController implements Initializable{
 										if (result != null && !result.getText().equals("") && !result.getText().equals(last)) //prevent cam from reading continuously
 										{
 											last = result.getText();
+											System.out.println(last);
 											results = last.split("\\s+");
 									        if (results.length > 3 && results[results.length -1].chars().allMatch(Character::isDigit) && results[results.length -1].length() > 3)
 									        {
@@ -484,10 +553,19 @@ public class AttendanceGUIController implements Initializable{
 
 
 	}
+
+    @FXML
+    private Spinner<Integer> hr_spin;
+
+    @FXML
+    private Spinner<String> mer_spin;
+
+    @FXML
+    private Spinner<Integer> min_spin;
 	private void logStudent (ArrayList<String> info) throws IOException {
 		int late = 0;
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("MMM-yyyy");
-		DateTimeFormatter day = DateTimeFormatter.ofPattern("EEE");
+		//DateTimeFormatter day = DateTimeFormatter.ofPattern("EEE");
 		DateTimeFormatter timein = DateTimeFormatter.ofPattern("hh:mm");
         DateTimeFormatter format = DateTimeFormatter
                 .ofLocalizedTime(FormatStyle.SHORT);
@@ -498,27 +576,7 @@ public class AttendanceGUIController implements Initializable{
 		String tid = "";
 		boolean dup = false;
 		
-		for (String s: scheds_day) {
-			//System.out.println(s);
-			String[] t = s.split("\\s+");
-			//System.out.println(day.format(dateobj));
-			if (t[0].equals(day.format(dateobj))) {
-				String hr = t[1].substring(0,3);
-				String min = t[1].substring(3, 5);
-				int m = Integer.parseInt(min) + 15;
-				String min2 = Integer.toString(m);
-				grace_time = hr+min2 + " " + t[2];
-				time_in = hr+min + " " + t[2];
-				//System.out.println(time_in);
-				//System.out.println(grace_time);
-				break;
-			}
-			else {
-				time_in = "11:59 PM";
-				grace_time = "11:59 PM";
-			}
-			
-		}
+		
 	    //DateFormat df = new SimpleDateFormat("MMM-yyyy");
 	    //DateFormat timein = new SimpleDateFormat("hh:mm aa");
         //Date dateobj = new Date();
@@ -531,18 +589,25 @@ public class AttendanceGUIController implements Initializable{
 			tid = timein.format(dateobj) + " AM";
 		}
 		//System.out.println(ti);
-
+		String hour = hr_spin.getValue().toString();
+		String min = min_spin.getValue().toString();
+		if (hour.length() < 2) {
+			hour = "0" + hour;
+		}
+		if (min.length() < 2) {
+			min = "0" + min;
+		}
+		
+		
+		String mr = mer_spin.getValue();
+		String modified_time_in = hour + ":" + min+ " " + mr;
         LocalTime timeIn = LocalTime.parse(ti, format);
-        LocalTime classTime = LocalTime.parse(time_in, format);
-        LocalTime graceTime = LocalTime.parse(grace_time, format);
+        LocalTime classTime = LocalTime.parse(modified_time_in, format);
+        //LocalTime graceTime = LocalTime.parse(grace_time, format);
         //Duration duration = Duration.between(time1, time2);
-       if (timeIn.compareTo(graceTime) > 0 ) {
+       if (timeIn.compareTo(classTime) > 0 ) {
         	ti += " (LATE)"; 
         	late = 1;
-        }
-        else if (timeIn.compareTo(classTime) > 0 && timeIn.compareTo(graceTime) < 0) {
-        	ti += " (GRACE PERIOD)";
-        	late = -1;
         }
         else {
         	ti += " (ON TIME)";
@@ -926,6 +991,7 @@ public class AttendanceGUIController implements Initializable{
         			});
         		}
         		else {
+        			cbCameraOptions.setDisable(true);
         			initializeWebCam(0);
         		}
 

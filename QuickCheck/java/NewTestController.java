@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -249,6 +252,13 @@ public class NewTestController {
 		    
 			
 		    
+		}
+		Path anSheets = Paths.get(ClassSessionController.answers + file);
+		try {
+			Files.createDirectories(anSheets);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     }
     public boolean dateFormat(String date) {
