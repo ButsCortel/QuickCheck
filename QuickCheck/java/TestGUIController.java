@@ -292,7 +292,7 @@ public class TestGUIController implements Initializable {
     	settings_button.setVisible(true);
     	check_button.setVisible(true);
     	records_button.setVisible(true);
-    	records_button.setDisable(true);
+    	records_button.setDisable(false);
     	settings_button.setDisable(true);
     	new_button.setVisible(false);
 		 open_button.setVisible(false);
@@ -634,9 +634,11 @@ public class TestGUIController implements Initializable {
 			 final int initialValue = Integer.parseInt(qtems);
 	    		if (initialValue > 0) {
 	    			check_button.setDisable(false);
+	    			records_button.setDisable(false);
 	    		}
 	    		else {
 	    			check_button.setDisable(true);
+	    			records_button.setDisable(true);
 	    		}
 			 SpinnerValueFactory<Integer> valueFactory = //
 		                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, initialValue);
@@ -1179,28 +1181,26 @@ public class TestGUIController implements Initializable {
 													String student_code = split[1];
 													String no_of_items = split[2];
 													String student_answer = split[3];
+													String attempt = split[4];
+													String duration = split[5];
+													
 													
 													String right_code = cd.substring(0,7);
 													String right_items = Integer.toString(quiz_items);
 													if (right_code.equals(test_code) && check_log(student_code) && no_of_items.equals(right_items))
 													{
-														checkAnswer(student_answer, student_info.get(1), quiz_name, right_code);
-														for (String n: student_info) {
-															System.out.println(n);
-														}
+														checkAnswer(student_answer, student_info.get(1), quiz_name, student_code, right_code, attempt, duration);
+														
 														check_student.setText(student_info.get(1));
 														check_status.setText("Logged");
 													}
 													else if (!right_code.equals(test_code)) {
-														System.out.println("Wrong code! Right: " + right_code + " Your code: " + test_code);
 														check_status.setText("Wrong Quiz Code!\n" + "(" + test_code + ")");
 													}
 													else if (!check_log(student_code)) {
-														System.out.println("Student not logged");
 														check_status.setText("Student not logged");
 													}
 													else if (!no_of_items.equals(right_items)) {
-														System.out.println("Wrong items!" + "Right: " + right_items + "Yours: "+ no_of_items);
 														check_status.setText("Wrong no. of items!\n" + "(" + no_of_items + ")" );
 													}
 													
@@ -1265,7 +1265,9 @@ public class TestGUIController implements Initializable {
 			//btnStopCamera.setDisable(true);
 			//btnStartCamera.setDisable(true);
 		}
-		public void checkAnswer(String answer, String sname, String qname, String tcode) {
+		
+		
+		public void checkAnswer(String answer, String sname, String qname, String scode, String tcode, String attempt, String duration) {
 			String[] ansarr = answer.split("/");
 			String rightAns ="";
 			for (String s: answers) {
@@ -1302,7 +1304,7 @@ public class TestGUIController implements Initializable {
 			String sc = ClassSessionController.course.replaceAll("_", "/");
 			
 	        try {
-	            generateQRCodeImage(tcode, qn + " " + qd + " " + answer + " " + rightAns + " " + right + " " + quiz_items + " " + sn + " " + sc, sname);
+	            generateQRCodeImage(tcode, qn + " " + qd + " " + answer + " " + rightAns + " " + right + " " + quiz_items + " " + sn + " " + scode + " " + sc, sname);
 	        } catch (WriterException e) {
 	            System.out.println("Could not generate QR Code, WriterException :: " + e.getMessage());
 	        } catch (IOException e) {
@@ -1330,6 +1332,10 @@ public class TestGUIController implements Initializable {
 							score.setCellValue(Integer.toString(right));
 							Cell ans = row.createCell(6);
 							ans.setCellValue(answer);
+							Cell tries = row.createCell(7);
+							tries.setCellValue(attempt);
+							Cell dur = row.createCell(8);
+							dur.setCellValue(duration);
 						}
 
 						break;
@@ -1699,27 +1705,38 @@ public class TestGUIController implements Initializable {
 
 		    @FXML
 		    private GridPane record_gridpane;
-		    static ArrayList<String> sname;
-		    static ArrayList<String> sscore;
+		 
 		    void displayRecords() {
 		    	record_gridpane.getChildren().clear();
 		    	sname = new ArrayList<String>();
+		    	scourse = new ArrayList<String>();
 		    	sscore = new ArrayList<String>();
+		    	sans = new ArrayList<String>();
+		    	stries = new ArrayList<String>();
+		    	sdur = new ArrayList<String>();
 		    	FileInputStream fi = null;
 		    	Workbook wb = null;
 		    	try {
 		    		fi = new FileInputStream(ClassSessionController.test_excel);
 					wb = new HSSFWorkbook(fi);
-					Sheet sheet = wb.getSheetAt(0);
+					Sheet sheet = wb.getSheet(quiz_name);
 					int lastRow = sheet.getLastRowNum();
 					for (int count = 1; count <= lastRow; count++) {
 						Row row = sheet.getRow(count);
 						Cell name = row.getCell(1);
+						Cell course = row.getCell(4);
 						Cell score = row.getCell(5);
+						Cell ans = row.getCell(6);
+						Cell tries = row.getCell(7);
+						Cell duration = row.getCell(8);
 						
 							if (score != null && !score.getStringCellValue().equals("")) {
 								sname.add(name.getStringCellValue());
+								scourse.add(course.getStringCellValue());
 								sscore.add(score.getStringCellValue());
+								sans.add(ans.getStringCellValue());
+								stries.add(tries.getStringCellValue());
+								sdur.add(duration.getStringCellValue());
 							}
 
 						
@@ -1742,22 +1759,47 @@ public class TestGUIController implements Initializable {
 		    
 		    	}
 		    	for (int gridRow = 0; gridRow < sname.size(); gridRow++) {
+		    		
+		    		
 		    		Label nm = new Label(sname.get(gridRow));
 		    		Label sc = new Label(sscore.get(gridRow));
-			    	nm.setFont(new Font("Arial black",15));
+		    		Label tr = new Label(stries.get(gridRow));
+		    		Label dr = new Label(sdur.get(gridRow));
+		    		
+		    		nm.setFont(new Font("Arial black",15));
 					sc.setFont(new Font("Arial black",15));
+					tr.setFont(new Font("Arial black",15));
+					dr.setFont(new Font("Arial black",15));
 					
-					nm.setMinWidth(214);
-					nm.setMaxWidth(214);
-					sc.setMinWidth(96);
-					sc.setMaxWidth(96);
+					nm.setMinWidth(250);
+					nm.setMaxWidth(250);
+					sc.setMinWidth(100);
+					sc.setMaxWidth(100);
+					tr.setMinWidth(90);
+					tr.setMaxWidth(90);
+					dr.setMinWidth(120);
+					dr.setMaxWidth(120);
+					
+					nm.setMaxHeight(30);
+					nm.setMinHeight(30);
+					sc.setMaxHeight(30);
+					sc.setMinHeight(30);
+					tr.setMaxHeight(30);
+					tr.setMinHeight(30);
+					dr.setMaxHeight(30);
+					dr.setMinHeight(30);
 					
 					sc.setAlignment(Pos.CENTER);
+					tr.setAlignment(Pos.CENTER);
+					dr.setAlignment(Pos.CENTER);
 					nm.setPadding(new Insets(0,0,0,10));
+					
 					
 					
 					record_gridpane.add(nm, 0, gridRow);
 					record_gridpane.add(sc, 1, gridRow);
+					record_gridpane.add(dr, 2, gridRow);
+					record_gridpane.add(tr, 3, gridRow);
 		    	}
 		    }
 		    @FXML
@@ -1772,9 +1814,10 @@ public class TestGUIController implements Initializable {
 		    @FXML
 		    private Label test_date_label;
 		    boolean record_selected = false;
+		    int test_rowIndex = 0;
 		    @FXML
 		    void clickGridTest(MouseEvent event) {
-		    	 int test_rowIndex = 0;
+		    	
 		    	 record_selected = true;
 		    	if (event.isStillSincePress()) {
 			        Node clickedNode = event.getPickResult().getIntersectedNode();
@@ -1797,18 +1840,73 @@ public class TestGUIController implements Initializable {
 			            	}
 			            	
 			            }
-			            String tcode = cd.substring(0, 7);
-			            File file = new File(ClassSessionController.answers + tcode +"\\" +sname.get(test_rowIndex) +".png");
-			            Image image = new Image(file.toURI().toString());
-			           
-			            qr_imageview.setImage(image);
+			          
 			        	}
 			        }
 			    	}
 		    	
 		    }
+		    
 		    @FXML
-		    void deleteAnswer(ActionEvent event) {
+		    private JFXButton analysis_button;
+
+		    
+		    @FXML
+		    private JFXButton del11;
+
+		    @FXML
+		    private Pane analysis_pane;
+
+		    @FXML
+		    void deleteSheet(ActionEvent event) {
+		    	FileInputStream fi = null;
+		    	Workbook wb = null;
+		    	try {
+		    		
+		    	
+		    	}
+		    	catch (Exception e) {
+		    		
+		    	}
+		    }
+
+
+
+		    @FXML
+		    void exportCurrentTest(ActionEvent event) {
 
 		    }
+
+		   
+
+		    @FXML
+		    void openAnalysis(ActionEvent event) {
+
+		    }
+		    static ArrayList<String> sname;
+		    static ArrayList<String> scourse;
+		    static ArrayList<String> sscore;
+		    static ArrayList<String> sans;
+		    static ArrayList<String> stries;
+		    static ArrayList<String> sdur;
+
+		    @FXML
+		    void openSheet(ActionEvent event) {
+		    	String rightAns ="";
+				for (String s: answers) {
+					rightAns = rightAns + s +"/";
+				}
+		    	String tcode = cd.substring(0, 7);
+		    	if (record_selected) {
+		    		System.out.println(tcode + " " + sname.get(test_rowIndex)+ " " +scourse.get(test_rowIndex)+ " " + sscore.get(test_rowIndex)+ " " +
+		    				items_label.getText()+ " " + sans.get(test_rowIndex)+ " " +rightAns);
+		    		OpenSheetController.display(tcode, sname.get(test_rowIndex), scourse.get(test_rowIndex), sscore.get(test_rowIndex), 
+		    				items_label.getText(), sans.get(test_rowIndex), rightAns);
+		    		
+		    	}
+		    }
+		   
+
+		   
+
  }

@@ -211,13 +211,19 @@ public class NewTestController {
 			Cell s_id = row.createCell(3);
 			Cell s_course = row.createCell(4);
 			Cell s_score = row.createCell(5);
+			Cell s_ans = row.createCell(6);
+			Cell s_attempt = row.createCell(7);
+			Cell s_duration = row.createCell(8);
 			
 			s_code.setCellValue("CODE");
 			s_name.setCellValue("NAME");
 			s_sex.setCellValue("SEX");
 			s_id.setCellValue("ID NO.");
-			s_course.setCellValue("COURSE CODE/ GRADE LEVEL");
+			s_course.setCellValue("COURSE CODE/ GRADE LEVEL");		
 			s_score.setCellValue("SCORE");
+			s_ans.setCellValue("ANSWERS");
+			s_attempt.setCellValue("TRIES");
+			s_duration.setCellValue("DURATION(MIN)");
 			
 		
 	    }

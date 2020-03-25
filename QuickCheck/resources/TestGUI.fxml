@@ -37,21 +37,21 @@
       </Pane>
       <Pane layoutX="633.0" layoutY="232.0" prefHeight="80.0" prefWidth="177.0" style="-fx-background-color: #708090;">
          <children>
-            <JFXButton fx:id="open_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="44.0" onAction="#openTest" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Open" textFill="WHITE" visible="false">
+            <JFXButton fx:id="open_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="44.0" onAction="#openTest" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Open" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></JFXButton>
-            <JFXButton fx:id="new_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="6.0" onAction="#newTest" prefHeight="19.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="New" textFill="WHITE" visible="false">
+            <JFXButton fx:id="new_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="6.0" onAction="#newTest" prefHeight="19.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="New" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="settings_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="6.0" onAction="#settings" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Settings" textFill="WHITE">
+            <JFXButton fx:id="settings_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="6.0" onAction="#settings" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Settings" textFill="WHITE" visible="false">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="check_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="43.0" onAction="#quickCheck" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="QuickCheck" textFill="WHITE">
+            <JFXButton fx:id="check_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="43.0" onAction="#quickCheck" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="QuickCheck" textFill="WHITE" visible="false">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -59,17 +59,17 @@
          </children></Pane>
       <Pane layoutX="633.0" layoutY="312.0" prefHeight="80.0" prefWidth="177.0" style="-fx-background-color: #2F4F4F;">
          <children>
-            <JFXButton fx:id="delete_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="25.0" onAction="#deleteTest" prefHeight="19.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Delete" textFill="WHITE" visible="false">
+            <JFXButton fx:id="delete_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="25.0" onAction="#deleteTest" prefHeight="19.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Delete" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="records_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="6.0" onAction="#openRecords" prefHeight="12.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Records" textFill="WHITE">
+            <JFXButton fx:id="records_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="6.0" onAction="#openRecords" prefHeight="12.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Records" textFill="WHITE" visible="false">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="analysis_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="44.0" onAction="#openAnalysis" prefHeight="12.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Analysis" textFill="WHITE">
+            <JFXButton fx:id="analysis_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="44.0" onAction="#openAnalysis" prefHeight="12.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Analysis" textFill="WHITE" visible="false">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -112,7 +112,25 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <Pane fx:id="select_test_pane" layoutX="10.0" layoutY="8.0" prefHeight="414.0" prefWidth="608.0" visible="false">
+      <JFXButton fx:id="back1" buttonType="RAISED" layoutX="640.0" layoutY="398.0" onAction="#back_1" prefHeight="25.0" prefWidth="67.0" ripplerFill="BLACK" text="&lt;&lt; Back" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label fx:id="course_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="81.0" prefHeight="17.0" prefWidth="97.0" text="COURSE" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="subject_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="103.0" prefHeight="17.0" prefWidth="97.0" text="SUBJECT" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Pane fx:id="select_test_pane" layoutX="10.0" layoutY="8.0" prefHeight="414.0" prefWidth="608.0">
          <children>
             <ScrollPane hbarPolicy="NEVER" layoutY="73.0" pannable="true" prefHeight="267.0" prefWidth="608.0" vbarPolicy="ALWAYS">
               <content>
@@ -153,24 +171,6 @@
             </Label>
          </children>
       </Pane>
-      <JFXButton fx:id="back1" buttonType="RAISED" layoutX="640.0" layoutY="398.0" onAction="#back_1" prefHeight="25.0" prefWidth="67.0" ripplerFill="BLACK" text="&lt;&lt; Back" textFill="WHITE" wrapText="true">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXButton>
-      <Label fx:id="course_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="81.0" prefHeight="17.0" prefWidth="97.0" text="COURSE" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
-      <Label fx:id="subject_label" alignment="CENTER" contentDisplay="CENTER" layoutX="675.0" layoutY="103.0" prefHeight="17.0" prefWidth="97.0" text="SUBJECT" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
       <Pane fx:id="test_settings_pane" layoutX="10.0" layoutY="8.0" prefHeight="414.0" prefWidth="608.0" visible="false">
          <children>
             <Label layoutX="207.0" text="Test Settings" textFill="WHITE">
@@ -358,29 +358,16 @@
                   <Font name="System Bold" size="32.0" />
                </font>
             </Label>
-            <Pane layoutX="353.0" layoutY="155.0" maxHeight="255.0" maxWidth="255.0" minHeight="255.0" minWidth="255.0" prefHeight="255.0" prefWidth="255.0" style="-fx-background-color: black;">
-               <children>
-                  <Label layoutX="10.0" layoutY="114.0" text="Please select a student first." textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <ImageView fx:id="qr_imageview" fitHeight="250.0" fitWidth="250.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </Pane>
-            <Label layoutX="381.0" layoutY="126.0" text="Student's answer sheet:" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="155.0" pannable="true" prefHeight="207.0" prefWidth="326.0" style="-fx-background-color: black;" vbarPolicy="ALWAYS">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="155.0" pannable="true" prefHeight="205.0" prefWidth="576.0" style="-fx-background-color: black;" vbarPolicy="ALWAYS">
               <content>
-                <AnchorPane maxHeight="254.0" maxWidth="310.0" minHeight="204.0" minWidth="310.0" prefHeight="206.0" prefWidth="310.0">
+                <AnchorPane maxHeight="205.0" maxWidth="560.0" minHeight="205.0" minWidth="560.0" prefHeight="205.0" prefWidth="560.0">
                      <children>
-                        <GridPane fx:id="record_gridpane" onMouseClicked="#clickGridTest" prefHeight="207.0" prefWidth="310.0">
+                        <GridPane fx:id="record_gridpane" gridLinesVisible="true" maxHeight="205.0" maxWidth="560.0" minHeight="205.0" minWidth="560.0" onMouseClicked="#clickGridTest" prefHeight="205.0" prefWidth="560.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.0" minWidth="214.0" prefWidth="214.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="96.0" prefWidth="96.0" />
+                            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
                           </columnConstraints>
                            <opaqueInsets>
                               <Insets />
@@ -390,12 +377,12 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <Label layoutX="21.0" layoutY="126.0" text="Name" textFill="WHITE">
+            <Label layoutX="40.0" layoutY="126.0" text="Name" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="259.0" layoutY="126.0" text="Score" textFill="WHITE">
+            <Label layoutX="288.0" layoutY="126.0" text="Score" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -440,19 +427,34 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="25.0" layoutY="369.0" onAction="#deleteAnswer" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="440.0" layoutY="369.0" onAction="#deleteSheet" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="260.0" layoutY="369.0" onAction="#exportCurrentTest" style="-fx-background-color: gray;" text="Export" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="521.0" layoutY="369.0" onAction="#openSheet" style="-fx-background-color: gray;" text="Open" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <Label layoutX="388.0" layoutY="126.0" text="Duration" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="503.0" layoutY="126.0" text="Tries" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="343.0" layoutY="369.0" onAction="#exportCurrentTest" style="-fx-background-color: gray;" text="Export" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </JFXButton>
          </children>
       </Pane>
-      <Pane fx:id="analysis_pane" layoutX="7.0" layoutY="8.0" prefHeight="414.0" prefWidth="608.0">
+      <Pane fx:id="analysis_pane" layoutX="7.0" layoutY="8.0" prefHeight="414.0" prefWidth="608.0" visible="false">
          <children>
             <Label layoutX="204.0" text="Item Analysis" textFill="WHITE">
                <font>

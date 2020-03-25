@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="373.0" prefWidth="600.0" style="-fx-background-color: brown;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buts.research.OpenSheetController">
+   <children>
+      <ImageView fx:id="qr_imageView" fitHeight="300.0" fitWidth="300.0" layoutX="8.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
+      <JFXButton buttonType="RAISED" layoutX="247.0" layoutY="315.0" onAction="#close" prefHeight="44.0" prefWidth="122.0" style="-fx-background-color: gray;" text="Close" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </JFXButton>
+      <ScrollPane hbarPolicy="NEVER" layoutX="331.0" layoutY="95.0" prefHeight="212.0" prefWidth="253.0" vbarPolicy="ALWAYS">
+         <content>
+            <AnchorPane prefHeight="211.0" prefWidth="238.0">
+               <children>
+                  <GridPane fx:id="gridpane" prefHeight="206.0" prefWidth="239.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+      <Label fx:id="name_label" layoutX="331.0" layoutY="6.0" prefHeight="21.0" prefWidth="261.0" text="Label" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="course_label" layoutX="331.0" layoutY="27.0" prefHeight="21.0" prefWidth="261.0" text="Label" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="score_label" layoutX="331.0" layoutY="48.0" prefHeight="21.0" prefWidth="79.0" text="Label" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="342.0" layoutY="69.0" text="No." textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="408.0" layoutY="69.0" text="Ans" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="467.0" layoutY="69.0" text="Key" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
