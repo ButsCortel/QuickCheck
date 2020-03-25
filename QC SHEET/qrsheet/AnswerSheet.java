@@ -67,13 +67,14 @@ public class AnswerSheet extends AppCompatActivity {
         String dateS = df.format(Calendar.getInstance().getTime());
         DateFormat tf = new SimpleDateFormat("h:mm a");
         String timeS = tf.format(Calendar.getInstance().getTime());
-
+        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        time_start = format.format(Calendar.getInstance().getTime());
 
         testcode = (TextView)findViewById(R.id.test_name);
         time = (TextView)findViewById(R.id.student_name);
         date = (TextView)findViewById(R.id.student_course);
         testcode.setText("Test Code: " + test_code);
-        time_start = ("Date: "+ dateS + " Start: " + timeS );
+
         time.setText("Time: " + timeS);
         date.setText("Date: " + dateS);
 

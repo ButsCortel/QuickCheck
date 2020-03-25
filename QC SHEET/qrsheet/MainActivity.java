@@ -4,16 +4,27 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 
 import com.google.zxing.Result;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -66,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                     if(cameraAccepted)
                     {
                         Toast.makeText(MainActivity.this, "Permission Granted!", Toast.LENGTH_LONG).show();
-
                     }
                     else
                     {
@@ -133,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 intent.putExtra("first_name_key", results[2]);
                 intent.putExtra("course_key", results[3]);*/
                 startActivity(intent);
+                finish();
 
 
 
@@ -145,36 +156,20 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             }
         });
         results = scanResult.split("\\s+");
-        if (results.length > 3 && myIsDigitsOnly(results[results.length -1]) && results[results.length -1].length() == 4 && mode.equals("id"))
+        if (results.length > 3 && myIsDigitsOnly(results[results.length -1]) && results[results.length -1].length() > 3 && mode.equals("id"))
         {
+
             builder.setMessage("Student information acquired! Please select next step.");
             AlertDialog alert = builder.create();
             alert.setCancelable(false);
             alert.show();
         }
         else if (results.length > 7 && mode.equals("result")) {
-            String test_name = results[0].replaceAll("/", " ");
-            String test_date = results[1].replaceAll("/", " ");
-            String student_answer = results[2];
-            String right_answer = results[3];
-            String correct_answer = results[4];
-            String test_items = results[5];
-            String student_name = results[6].replaceAll("/", " ");;
-            String student_course = results[7];
+            saveRecord(scanResult);
+            setResult(2);
+            finish();
 
-            Intent intent = new Intent(MainActivity.this, ResultsActivity.class);
-            intent.putExtra("test_name", test_name);
-            intent.putExtra("test_date", test_date);
-            intent.putExtra("test_items", test_items);
-            intent.putExtra("student_answer", student_answer);
-            intent.putExtra("right_answer", right_answer);
-            intent.putExtra("correct_answer", correct_answer);
-            intent.putExtra("student_name", student_name);
-            intent.putExtra("student_course", student_course);
-                /*intent.putExtra("last_name_key", results[1]);
-                intent.putExtra("first_name_key", results[2]);
-                intent.putExtra("course_key", results[3]);*/
-            startActivity(intent);
+
 
         }
         else
@@ -202,4 +197,27 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             return TextUtils.isDigitsOnly(str);
         }
     }
+    void saveRecord(String answers) {
+        SharedPreferences sharedPref = getSharedPreferences("com.example.qrsheet.RECORDS", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        Map<String,?> keys = sharedPref.getAll();
+        boolean dup = false;
+        for(Map.Entry<String,?> entry : keys.entrySet()){
+            if (entry.getValue().toString().equals(answers)) {
+                dup = true;
+                break;
+            }
+
+        }
+        if (!dup) {
+            int i = 0;
+            while (sharedPref.contains("RECORDS" + i)) {
+                i++;
+            }
+            editor.putString("RECORDS" + i, answers);
+            editor.apply();
+        }
+
+    }
+
 }

@@ -3,8 +3,10 @@ package com.example.qrsheet;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,8 +18,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class InfoSheet extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     static String test_items;
@@ -81,7 +86,7 @@ public class InfoSheet extends AppCompatActivity implements AdapterView.OnItemSe
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    /*private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
 
     @Override
@@ -95,10 +100,10 @@ public class InfoSheet extends AppCompatActivity implements AdapterView.OnItemSe
         else { Toast.makeText(getBaseContext(), "Tap back button again in order to exit", Toast.LENGTH_SHORT).show(); }
 
         mBackPressed = System.currentTimeMillis();
-    }
+    }*/
     public void updateSignInButtonState() {
         button.setEnabled(testCodeString.getText().length() > 6 &&
-                             !test_items.equals("Select no. of items"));
+                !test_items.equals("Select no. of items"));
     }
     public void showAlertDialog(View v) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -108,10 +113,12 @@ public class InfoSheet extends AppCompatActivity implements AdapterView.OnItemSe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String str = testCodeString.getText().toString().replaceAll("\\s+","");
+                recentStudent(id_number, str);
                 Intent intent = new Intent(InfoSheet.this, AnswerSheet.class);
                 intent.putExtra("id_number_key", id_number);
                 intent.putExtra("test_code_key", str);
                 intent.putExtra("test_items_key", test_items);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
         });
@@ -123,6 +130,26 @@ public class InfoSheet extends AppCompatActivity implements AdapterView.OnItemSe
         });
         alert.setCancelable(false);
         alert.create().show();
+    }void recentStudent(String sId, String testCode) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
+
+        SharedPreferences sharedPref = getSharedPreferences("com.example.qrsheet.TESTS_" + currentDate, Context.MODE_PRIVATE);
+
+        String rec = testCode+sId;
+        SharedPreferences.Editor editor = sharedPref.edit();
+        String tcode = sharedPref.getString(rec, null);
+        if (tcode != null) {
+            int tries = sharedPref.getInt(rec+"T", 1);
+            tries++;
+            editor.putInt(rec+"T", tries);
+        }
+        else {
+            editor.putString(rec, rec);
+            editor.putInt(rec+"T", 1);
+        }
+
+        editor.apply();
     }
 
 }

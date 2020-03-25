@@ -56,9 +56,9 @@ public class AppStart extends AppCompatActivity {
                 {
                     if(checkPermission()) //checks if the permission is granted or not
                     {
-                        Toast.makeText(AppStart.this,"Scan QR code from your proctor", Toast.LENGTH_LONG).show();
-                        mode = "result";
-                        startMain();
+                        Intent intent = new Intent(AppStart.this, Test.class);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
                     }
                     else {
                         requestPermission();
@@ -70,7 +70,6 @@ public class AppStart extends AppCompatActivity {
 
 
     /*public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         if(requestCode == REQUEST_CAMERA) {
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startMain();
@@ -79,12 +78,11 @@ public class AppStart extends AppCompatActivity {
                 Toast.makeText(this, "Cannot start scanner without permission.", Toast.LENGTH_LONG).show();
             }
         }
-
-
     }*/
     private void startMain(){
         Intent intent = new Intent(AppStart.this, MainActivity.class);
         intent.putExtra("mode", mode);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
     private boolean checkPermission()

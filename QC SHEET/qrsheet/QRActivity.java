@@ -3,8 +3,10 @@ package com.example.qrsheet;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -24,9 +26,12 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.encoder.ByteMatrix;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Hashtable;
+import java.util.Locale;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
@@ -41,13 +46,26 @@ public class QRActivity extends AppCompatActivity {
         final String id_number = getIntent().getStringExtra("id_number_key").replaceAll("\\s+", "/");
         final String test_code = getIntent().getStringExtra("test_code_key");
         final String answers = getIntent().getStringExtra("answer_key");
-        final String time_start = getIntent().getStringExtra("time_start_key").replaceAll("\\s+", "/");
+        final String time_start = getIntent().getStringExtra("time_start_key");
         final String items = getIntent().getStringExtra("no_of_items");
-        DateFormat tf = new SimpleDateFormat("h:mm a");
-        String time_end = tf.format(Calendar.getInstance().getTime()).replaceAll("\\s+", "/");
+        final SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        //final String time_end = format.format(Calendar.getInstance().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
+        String timeElapsed = "";
+        try {
+            timeElapsed = timeElapsed(time_start);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SharedPreferences sharedPref = getSharedPreferences("com.example.qrsheet.TESTS_" + currentDate, Context.MODE_PRIVATE);
+
+        String rec = test_code+id_number;
+        int attempts = sharedPref.getInt(rec + "T", 1);
 
         //TextView qrstring = (TextView) findViewById(R.id.QR_string) ;
-        String all_values = test_code + " " + id_number + " " + items+ " " + answers + " " + time_start + " End:/" + time_end;
+        String all_values = test_code + " " + id_number + " " + items+ " " + answers + " " + attempts + " " + timeElapsed;
+        //+ " " + time_start + " End:/" + time_end
         //qrstring.setText(all_values);
         ImageView qrimage = (ImageView) findViewById(R.id.imageView) ;
         try {
@@ -59,10 +77,9 @@ public class QRActivity extends AppCompatActivity {
         resultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(QRActivity.this,"Scan QR code from your proctor", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(QRActivity.this, Test.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                Intent intent = new Intent(QRActivity.this, MainActivity.class);
-                intent.putExtra("mode", "result");
                 startActivity(intent);
             }
         });
@@ -110,5 +127,17 @@ public class QRActivity extends AppCompatActivity {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
         return bitmap;
+    }
+    String timeElapsed(String date) throws ParseException {
+        final SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        final String time_end = format.format(Calendar.getInstance().getTime());
+        Date d1 = format.parse(date);
+        Date d2 = format.parse(time_end);
+        long difference = d2.getTime() - d1.getTime();
+        long diffMinutes = difference / (60 * 1000);
+
+
+
+        return Long.toString(diffMinutes);
     }
 }

@@ -281,7 +281,6 @@ public class ResultsActivity extends AppCompatActivity {
                 string_to_intent = string_to_intent + "";
             }
         }
-
     }
     public void showAlertDialog(View v) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -308,7 +307,6 @@ public class ResultsActivity extends AppCompatActivity {
         });
         alert.setCancelable(false);
         alert.create().show();
-
     }
 */
 }
