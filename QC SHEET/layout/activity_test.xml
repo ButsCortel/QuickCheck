@@ -7,35 +7,30 @@
     android:background="@drawable/ic_bg"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:weightSum="6"
+    android:weightSum="5"
     tools:context=".Test">
 
     <TextView
         android:id="@+id/textView19"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center|center_horizontal"
         android:text="Recent Tests"
         android:textColor="@android:color/background_light"
         android:textSize="36sp" />
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:background="@android:color/white">
 
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="#FFFFFF" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
         <Button
@@ -43,7 +38,7 @@
             android:layout_width="260dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="32dp"
             android:background="@android:color/darker_gray"
             android:gravity="center_horizontal|center_vertical"
             android:text="SCAN"

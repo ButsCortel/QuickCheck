@@ -14,11 +14,18 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.google.zxing.Result;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -197,8 +204,45 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             return TextUtils.isDigitsOnly(str);
         }
     }
+    FileOutputStream fstream;
+    FileInputStream fistream;
     void saveRecord(String answers) {
-        SharedPreferences sharedPref = getSharedPreferences("com.example.qrsheet.RECORDS", Context.MODE_PRIVATE);
+        int j = 0;
+        while (true) {
+            try {
+                fistream = openFileInput(Integer.toString(j));
+                fistream.close();
+                j++;
+            } catch (FileNotFoundException e) {
+                break;
+            } catch (IOException e) {
+                break;
+            }
+
+        }
+        try {
+            fstream = openFileOutput(Integer.toString(j), Context.MODE_PRIVATE);
+            fstream.write(answers.getBytes());
+
+            fstream.close();
+            Toast.makeText(getApplicationContext(), "Details Saved Successfully",Toast.LENGTH_SHORT).show();
+
+        } catch (FileNotFoundException e) {
+            Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_LONG).show();
+        }
+
+
+
+
+//Do something
+
+
+
+
+
+       /* SharedPreferences sharedPref = getSharedPreferences("com.example.qrsheet.RECORDS", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         Map<String,?> keys = sharedPref.getAll();
         boolean dup = false;
@@ -217,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             editor.putString("RECORDS" + i, answers);
             editor.apply();
         }
-
+            */
     }
 
 }

@@ -125,6 +125,7 @@ public class ResultsActivity extends AppCompatActivity {
             rbC.setTextSize(20);
             rbD.setTextSize(20);
             rbE.setTextSize(20);
+
             switch(stAnswer[rowNum]) {
                 case "A":
                     rbA.setSupportButtonTintList(colorStateList2);
@@ -185,6 +186,21 @@ public class ResultsActivity extends AppCompatActivity {
             item_num.setTextColor(Color.BLACK);
             item_num.setTextSize(20);
 
+            TextView res = new TextView(this);
+            res.setTextSize(20);
+            if(riAnswer[rowNum].equals(stAnswer[rowNum])) {
+                res.setText("\u2713");
+                res.setTextColor(Color.GREEN);
+
+            }
+            else
+            {
+                res.setText("X");
+                res.setTextColor(Color.RED);
+            }
+
+
+
 
             //item_num.setMaxWidth(10);
 
@@ -203,6 +219,7 @@ public class ResultsActivity extends AppCompatActivity {
             TableRow row = new TableRow(this);
             row.setGravity(Gravity.CENTER);
             row.addView(item_num);
+            row.addView(res);
             row.addView(rbA);
             row.addView(rbB);
             row.addView(rbC);
@@ -215,28 +232,25 @@ public class ResultsActivity extends AppCompatActivity {
             //rl.setLayoutParams(params);
             //row.setLayoutParams(params);
             tb.addView(row);
-            TableRow.LayoutParams numParam = new TableRow.LayoutParams(
+            TableRow.LayoutParams param = new TableRow.LayoutParams(
                     0,
                     TableRow.LayoutParams.MATCH_PARENT,
                     1.0f
             );
-            TableRow.LayoutParams selParam = new TableRow.LayoutParams(
-                    0,
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    1.2f
-            );
+
             // item_num.setMaxWidth(30);
-            item_num.setLayoutParams(numParam);
+            item_num.setLayoutParams(param);
             //item_num.setGravity(Gravity.RIGHT);
             //radioGroup.setLayoutParams(rbParam);
 
-            item_num.setLayoutParams(numParam);
-            rbA.setLayoutParams(selParam);
+            item_num.setLayoutParams(param);
+            res.setLayoutParams(param);
+            rbA.setLayoutParams(param);
 
-            rbB.setLayoutParams(selParam);
-            rbC.setLayoutParams(selParam);
-            rbD.setLayoutParams(selParam);
-            rbE.setLayoutParams(selParam);
+            rbB.setLayoutParams(param);
+            rbC.setLayoutParams(param);
+            rbD.setLayoutParams(param);
+            rbE.setLayoutParams(param);
 
 
 
