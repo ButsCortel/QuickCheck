@@ -13,8 +13,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
+import javax.imageio.ImageIO;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -34,6 +37,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXTextField;
 
+import animatefx.animation.FadeIn;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -62,6 +66,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -77,8 +82,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import com.google.zxing.BarcodeFormat;
@@ -87,8 +90,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import java.io.IOException;
-import java.nio.file.FileSystems;
+
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -111,6 +113,8 @@ public class TestGUIController implements Initializable {
     
     @FXML
     private JFXButton back1;
+    @FXML
+    private Pane quickcheck_pane;
 
 
     @FXML
@@ -272,7 +276,6 @@ public class TestGUIController implements Initializable {
     void newTest(ActionEvent event) {
     	NewTestController test = new NewTestController();
     	test.display();
-    	System.out.println(NewTestController.changed);
     	if (NewTestController.changed) {
     		loadTests();
         	try {
@@ -355,6 +358,7 @@ public class TestGUIController implements Initializable {
 
         return false;
     }
+   
 	public void testGUIWindow() {
     	try {
     		Parent root = FXMLLoader.load(App.class.getResource("TestGUI.fxml"));
@@ -367,12 +371,11 @@ public class TestGUIController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-    @FXML
-    private Pane quickcheck_pane;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+		check_button.setTooltip(new Tooltip("Please save settings first."));
+		records_button.setTooltip(new Tooltip("Please save settings first."));
 		blockCamera.setVisible(true);
 		//select_camera_first_pane.setDisable(true);
 		check_name.setText("");
@@ -593,6 +596,7 @@ public class TestGUIController implements Initializable {
 	   static String cd = "";
 	   static String quiz_name = "";
 	   static String quiz_date = "";
+	   static String qtems = "";
 	 void loadSelectedTest() 
 	 	{
 		 open_gridpane.getChildren().clear();
@@ -628,10 +632,12 @@ public class TestGUIController implements Initializable {
 			 date_labelt.setText(qdate);
 			 test_date_label.setText(qdate);
 			 answerKey = prop.getProperty("Answers");
-			 String qtems = prop.getProperty("Items");
+			 qtems = prop.getProperty("Items");
+			
 			 items_label.setText(qtems);
 			 test_items_label.setText(qtems);
 			 final int initialValue = Integer.parseInt(qtems);
+			 
 	    		if (initialValue > 0) {
 	    			check_button.setDisable(false);
 	    			records_button.setDisable(false);
@@ -818,6 +824,7 @@ public class TestGUIController implements Initializable {
 
 	    @FXML
 	    void quickCheck(ActionEvent event) {
+	    	initializeCam();
 	    	startCamera();
 			check_student.setText("");
 			check_score.setText("");
@@ -837,7 +844,7 @@ public class TestGUIController implements Initializable {
 	    	check_button.setDisable(true);
 	    	records_button.setDisable(false);
 	    	
-	    	initializeCam();
+	    	
 	    }
 	    @FXML
 	    void settings() {
@@ -851,16 +858,19 @@ public class TestGUIController implements Initializable {
 	    }
 	    @FXML
 	    private JFXButton edit_button;
+	    String i = "";
+	    String answer = "";
+    	int items = 0;
 	    @FXML
 	    void edit(ActionEvent event) {
-	    	String answer = "";
-	    	int items = 0;
-	    	String i = "";
+	    	i = "";
+		    answer = "";
+	    	items = 0;
+	    	
 	    	if(edit_button.getText().equals("Edit")) {
 	    		check_button.setDisable(true);
 	    		records_button.setDisable(true);
-	    		check_button.setTooltip(new Tooltip("Please save settings first."));
-	    		records_button.setTooltip(new Tooltip("Please save settings first."));
+	    		
 	    		open_gridpane.setDisable(false);
 	    		item_spinner.setDisable(false);
 	    		edit_button.setText("Save");
@@ -890,29 +900,53 @@ public class TestGUIController implements Initializable {
 	    			items++;
 	    		}
 	    		answers = answer.split("\\s+");
-	    		if (blank.size() == 0) {
-		    		try {
-		    			i = Integer.toString(items);
-						changeProperty(ClassSessionController.testQ + cd, "Answers", answer, "Items", i);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+	    		if (blank.size() == 0 && items > 0) {
+	    			
+	    			if(!answerKey.equals(answer)) {
+	    				FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), testPane);
+	    		    	fadeOutTransition.setFromValue(1);
+	    		    	fadeOutTransition.setToValue(1);
+	    		    	fadeOutTransition.play();
+	    		    	testPane.setDisable(true);
+	    		    	//ProgressIndicator progress = new ProgressIndicator();
+	    		    	//testPane.getChildren().add(progress);
+	    		    	
+	    		    	fadeOutTransition.setOnFinished((e) -> {
+	    		    		
+		    				
+		    				try {
+		    					
+		    					i = Integer.toString(items);
+		    					qtems = i;
+		    					
+							changeProperty(ClassSessionController.testQ + cd, "Answers", answer, "Items", i);
+							recheckRecords(i);
+							answerKey = answer;
+							testPane.setDisable(false);
+						
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}    
+	    		            
+	    		    	});
+
+	    			
+	    			}
+		    		
 		    		test_items_label.setText(i);
 		    		open_gridpane.setDisable(true);
 		    		item_spinner.setDisable(true);
 		    		edit_button.setText("Edit");	    		
 		    		items_label.setText(i);
-		    		if (items > 0) {
-		    			check_button.setDisable(false);
-		    			records_button.setDisable(false);
-		    		}
-		    		else {
-		    			check_button.setDisable(true);
-		    			records_button.setDisable(true);
-		    		}
-	    		}
+		    		check_button.setDisable(false);
+		    		records_button.setDisable(false);
+		    		
+		    		
+		    	}
 	    		else {
+	    			check_button.setDisable(true);
+	    			records_button.setDisable(true);
 	    			String ans ="";
 	    			for (int j =0; j< blank.size(); j++) {
 	    				ans += blank.get(j) + ", ";
@@ -969,23 +1003,12 @@ public class TestGUIController implements Initializable {
 	    	   prop.setProperty(key2, value2);
 	    	   prop.store(new FileOutputStream(filename),null);
 	    	}
-	    //@FXML
-		//Button btnStartCamera;
-
-		//@FXML
-		//Button btnStopCamera;
-
-		//@FXML
-		//Button btnDisposeCamera;
-
 		@FXML
 		ComboBox<WebCamInfo> cbCameraOptions;
 
 		@FXML
 		BorderPane bpWebCamPaneHolder;
 
-		//@FXML
-		//FlowPane fpBottomPane;
 
 		@FXML
 		ImageView imgWebCamCapturedImage;
@@ -1046,7 +1069,6 @@ public class TestGUIController implements Initializable {
 					@Override
 					public void changed(ObservableValue<? extends WebCamInfo> arg0, WebCamInfo arg1, WebCamInfo arg2) {
 						if (arg2 != null) {
-							System.out.println("WebCam Index: " + arg2.getWebCamIndex() + ": WebCam Name:" + arg2.getWebCamName());
 							webCamNum = arg2.getWebCamIndex();
 							//quickcheck_pane.setDisable(true);
 							
@@ -1089,14 +1111,6 @@ public class TestGUIController implements Initializable {
 
 			double height = bpWebCamPaneHolder.getHeight();
 			double width = bpWebCamPaneHolder.getWidth();
-			/*select_camera_first_pane.setMinHeight(height);
-			select_camera_first_pane.setMinWidth(width);
-			select_camera_first_pane.setMaxHeight(height);
-			select_camera_first_pane.setMaxWidth(width);
-			*/
-	
-			//System.out.println(height);
-			//System.out.println(width);
 			imgWebCamCapturedImage.setFitHeight(height);
 			imgWebCamCapturedImage.setFitWidth(width);
 			imgWebCamCapturedImage.prefHeight(height);
@@ -1129,8 +1143,6 @@ public class TestGUIController implements Initializable {
 			};
 
 			new Thread(webCamIntilizer).start();
-			//fpBottomPane.setDisable(false);
-			//btnStartCamera.setDisable(true);
 			
 		}
 		String last = "";
@@ -1173,7 +1185,7 @@ public class TestGUIController implements Initializable {
 											{
 												
 												last = result.getText();
-												System.out.println(last);
+											
 												String[] split = last.split("\\s+");
 												if (split.length == 6) {
 													
@@ -1247,23 +1259,17 @@ public class TestGUIController implements Initializable {
 
 		public void stopCamera() {
 			stopCamera = true;
-			//btnStartCamera.setDisable(false);
-			//btnStopCamera.setDisable(true);
 		}
 
 		public void startCamera() {
 			stopCamera = false;
 			startWebCamStream();
-			//btnStartCamera.setDisable(true);
-			//btnStopCamera.setDisable(false);
 		}
 
 		public void disposeCamera() {
+			camOpen = false;
 			stopCamera = true;
 			closeCamera();
-			
-			//btnStopCamera.setDisable(true);
-			//btnStartCamera.setDisable(true);
 		}
 		
 		
@@ -1280,11 +1286,9 @@ public class TestGUIController implements Initializable {
 				String correct = answers[items];
 				if (!correct.equals("x")) {
 					if (ansarr[items].equals(correct)) {
-						System.out.println(ansarr[items] + " Correct answer: " + correct + " Correct");
 						right++;
 					}
 					else {
-						System.out.println(ansarr[items] + " Correct answer: " + correct + " Wrong");
 						wrong++;
 					}
 				}
@@ -1293,9 +1297,7 @@ public class TestGUIController implements Initializable {
 				}
 
 			}
-			System.out.println("Correct: " + right);
-			System.out.println("Wrong " + wrong);
-			System.out.println("Bonus " + no_right);
+			
 			check_score.setTextFill(Color.GREEN);
 			check_score.setText(right + "/" + Integer.toString(quiz_items));
 			String qn = qname.replaceAll("\\s+", "/");
@@ -1692,14 +1694,7 @@ public class TestGUIController implements Initializable {
 		}
 		// private static String imagepath = "./MyQRCode.png";
 
-		    private static void generateQRCodeImage(String tcode, String text, String sname)
-		            throws WriterException, IOException {
-		        QRCodeWriter qrCodeWriter = new QRCodeWriter();
-		        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 250, 250);
-
-		        Path path = Paths.get(ClassSessionController.answers+ tcode +"\\" + sname +".png");
-		        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
-		    }
+		   
 		    @FXML
 		    private ImageView qr_imageview;
 
@@ -1898,14 +1893,143 @@ public class TestGUIController implements Initializable {
 				}
 		    	String tcode = cd.substring(0, 7);
 		    	if (record_selected) {
-		    		System.out.println(tcode + " " + sname.get(test_rowIndex)+ " " +scourse.get(test_rowIndex)+ " " + sscore.get(test_rowIndex)+ " " +
-		    				items_label.getText()+ " " + sans.get(test_rowIndex)+ " " +rightAns);
-		    		OpenSheetController.display(tcode, sname.get(test_rowIndex), scourse.get(test_rowIndex), sscore.get(test_rowIndex), 
-		    				items_label.getText(), sans.get(test_rowIndex), rightAns);
+		    		
+		    		OpenSheetController.display(tcode, sname.get(test_rowIndex), scourse.get(test_rowIndex), 
+		    				qtems, sans.get(test_rowIndex), rightAns);
 		    		
 		    	}
 		    }
-		   
+		    void recheckRecords(String qitems) {
+		    	String tcode = cd.substring(0,7);
+		    	ArrayList<String> names = new ArrayList<String>();
+		    	ArrayList<String> new_ans = new ArrayList<String>();
+		    	ArrayList<String> rights = new ArrayList<String>();
+	    		
+		    		FileInputStream fi = null;
+			    	Workbook wb = null;
+			    	try {
+			    		fi = new FileInputStream(ClassSessionController.test_excel);
+			    		wb = new HSSFWorkbook(fi);
+			    		Sheet sheet = wb.getSheet(quiz_name);
+			    		
+			    		int rowNum = sheet.getLastRowNum();
+			    		for (int current_row = 1; current_row <= rowNum; current_row++) {
+			    			Row row = sheet.getRow(current_row);
+			    			Cell ans = row.getCell(6);
+			    			int right = 0;
+			    			if (ans != null) {
+			    				String string_student_ans = ans.getStringCellValue();
+			    				String[] student_ans = string_student_ans.split("/");
+				    			for (int i = 0; i < answers.length; i++) {
+				    				try {
+				    					if (answers[i].equals(student_ans[i])) {
+				    					right++;
+				    				}
+				    				}
+				    				catch (Exception e) {
+				    				
+				    					string_student_ans = string_student_ans +"*/";
+				    				}
+				    				
+				    			}
+				    			String newScore = Integer.toString(right);
+				    			Cell s_name = row.getCell(1);
+				    			
+				    			Cell score = row.getCell(5);
+				    			score.setCellValue(newScore);
+				    			ans.setCellValue(string_student_ans);
+				    			rights.add(newScore);
+				    			names.add(s_name.getStringCellValue());
+				    			new_ans.add(string_student_ans);
+			    			}
+			    			
+			    			
+			    		}
+			    		
+			    	}
+			    	catch (Exception e) {
+			    		e.printStackTrace();
+			    	}
+			    	finally {
+						if (fi != null) {try {fi.close();} catch (IOException e) {e.printStackTrace();}}
+					    FileOutputStream output_file = null;
+						try {
+							output_file = new FileOutputStream(new File(ClassSessionController.test_excel));
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}  
+					    if (wb != null && output_file != null) {try {wb.write(output_file);
+					    						wb.close();} 
+					    				catch (IOException e) {e.printStackTrace();}
+					    						}
+					    try {output_file.flush();} catch (IOException e) {e.printStackTrace();}
+					    try {output_file.close();} catch (IOException e) {e.printStackTrace();}
+					    
+					
+		    	}
+			    	String r_ans = "";
+			    	for (String s: answers) {
+			    		r_ans = r_ans + s +"/";
+			    	}
+			    	
+			    	for (int i = 0; i < names.size(); i++) {
+			    		String nm = names.get(i);
+			    		String old = "";
+			    		try {
+			    			File file = new File(ClassSessionController.answers + tcode +"\\" + nm +".png");
+			    			System.out.println(ClassSessionController.answers + tcode +"\\" + nm +".png");
+							old = decodeQRCode(file);
+							
+							
+							
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			    		java.util.List<String> newArr = Arrays.asList(old.split("\\s+"));
+						newArr.set(2, new_ans.get(i));
+						newArr.set(3, r_ans);
+						newArr.set(4, rights.get(i));
+						newArr.set(5, qitems);
+						String newData ="";
+						for (String s: newArr) {
+							newData += s + " ";
+						}
+						System.out.println(newData);
+						
+						try {
+							generateQRCodeImage(tcode, newData, nm);
+						} catch (WriterException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			    	}
+			    	
+		    	
+		    }
+		    //generateQRCodeImage(tcode, qn + " " + qd + " " + answer + " " + rightAns + " " + right + " " + quiz_items + " " + sn + " " + scode + " " + sc, sname)
+		    private static String decodeQRCode(File qrCodeimage) throws IOException {
+		        BufferedImage bufferedImage = ImageIO.read(qrCodeimage);
+		        LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
+		        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+		        try {
+		            Result result = new MultiFormatReader().decode(bitmap);
+		            return result.getText();
+		        } catch (NotFoundException e) {
+		            
+		            return null;
+		        }
+		    }
+		    private static void generateQRCodeImage(String tcode, String text, String sname)
+		            throws WriterException, IOException {
+		        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+		        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 250, 250);
+
+		        Path path = Paths.get(ClassSessionController.answers+ tcode +"\\" + sname +".png");
+		        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+		    }
 
 		   
 

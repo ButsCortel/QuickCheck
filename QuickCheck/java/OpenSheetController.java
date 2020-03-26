@@ -35,7 +35,6 @@ public class OpenSheetController implements Initializable {
     static String[] rans;
     static String sname = "";
     static String scourse = "";
-    static String sscore = "";
     static String testItems = "";
     @FXML
     private ImageView qr_imageView;
@@ -58,11 +57,11 @@ public class OpenSheetController implements Initializable {
     }
 
 	
-	public static void display(String test_code, String name, String course, String score, String items, String student_answer, String right_answer) {
+	public static void display(String test_code, String name, String course, String items, String student_answer, String right_answer) {
 		tcode = test_code;
 		sname = name;
 		scourse = course;
-		sscore = score;
+		
 		testItems = items;
 		sans = student_answer.split("/");
 		rans = right_answer.split("/");
@@ -96,15 +95,21 @@ public class OpenSheetController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		name_label.setText(sname);
-		course_label.setText(scourse);
-		score_label.setText(sscore + "/" + testItems);
+
 		displayAns();
 		
 	}
 	void displayAns() {
+		int score = 0;
 		gridpane.getChildren().clear();
-		for (int row = 0; row < sans.length; row++) {
+		int i =0;
+		if (sans.length < rans.length) {
+			i = sans.length;
+		}
+		else {
+			i = rans.length;
+		}
+		for (int row = 0; row < i; row++) {
 			Label item = new Label(Integer.toString(row +1));
 			String a = sans[row];
 			String b = rans[row];
@@ -112,6 +117,7 @@ public class OpenSheetController implements Initializable {
 			Label r_ans = new Label(b);
 			Label pts = new Label();
 			if (a.equals(b)) {
+				score++;
 				pts.setText("C");
 				pts.setTextFill(Color.GREEN);
 			}
@@ -138,7 +144,10 @@ public class OpenSheetController implements Initializable {
 		}
 		File file = new File(ClassSessionController.answers + tcode +"\\" +sname +".png");
         Image image = new Image(file.toURI().toString());
-       
+        
         qr_imageView.setImage(image); 
+		name_label.setText(sname);
+		course_label.setText(scourse);
+		score_label.setText(score + "/" + testItems);
 	}
 }
