@@ -38,7 +38,7 @@ public class ResultsActivity extends AppCompatActivity {
     String t_items;
     String s_name;
     String s_course;
-
+    String s_subject;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -54,6 +54,7 @@ public class ResultsActivity extends AppCompatActivity {
         t_items = getIntent().getStringExtra("test_items");
         s_name = getIntent().getStringExtra("student_name");
         s_course = getIntent().getStringExtra("student_course");
+        s_subject = getIntent().getStringExtra("student_subject");
 
 
 
@@ -65,7 +66,7 @@ public class ResultsActivity extends AppCompatActivity {
         TextView student_course = findViewById(R.id.student_course);
         TextView test_date = findViewById(R.id.test_date);
         TextView test_score = findViewById(R.id.test_score);
-        test_name.setText(t_name);
+        test_name.setText(t_name + " (" + s_subject +")");
         student_name.setText(s_name);
         student_course.setText(s_course);
         test_date.setText(t_date);

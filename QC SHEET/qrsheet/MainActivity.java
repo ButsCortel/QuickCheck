@@ -28,8 +28,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -171,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             alert.setCancelable(false);
             alert.show();
         }
-        else if (results.length > 7 && mode.equals("result")) {
+        else if (results.length == 11 && mode.equals("result")) {
             saveRecord(scanResult);
             setResult(2);
             finish();
@@ -205,33 +207,38 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         }
     }
     FileOutputStream fstream;
-    FileInputStream fistream;
     void saveRecord(String answers) {
-        int j = 0;
-        while (true) {
+        String[] ansArr = answers.split("\\s+");
+        String fileName = ansArr[6] + "_" + ansArr[10];
+
+        File file = new File(getFilesDir().getAbsolutePath());
+        File[] files = file.listFiles();
+        List<File> list = Arrays.asList(files);
+        if(!list.contains(new File(fileName))){
             try {
-                fistream = openFileInput(Integer.toString(j));
-                fistream.close();
-                j++;
+                fstream = openFileOutput(fileName, Context.MODE_PRIVATE);
+                fstream.write(answers.getBytes());
+
+
+                Toast.makeText(getApplicationContext(), "Details Saved Successfully",Toast.LENGTH_SHORT).show();
+
             } catch (FileNotFoundException e) {
-                break;
+                e.printStackTrace();
             } catch (IOException e) {
-                break;
+                e.printStackTrace();
             }
-
+            finally {
+                try {
+                    if (fstream != null)
+                    {
+                        fstream.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        try {
-            fstream = openFileOutput(Integer.toString(j), Context.MODE_PRIVATE);
-            fstream.write(answers.getBytes());
 
-            fstream.close();
-            Toast.makeText(getApplicationContext(), "Details Saved Successfully",Toast.LENGTH_SHORT).show();
-
-        } catch (FileNotFoundException e) {
-            Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_LONG).show();
-        }
 
 
 
