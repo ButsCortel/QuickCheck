@@ -427,7 +427,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="440.0" layoutY="369.0" onAction="#deleteSheet" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="440.0" layoutY="369.0" onAction="#deleteAns" style="-fx-background-color: gray;" text="Delete" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

@@ -152,6 +152,7 @@ public class Test extends AppCompatActivity {
         });
         final AlertDialog.Builder builder = new AlertDialog.Builder(Test.this);
         builder.setTitle("Delete this test?");
+        builder.setCancelable(false);
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
             @Override

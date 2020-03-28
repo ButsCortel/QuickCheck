@@ -132,7 +132,7 @@ public class AddStudentController implements Initializable{
 		}
 	public void addStudent() throws IOException {
 		String code = student_code.getText().trim();
-		String name = student_name.getText().replaceAll("[\\d]", "").trim();
+		String name = student_name.getText().replaceAll("[^a-zA-Z\\s+.,-]", "").trim();
 		String id = student_id.getText().trim();
 		String course = student_course.getText().trim();
 		String sex = student_sex.getValue();
@@ -147,6 +147,7 @@ public class AddStudentController implements Initializable{
 			}
 			
 		}
+		
 		else {
 			stat_label.setText("Invalid Format!");
 		}

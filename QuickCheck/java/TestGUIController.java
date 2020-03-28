@@ -179,6 +179,7 @@ public class TestGUIController implements Initializable {
 				}
         		deleteSheet(testNames.get(rowIndex));
         		loadTests();
+        		test_selected = false;
         		
         	}
         	else {
@@ -292,17 +293,19 @@ public class TestGUIController implements Initializable {
     @FXML
     void openTest(ActionEvent event) {
     	//edit_button.setVisible(true);
-    	settings_button.setVisible(true);
-    	check_button.setVisible(true);
-    	records_button.setVisible(true);
-    	records_button.setDisable(false);
-    	settings_button.setDisable(true);
-    	new_button.setVisible(false);
-		 open_button.setVisible(false);
-		 delete_button.setVisible(false);
+ 
     	if (test_selected) {
     		
     		loadSelectedTest();
+    	   	settings_button.setVisible(true);
+        	check_button.setVisible(true);
+        	records_button.setVisible(true);
+        	//records_button.setDisable(false);
+        	settings_button.setDisable(true);
+        	new_button.setVisible(false);
+    		 open_button.setVisible(false);
+    		 delete_button.setVisible(false);
+    		 test_selected = false;
     	}
     	
     }
@@ -677,75 +680,80 @@ public class TestGUIController implements Initializable {
 		 radio_values = new ArrayList<ToggleGroup>();		 
 		 open_gridpane.getChildren().clear();
 		 quiz_items = item_spinner.getValue();
-		 for(int rows = 0; rows < quiz_items ; rows++) {
-			 Label no = new Label(Integer.toString(rows +1) + ".");
-			 ToggleGroup tg = new ToggleGroup();
-			 RadioButton a = new RadioButton("A");					
-			 RadioButton b = new RadioButton("B"); 
-			 RadioButton c = new RadioButton("C");	
-			 RadioButton d = new RadioButton("D"); 
-			 RadioButton e = new RadioButton("E");
-			 radio_values.add(tg);
-			 
-	    	no.setFont(new Font("Arial Black",15));
-			a.setFont(new Font("Arial black",15));
-			b.setFont(new Font("Arial black",15));
-			c.setFont(new Font("Arial black",15));
-			d.setFont(new Font("Arial black",15));
-			e.setFont(new Font("Arial black",15));
-			no.setTextFill(Color.BLACK);
-			a.setTextFill(Color.BLACK);
-			b.setTextFill(Color.BLACK);
-			c.setTextFill(Color.BLACK);
-			d.setTextFill(Color.BLACK);
-			e.setTextFill(Color.BLACK);
-			 
-			 no.setAlignment(Pos.CENTER);
-			 a.setAlignment(Pos.CENTER);
-			 b.setAlignment(Pos.CENTER);
-			 c.setAlignment(Pos.CENTER);
-			 d.setAlignment(Pos.CENTER);
-			 e.setAlignment(Pos.CENTER);
-			 
-			 a.setToggleGroup(tg);
-			 b.setToggleGroup(tg);
-			 c.setToggleGroup(tg);
-			 d.setToggleGroup(tg);
-			 e.setToggleGroup(tg);
-			 if (answerKey != null && answerKey.length() >0) {
-				 answers = answerKey.split("\\s+");
-				 switch(answers[rows]) {
+		 if (answerKey != null) {
+			 for(int rows = 0; rows < quiz_items ; rows++) {
+				 Label no = new Label(Integer.toString(rows +1) + ".");
+				 ToggleGroup tg = new ToggleGroup();
+				 RadioButton a = new RadioButton("A");					
+				 RadioButton b = new RadioButton("B"); 
+				 RadioButton c = new RadioButton("C");	
+				 RadioButton d = new RadioButton("D"); 
+				 RadioButton e = new RadioButton("E");
+				 radio_values.add(tg);
 				 
-				 case "A":
-	
-					 a.setSelected(true);
-					 break;
-				 case "B":
-
-					 b.setSelected(true);
-					 break;
-				 case "C":
-					 c.setSelected(true);
-					 break;
-				 case "D":	
-					 d.setSelected(true);
-					 break;
-				 case "E":
-					 e.setSelected(true);
-					 break;				 
-				 }
+		    	no.setFont(new Font("Arial Black",15));
+				a.setFont(new Font("Arial black",15));
+				b.setFont(new Font("Arial black",15));
+				c.setFont(new Font("Arial black",15));
+				d.setFont(new Font("Arial black",15));
+				e.setFont(new Font("Arial black",15));
+				no.setTextFill(Color.BLACK);
+				a.setTextFill(Color.BLACK);
+				b.setTextFill(Color.BLACK);
+				c.setTextFill(Color.BLACK);
+				d.setTextFill(Color.BLACK);
+				e.setTextFill(Color.BLACK);
+				 
+				 no.setAlignment(Pos.CENTER);
+				 a.setAlignment(Pos.CENTER);
+				 b.setAlignment(Pos.CENTER);
+				 c.setAlignment(Pos.CENTER);
+				 d.setAlignment(Pos.CENTER);
+				 e.setAlignment(Pos.CENTER);
+				 
+				 a.setToggleGroup(tg);
+				 b.setToggleGroup(tg);
+				 c.setToggleGroup(tg);
+				 d.setToggleGroup(tg);
+				 e.setToggleGroup(tg);
+				 
+					 answers = answerKey.split("\\s+");
+					 switch(answers[rows]) {
 					 
+					 case "A":
+		
+						 a.setSelected(true);
+						 break;
+					 case "B":
+
+						 b.setSelected(true);
+						 break;
+					 case "C":
+						 c.setSelected(true);
+						 break;
+					 case "D":	
+						 d.setSelected(true);
+						 break;
+					 case "E":
+						 e.setSelected(true);
+						 break;				 
+					 }
+						 
+				 
+				 open_gridpane.add(no, 0, rows);
+				 open_gridpane.add(a, 1, rows);
+				 open_gridpane.add(b, 2, rows);
+				 open_gridpane.add(c, 3, rows);
+				 open_gridpane.add(d, 4, rows);
+				 open_gridpane.add(e, 5, rows);
 			 }
-			 else {
-				 answers = null;
-			 }
-			 open_gridpane.add(no, 0, rows);
-			 open_gridpane.add(a, 1, rows);
-			 open_gridpane.add(b, 2, rows);
-			 open_gridpane.add(c, 3, rows);
-			 open_gridpane.add(d, 4, rows);
-			 open_gridpane.add(e, 5, rows);
+			 
 		 }
+		 else {
+			 answerKey = "";
+			 
+		 }
+		 
 
 	 }
 	 void addItems(int spinner) {
@@ -902,6 +910,7 @@ public class TestGUIController implements Initializable {
 	    		answers = answer.split("\\s+");
 	    		if (blank.size() == 0 && items > 0) {
 	    			
+	    			
 	    			if(!answerKey.equals(answer)) {
 	    				FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), testPane);
 	    		    	fadeOutTransition.setFromValue(1);
@@ -912,12 +921,14 @@ public class TestGUIController implements Initializable {
 	    		    	//testPane.getChildren().add(progress);
 	    		    	
 	    		    	fadeOutTransition.setOnFinished((e) -> {
-	    		    		
+	    		    		i = Integer.toString(items);
+	    					qtems = i;
+	    		    		test_items_label.setText(i);
+		    		    	items_label.setText(i);
 		    				
 		    				try {
 		    					
-		    					i = Integer.toString(items);
-		    					qtems = i;
+		    					
 		    					
 							changeProperty(ClassSessionController.testQ + cd, "Answers", answer, "Items", i);
 							recheckRecords(i);
@@ -930,21 +941,22 @@ public class TestGUIController implements Initializable {
 						}    
 	    		            
 	    		    	});
-
+	    		    	
 	    			
 	    			}
 		    		
-		    		test_items_label.setText(i);
+		    		
+	    			
 		    		open_gridpane.setDisable(true);
 		    		item_spinner.setDisable(true);
 		    		edit_button.setText("Edit");	    		
-		    		items_label.setText(i);
+		    		
 		    		check_button.setDisable(false);
 		    		records_button.setDisable(false);
 		    		
-		    		
 		    	}
-	    		else {
+	    		else if (blank.size() > 0){
+	    			
 	    			check_button.setDisable(true);
 	    			records_button.setDisable(true);
 	    			String ans ="";
@@ -959,6 +971,18 @@ public class TestGUIController implements Initializable {
 
 	    			alert.showAndWait();
 	    			
+	    		}
+	    		else {
+	    			try {
+						changeProperty(ClassSessionController.testQ + cd, "Answers", answer, "Items", i);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    			edit_button.setText("Edit"); 
+	    			check_button.setDisable(true);
+	    			records_button.setDisable(true);
+	    			item_spinner.setDisable(true);
 	    		}
 
 	    	}
@@ -1304,9 +1328,10 @@ public class TestGUIController implements Initializable {
 			String qd = quiz_date.replaceAll("\\s+", "/");
 			String sn = sname.replaceAll("\\s+", "/");
 			String sc = ClassSessionController.course.replaceAll("_", "/");
+			String sj = ClassSessionController.subject.replaceAll("_", "/");
 			
 	        try {
-	            generateQRCodeImage(tcode, qn + " " + qd + " " + answer + " " + rightAns + " " + right + " " + quiz_items + " " + sn + " " + scode + " " + sc, sname);
+	            generateQRCodeImage(tcode, qn + " " + qd + " " + answer + " " + rightAns + " " + right + " " + quiz_items + " " + sn + " " + scode + " " + sc+ " " + sj + " " + tcode, sname);
 	        } catch (WriterException e) {
 	            System.out.println("Could not generate QR Code, WriterException :: " + e.getMessage());
 	        } catch (IOException e) {
@@ -1813,10 +1838,10 @@ public class TestGUIController implements Initializable {
 		    @FXML
 		    void clickGridTest(MouseEvent event) {
 		    	
-		    	 record_selected = true;
+		    	 
 		    	if (event.isStillSincePress()) {
 			        Node clickedNode = event.getPickResult().getIntersectedNode();
-			        
+			        record_selected = true;
 			        if (sname.size()>0) {
 			        if (clickedNode != record_gridpane) {
 			        	Node parent = clickedNode.getParent();
@@ -1853,16 +1878,66 @@ public class TestGUIController implements Initializable {
 		    private Pane analysis_pane;
 
 		    @FXML
-		    void deleteSheet(ActionEvent event) {
-		    	FileInputStream fi = null;
-		    	Workbook wb = null;
-		    	try {
-		    		
+		    void deleteAns(ActionEvent event) {
+		    	if (record_selected) {
+		    		AlertBoxController.label_text = "Delete this Answer Sheet?";
+		        	if(AlertBoxController.display("Delete sheet")) {
+		    		String tcode = cd.substring(0, 7);
+		    		File file = new File(ClassSessionController.answers+ tcode +"\\" + sname.get(test_rowIndex) +".png");
+		    		file.delete();
+		    		FileInputStream fi = null;
+			    	Workbook wb = null;
+			    	try {
+			    		fi = new FileInputStream(ClassSessionController.test_excel);
+			    		wb = new HSSFWorkbook(fi);
+			    		Sheet sheet =wb.getSheet(quiz_name);
+			    		int lastRow = sheet.getLastRowNum();
+			    		for (int i = 1; i <= lastRow; i++) {
+			    			Row row = sheet.getRow(i);
+			    			Cell c1 = row.getCell(1);
+			    			if (c1.getStringCellValue().equals(sname.get(test_rowIndex))) {
+			    				Cell c5 = row.getCell(5);
+			    				Cell c6 = row.getCell(6);
+			    				Cell c7 = row.getCell(7);
+			    				Cell c8 = row.getCell(8);
+			    				row.removeCell(c5);
+			    				row.removeCell(c6);
+			    				row.removeCell(c7);
+			    				row.removeCell(c8);
+			    				break;
+			    				
+			    			
+			    				
+			    			}
+			    		}
+			    	
+			    	}
+			    	catch (Exception e) {
+			    		e.printStackTrace();
+			    	}
+			    	finally {
+						if (fi != null) {try {fi.close();} catch (IOException e) {e.printStackTrace();}}
+					    FileOutputStream output_file = null;
+						try {
+							output_file = new FileOutputStream(new File(ClassSessionController.test_excel));
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}  
+					    if (wb != null && output_file != null) {try {wb.write(output_file);
+					    						wb.close();} 
+					    				catch (IOException e) {e.printStackTrace();}
+					    						}
+					    try {output_file.flush();} catch (IOException e) {e.printStackTrace();}
+					    try {output_file.close();} catch (IOException e) {e.printStackTrace();}
+					    
+					
+			    		}record_selected = false;
+			        	displayRecords();
+		        	}
+		    	}
 		    	
-		    	}
-		    	catch (Exception e) {
-		    		
-		    	}
+		    	
 		    }
 
 

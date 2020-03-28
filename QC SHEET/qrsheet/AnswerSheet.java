@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -30,11 +31,11 @@ public class AnswerSheet extends AppCompatActivity {
     static String test_items;
     String time_start = null;
     ArrayList<RadioGroup> list=null;
-    private String blockCharacterSet = "abcdefghijklmnopqrstuvwxyz1234567890.,/!@#$%^&*()FGHIJKLMNOPQRSTUVWXYZÑñ";
+    //private String blockCharacterSet = "abcdefghijklmnopqrstuvwxyz1234567890.,/!@#$%^&*()FGHIJKLMNOPQRSTUVWXYZÑñ";
     private RadioButton rbA, rbB, rbC, rbD, rbE;
     private RadioGroup radioGroup;
 
-    private InputFilter filter = new InputFilter() {
+    /*private InputFilter filter = new InputFilter() {
 
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -44,7 +45,7 @@ public class AnswerSheet extends AppCompatActivity {
             }
             return null;
         }
-    };
+    };*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -207,8 +208,11 @@ public class AnswerSheet extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+    ArrayList<Integer> blank;
     private void QRString() {
+        blank = new ArrayList<>();
        // int index = Integer.parseInt(itemString);
+        int i = 1;
         for (RadioGroup rg: list) {
             int selected = rg.getCheckedRadioButtonId();
             if (selected != -1) {
@@ -217,18 +221,35 @@ public class AnswerSheet extends AppCompatActivity {
             }
             else {
                 string_to_intent = string_to_intent + "*/";
+                blank.add(i);
             }
+            i++;
         }
 
     }
     public void showAlertDialog(View v) {
+        QRString();
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Finish Test");
-        alert.setMessage("Are you sure you want to finish the Test?");
+
+        String items = "";
+        Log.d("blank", Integer.toString(blank.size()));
+        if (blank.size() > 0) {
+            for(int i: blank) {
+                items +=  Integer.toString(i) + ", ";
+            }
+            items = items.substring(0,items.length()-2);
+            alert.setMessage("You have blank item/s:\n" + items + "\n" + "Are you sure you want to finish the Test?");
+        }
+        else {
+            alert.setMessage("Are you sure you want to finish the Test?");
+        }
+
+
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                    QRString();
+
                     Intent intent = new Intent(AnswerSheet.this, QRActivity.class);
                     intent.putExtra("id_number_key", id_number);
                     intent.putExtra("test_code_key", test_code);

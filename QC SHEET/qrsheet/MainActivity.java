@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         else if (results.length == 11 && mode.equals("result")) {
             saveRecord(scanResult);
             setResult(2);
-            finish();
+
 
 
 
@@ -207,20 +207,26 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         }
     }
     FileOutputStream fstream;
-    void saveRecord(String answers) {
-        String[] ansArr = answers.split("\\s+");
-        String fileName = ansArr[6] + "_" + ansArr[10];
+    void saveRecord(final String answers) {
+        final String[] ansArr = answers.split("\\s+");
+        final String fileName = ansArr[6].replaceAll("/", "") + "_" + ansArr[10];
 
-        File file = new File(getFilesDir().getAbsolutePath());
+        /*File file = new File(getFilesDir().getAbsolutePath());
         File[] files = file.listFiles();
-        List<File> list = Arrays.asList(files);
-        if(!list.contains(new File(fileName))){
+        for (File f: files){
+            Log.d("Myfiles", f.getName());
+        }
+        List<File> list = Arrays.asList(files);*/
+        File old = new File(getApplicationContext().getFilesDir(),fileName);
+        //Toast.makeText(getApplicationContext(), old.getPath(),Toast.LENGTH_SHORT).show();
+
+        if(!old.exists()){
             try {
                 fstream = openFileOutput(fileName, Context.MODE_PRIVATE);
                 fstream.write(answers.getBytes());
 
 
-                Toast.makeText(getApplicationContext(), "Details Saved Successfully",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Not dup",Toast.LENGTH_SHORT).show();
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -236,7 +242,51 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+            }finish();
+        }
+        else {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Duplicate Test. Replace original?");
+            builder.setCancelable(false);
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        fstream = openFileOutput(fileName, Context.MODE_PRIVATE);
+                        fstream.write(answers.getBytes());
+
+
+                        //Toast.makeText(getApplicationContext(), "Not dup",Toast.LENGTH_SHORT).show();
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    finally {
+                        try {
+                            if (fstream != null)
+                            {
+                                fstream.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+
+                    finish();
+                }
+            });
+            builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    scannerView.resumeCameraPreview(MainActivity.this);
+                }
+            });
+            builder.show();
         }
 
 

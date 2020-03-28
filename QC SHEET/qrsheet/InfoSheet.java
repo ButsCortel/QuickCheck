@@ -102,7 +102,8 @@ public class InfoSheet extends AppCompatActivity implements AdapterView.OnItemSe
         mBackPressed = System.currentTimeMillis();
     }*/
     public void updateSignInButtonState() {
-        button.setEnabled(testCodeString.getText().length() > 6 &&
+        String tc = testCodeString.getText().toString().replaceAll("\\s+","");
+        button.setEnabled(tc.length() > 6 &&
                 !test_items.equals("Select no. of items"));
     }
     public void showAlertDialog(View v) {

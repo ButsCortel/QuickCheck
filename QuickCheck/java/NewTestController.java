@@ -202,6 +202,12 @@ public class NewTestController {
 		fi = new FileInputStream(ClassSessionController.test_excel);
 		
 		wb = new HSSFWorkbook(fi);
+		int sheetNum = wb.getSheetIndex(name);
+		if (sheetNum != -1) {
+			wb.removeSheetAt(sheetNum);
+			
+		}
+		
 
 			Sheet sheet = wb.createSheet(name);
 			Row row = sheet.createRow(0);

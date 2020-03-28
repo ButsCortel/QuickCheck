@@ -91,7 +91,7 @@
 
             <Button
                 android:id="@+id/finishbutton"
-                android:layout_width="136dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/darker_gray"
                 android:onClick="showAlertDialog"
