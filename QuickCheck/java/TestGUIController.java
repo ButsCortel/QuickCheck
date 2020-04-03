@@ -14,6 +14,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -21,8 +22,11 @@ import javax.imageio.ImageIO;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import com.github.sarxos.webcam.Webcam;
@@ -82,6 +86,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 import com.google.zxing.BarcodeFormat;
@@ -99,6 +104,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class TestGUIController implements Initializable {
+	private FileChooser directoryChooser = null;
     @FXML
     private JFXButton open_button;
 
@@ -165,6 +171,7 @@ public class TestGUIController implements Initializable {
     @FXML
     void deleteTest(ActionEvent event) {
     	if (test_selected) {
+    		testPane.setDisable(true);
     		File file = new File(ClassSessionController.testQ + test_codes.get(rowIndex));
     		Path test = Paths.get(ClassSessionController.answers + test_codes.get(rowIndex).substring(0,7));
 
@@ -186,6 +193,7 @@ public class TestGUIController implements Initializable {
         		AlertBoxController.alert_box.close();
         		
         	}
+        	testPane.setDisable(false);
 
     	}
 
@@ -275,6 +283,7 @@ public class TestGUIController implements Initializable {
 
     @FXML
     void newTest(ActionEvent event) {
+    	testPane.setDisable(true);
     	NewTestController test = new NewTestController();
     	test.display();
     	if (NewTestController.changed) {
@@ -285,7 +294,7 @@ public class TestGUIController implements Initializable {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
-    	}
+    	}testPane.setDisable(false);
 
     }
 
@@ -296,16 +305,30 @@ public class TestGUIController implements Initializable {
  
     	if (test_selected) {
     		
-    		loadSelectedTest();
-    	   	settings_button.setVisible(true);
-        	check_button.setVisible(true);
-        	records_button.setVisible(true);
-        	//records_button.setDisable(false);
-        	settings_button.setDisable(true);
+    		
+    		check_button.setDisable(false);
+	    	check_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+	    	
+	    	records_button.setDisable(false);
+	    	records_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+	    	
+	    	
+	    	
+	    	analysis_button.setDisable(false);
+	    	analysis_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+	    	
+	    	settings_button.setDisable(true);
+	    	settings_button.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
+	    	
+	    	check_button.setVisible(true);
+   		 	settings_button.setVisible(true);
+   		 	records_button.setVisible(true);
+   		 	analysis_button.setVisible(true);
         	new_button.setVisible(false);
     		 open_button.setVisible(false);
     		 delete_button.setVisible(false);
     		 test_selected = false;
+    		 loadSelectedTest();
     	}
     	
     }
@@ -377,8 +400,14 @@ public class TestGUIController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		 directoryChooser = new FileChooser();
+ 	    directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+ 	    directoryChooser.getExtensionFilters().add(
+ 	    	     new FileChooser.ExtensionFilter("XLS files", "*.xls")
+ 	    	);
 		check_button.setTooltip(new Tooltip("Please save settings first."));
 		records_button.setTooltip(new Tooltip("Please save settings first."));
+		analysis_button.setTooltip(new Tooltip("Please save settings first."));
 		blockCamera.setVisible(true);
 		//select_camera_first_pane.setDisable(true);
 		check_name.setText("");
@@ -644,10 +673,12 @@ public class TestGUIController implements Initializable {
 	    		if (initialValue > 0) {
 	    			check_button.setDisable(false);
 	    			records_button.setDisable(false);
+	    			analysis_button.setDisable(false);
 	    		}
 	    		else {
 	    			check_button.setDisable(true);
 	    			records_button.setDisable(true);
+	    			analysis_button.setDisable(true);
 	    		}
 			 SpinnerValueFactory<Integer> valueFactory = //
 		                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, initialValue);
@@ -822,8 +853,17 @@ public class TestGUIController implements Initializable {
 	    	test_settings_pane.setVisible(false);
 	    	quickcheck_pane.setVisible(false);
 	    	records_button.setDisable(true);
+	    	records_button.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
+	    	
 	    	check_button.setDisable(false);
+	    	check_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+	    	
 	    	settings_button.setDisable(false);
+	    	settings_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+	    	
+	    	analysis_button.setDisable(false);
+	    	analysis_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+	    	
 	    	displayRecords();
 	    }
 
@@ -849,8 +889,17 @@ public class TestGUIController implements Initializable {
 	    	test_settings_pane.setVisible(false);
 	    	test_records_pane.setVisible(false);
 	    	settings_button.setDisable(false);
+	    	settings_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+	    	
 	    	check_button.setDisable(true);
+	    	check_button.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
+	    	
 	    	records_button.setDisable(false);
+	    	records_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+	    	
+	    	analysis_button.setDisable(false);
+	    	analysis_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+	    	
 	    	
 	    	
 	    }
@@ -861,8 +910,17 @@ public class TestGUIController implements Initializable {
 	    	test_settings_pane.setVisible(true);
 	    	test_records_pane.setVisible(false);
 	    	check_button.setDisable(false);
+	    	check_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+	    	
 	    	records_button.setDisable(false);
+	    	records_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+
+	    	analysis_button.setDisable(false);
+	    	analysis_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+
 	    	settings_button.setDisable(true);
+	    	settings_button.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
+	    	
 	    }
 	    @FXML
 	    private JFXButton edit_button;
@@ -878,6 +936,7 @@ public class TestGUIController implements Initializable {
 	    	if(edit_button.getText().equals("Edit")) {
 	    		check_button.setDisable(true);
 	    		records_button.setDisable(true);
+	    		analysis_button.setDisable(true);
 	    		
 	    		open_gridpane.setDisable(false);
 	    		item_spinner.setDisable(false);
@@ -953,12 +1012,15 @@ public class TestGUIController implements Initializable {
 		    		
 		    		check_button.setDisable(false);
 		    		records_button.setDisable(false);
+		    		analysis_button.setDisable(false);
 		    		
 		    	}
 	    		else if (blank.size() > 0){
 	    			
 	    			check_button.setDisable(true);
 	    			records_button.setDisable(true);
+	    			analysis_button.setDisable(true);
+		    		
 	    			String ans ="";
 	    			for (int j =0; j< blank.size(); j++) {
 	    				ans += blank.get(j) + ", ";
@@ -974,7 +1036,7 @@ public class TestGUIController implements Initializable {
 	    		}
 	    		else {
 	    			try {
-						changeProperty(ClassSessionController.testQ + cd, "Answers", answer, "Items", i);
+						changeProperty(ClassSessionController.testQ + cd, "Answers", answer, "Items", Integer.toString(items));
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -983,6 +1045,8 @@ public class TestGUIController implements Initializable {
 	    			check_button.setDisable(true);
 	    			records_button.setDisable(true);
 	    			item_spinner.setDisable(true);
+	    			analysis_button.setDisable(true);
+		    		
 	    		}
 
 	    	}
@@ -1015,6 +1079,7 @@ public class TestGUIController implements Initializable {
 		 check_button.setVisible(false);
 		 check_button.setDisable(false);
 		 records_button.setVisible(false);
+		 analysis_button.setVisible(false);
 		 test_selected = false;
 		 back0.setVisible(true);
 		 back1.setVisible(false);
@@ -1225,6 +1290,7 @@ public class TestGUIController implements Initializable {
 													String right_items = Integer.toString(quiz_items);
 													if (right_code.equals(test_code) && check_log(student_code) && no_of_items.equals(right_items))
 													{
+														System.out.println(student_answer);
 														checkAnswer(student_answer, student_info.get(1), quiz_name, student_code, right_code, attempt, duration);
 														
 														check_student.setText(student_info.get(1));
@@ -1359,6 +1425,7 @@ public class TestGUIController implements Initializable {
 							score.setCellValue(Integer.toString(right));
 							Cell ans = row.createCell(6);
 							ans.setCellValue(answer);
+							System.out.println(answer + rowCount);
 							Cell tries = row.createCell(7);
 							tries.setCellValue(attempt);
 							Cell dur = row.createCell(8);
@@ -1880,6 +1947,7 @@ public class TestGUIController implements Initializable {
 		    @FXML
 		    void deleteAns(ActionEvent event) {
 		    	if (record_selected) {
+		    		testPane.setDisable(true);
 		    		AlertBoxController.label_text = "Delete this Answer Sheet?";
 		        	if(AlertBoxController.display("Delete sheet")) {
 		    		String tcode = cd.substring(0, 7);
@@ -1935,7 +2003,7 @@ public class TestGUIController implements Initializable {
 			    		}record_selected = false;
 			        	displayRecords();
 		        	}
-		    	}
+		    	}testPane.setDisable(false);
 		    	
 		    	
 		    }
@@ -1944,6 +2012,13 @@ public class TestGUIController implements Initializable {
 
 		    @FXML
 		    void exportCurrentTest(ActionEvent event) {
+		    	testPane.setDisable(true);
+		    	File selectedDirectory = directoryChooser.showSaveDialog(SplashController.stage);
+		     	if (selectedDirectory != null) {
+		     		
+		                export(0, selectedDirectory.getAbsolutePath());
+		     	}
+		     	testPane.setDisable(false);
 
 		    }
 
@@ -1951,6 +2026,9 @@ public class TestGUIController implements Initializable {
 
 		    @FXML
 		    void openAnalysis(ActionEvent event) {
+		    	importAns();
+		    	itemAnalysis();
+		    	
 
 		    }
 		    static ArrayList<String> sname;
@@ -2053,7 +2131,7 @@ public class TestGUIController implements Initializable {
 			    		String old = "";
 			    		try {
 			    			File file = new File(ClassSessionController.answers + tcode +"\\" + nm +".png");
-			    			System.out.println(ClassSessionController.answers + tcode +"\\" + nm +".png");
+			    			//System.out.println(ClassSessionController.answers + tcode +"\\" + nm +".png");
 							old = decodeQRCode(file);
 							
 							
@@ -2071,7 +2149,7 @@ public class TestGUIController implements Initializable {
 						for (String s: newArr) {
 							newData += s + " ";
 						}
-						System.out.println(newData);
+						//System.out.println(newData);
 						
 						try {
 							generateQRCodeImage(tcode, newData, nm);
@@ -2106,6 +2184,311 @@ public class TestGUIController implements Initializable {
 		        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
 		    }
 
-		   
+		   ArrayList<Row> testRow =null;
+		    void export(int mode, String loc) {
+		    	testRow = new ArrayList<Row>();
+		    	FileInputStream fi = null;
+		    	Workbook wb = null;
+		    	try {
+		    		fi = new FileInputStream(ClassSessionController.test_excel);
+		    		wb = new HSSFWorkbook(fi);
+		    		Sheet sheet = wb.getSheet(quiz_name);
+		    		int lastRow = sheet.getLastRowNum();
+		    		for(int row = 0; row <= lastRow; row++) {
+		    			testRow.add(sheet.getRow(row));
+		    		}
+		    		
+		    	}
+		    	catch (Exception e) {
+		    		e.printStackTrace();
+		    	}
+		    	finally {
+		    		if (fi != null) {
+		    			try {fi.close();} catch(IOException e) {e.printStackTrace();}
+		    		}
+		    		if (wb != null) {
+		    			try {wb.close();} catch(IOException e) {e.printStackTrace();}
+		    		}
+		    	}
+		    	try {
+		    		wb = new HSSFWorkbook();
+			    	Sheet sheet = wb.createSheet(quiz_name);
+			    	int testRowNum = testRow.size();
+			    	
+			    	CellStyle wrapStyle = wb.createCellStyle();
+		    		wrapStyle.setWrapText(true);
+		    		wrapStyle.setAlignment(HorizontalAlignment.CENTER);
+		    		wrapStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+		    		
+		    		Row head = sheet.createRow(0);
+		    		
+		    		Cell course = head.createCell(0); 
+		            course.setCellValue(ClassSessionController.course + ",\n" +ClassSessionController.subject);
+		            course.setCellStyle(wrapStyle);
+		            String sch = "";
+		            for (int h = 0; h < AttendanceGUIController.scheds.size(); h++) {
+		            	sch += sch + AttendanceGUIController.scheds.get(h) + ",\n";
+		            }
+		            Cell schedules = head.createCell(1);
+		            schedules.setCellStyle(wrapStyle);
+		            schedules.setCellValue("Schedules:\n" +sch);
 
+		            Cell qname = head.createCell(2);
+		            qname.setCellStyle(wrapStyle);
+		            qname.setCellValue("Test:\n" + quiz_name);
+		            
+		            Cell qdate = head.createCell(3);
+		            qdate.setCellStyle(wrapStyle);
+		            qdate.setCellValue("Date:\n" + quiz_date);
+
+		            Cell qitems = head.createCell(4);
+		            qitems.setCellStyle(wrapStyle);
+		            qitems.setCellValue("Items:\n" + qtems);
+		            
+		            Cell ansKey = head.createCell(5);
+		            ansKey.setCellStyle(wrapStyle);
+		            String key = "";
+		            for(int i = 0; i < answers.length; i++) {
+		            	if ((i+1)%5 == 0) {
+		            		key += Integer.toString(i+1) +". "+ answers[i] + " \n";
+		            	}
+		            	else {
+		            		key += Integer.toString(i+1) +". "+ answers[i] + ", ";
+				            
+		            	}
+		            	
+		            }
+		            
+		            ansKey.setCellValue("Key:\n" + key.substring(0, key.length() - 2));
+		            
+		            sheet.autoSizeColumn(0);
+		            sheet.autoSizeColumn(1);
+		            sheet.autoSizeColumn(2);
+		            sheet.autoSizeColumn(3);
+		            sheet.autoSizeColumn(4);
+
+			    	
+			    	for(int row = 0; row < testRowNum; row++) {
+			    		Row exp_row = sheet.createRow(row+1);
+			    		Row test_row = testRow.get(row);
+			    		
+			    		for(int column = 0; column < 9; column++) {			    			
+			    			
+			    			Cell exp_cell = null;
+			    			switch(column) {
+			    				case 0:
+			    					exp_cell = exp_row.createCell(1);
+			    					break;
+			    				case 1:
+			    					exp_cell = exp_row.createCell(2);
+			    					break;
+			    				case 2:
+			    					exp_cell = exp_row.createCell(0);
+			    					break;
+			    				default:
+			    					exp_cell = exp_row.createCell(column);
+			    			}
+			    			try {
+			    				exp_cell.setCellValue(test_row.getCell(column +1).getStringCellValue());
+			    			}
+			    			catch (Exception e) {
+			    				exp_cell.setCellValue("N/A");
+			    			}
+			    			
+			    			
+			    		}
+			    	}
+			    	
+		    	}
+		    	catch (Exception e) {
+		    		e.printStackTrace();
+		    	}
+		    	finally {
+			    	if (wb != null) 
+			    	{
+				        try (FileOutputStream outputStream = new FileOutputStream(loc)) {
+				            wb.write(outputStream);
+				            outputStream.flush();
+				            outputStream.close();
+				        }
+				        catch (Exception e) {
+				        	e.printStackTrace();
+				        }
+				        try {
+				            wb.close();
+				        }
+				        catch (Exception e) {
+				        	e.printStackTrace();
+				        }
+			    	}
+
+			    	
+			    }
+		    	
+		    }
+		    ArrayList<Row> student_rows = null;
+		    ArrayList<String> no_ans = null;
+		    void importAns() {
+		    	student_rows = new ArrayList<Row>();
+		    	no_ans = new ArrayList<String>();
+		    	FileInputStream fi = null;
+		    	Workbook wb = null;
+		    	try {
+		    		fi = new FileInputStream(ClassSessionController.test_excel);
+		    		wb = new HSSFWorkbook(fi);
+		    		Sheet sheet = wb.getSheet(quiz_name);
+		    		int lastRow = sheet.getLastRowNum();
+		    		for (int rowNum = 1; rowNum <= lastRow; rowNum++) {
+		    			Row row = sheet.getRow(rowNum);
+		    			Cell cell = row.getCell(5);
+		    			if (cell != null) {
+		    				student_rows.add(row);
+		    			}
+		    			else {
+		    				Cell c1 = row.getCell(1);
+		    				no_ans.add(c1.getStringCellValue());
+		    			}
+		    			
+		    		}
+		    		
+		    		student_rows.sort(Comparator.comparing(cells -> cells.getCell(5).getStringCellValue()));
+		    		
+		    	}
+		    	catch (Exception e) {
+		    		e.printStackTrace();
+		    	}
+				finally{
+					if (fi != null) {
+						   try {fi.close();} catch (IOException e) {e.printStackTrace();}
+					}	
+					if (wb != null) {
+						   try {wb.close();} catch (IOException e) {e.printStackTrace();}
+					}
+					}
+		    	
+		    }
+		    int examinees = 0;
+		    ArrayList<Item> itemList = null;
+		    void itemAnalysis() {
+		    	itemList = new ArrayList<Item>();
+		    	int examinees = student_rows.size();
+		    	for(int index = 0; index < answers.length; index++) {
+		    		Item item = new Item();
+		    		item.setKey(answers[index]);
+		    		item.setItemNum(index+1);
+		    		item.setExaminees(examinees);
+		    		itemList.add(item);
+		    	}
+		    	for (int index = 0; index < student_rows.size(); index++) {
+		    		Row row = student_rows.get(index);
+		    		Cell cell = row.getCell(6);
+		    		String[] student_ans = cell.getStringCellValue().split("/");
+		    		for (int i = 0; i < answers.length; i++) {
+		    			Item item = itemList.get(i);
+		    			//String key = answers[i];
+		    			String student = student_ans[i];
+		    			if (student.equals(answers[i])) {
+		    				item.incCorr();
+		    				if(index < examinees/2) {
+		    					item.incCorrLG();
+		    				}
+		    				else {
+		    					item.incCorrHG();
+		    				}
+		    				
+		    				
+		    			}
+		    			switch (student) {
+	    				case "A":
+	    					item.incA();
+	    					break;
+	    				case "B":
+	    					item.incB();
+	    					break;
+	    				case "C":
+	    					item.incC();
+	    					break;
+	    				case "D":
+	    					item.incD();
+	    					break;
+	    				case "E":
+	    					item.incE();
+	    					break;
+	    				default:
+	    					item.incRep();
+	    					
+	    				}
+		    			
+		    		}
+		    	}
+		    	for (Item item: itemList) {
+		    		System.out.println(item.getCorr());
+		    		System.out.println(item.getExaminees());
+		    		System.out.println(item.getNoResp());
+		    		System.out.println(item.getCorrDiff());
+		    		
+		    		
+		    		String[] analysis = diffValue(item.getCorr(), item.getExaminees(), item.getNoResp(), item.getCorrDiff());
+		    		System.out.println("Difficulty Value: " + analysis[0] + " - " + analysis[1] + "/" + "Difficulty Index: " + analysis[2] + " - " +analysis[3]);
+		    		
+		    	}
+		    }
+		    	
+		    	
+		    	
+		    	/*FileOutputStream fo = null;
+		    	Workbook wb = null;
+		    	try {
+		    		fo = new FileOutputStream(ClassSessionController.test_excelIA);
+		    		wb = new HSSFWorkbook();
+		    		
+		    	}
+		    	catch (Exception e1) {
+		    		
+		    	}
+		    	
+		    }*/
+		    String[] diffValue(int corr_answered, float examinees, int no_response, int rightDiff) {
+		    	float diffVal = 0;
+		    	float discIndex = 0;
+		    	String diffEval ="";
+		    	String diffIndexEval ="";
+		    	int highGroup = Math.round(examinees/2);
+		    	
+		    	diffVal = corr_answered/(examinees - no_response);
+		    	discIndex = rightDiff/highGroup;
+		    	
+		    	if (diffVal <= .30) {
+		    		diffEval = "Most Difficult";
+		    	}
+		    	else if (diffVal >= .31 && diffVal <= .40 ) {
+		    		diffEval = "Difficult";
+		    	}
+		    	else if (diffVal >= .41 && diffVal <= .60 ) {
+		    		diffEval = "Moderately Difficult";
+		    	}
+		    	else if (diffVal >= .61 && diffVal <= .70 ) {
+		    		diffEval = "Easy";
+		    	}
+		    	else {
+		    		diffEval = "Most Easy";
+		    	}
+		    	
+		    	if (discIndex >= .40) {
+		    		diffIndexEval = "Very good item";
+		    	}
+		    	if (discIndex >= .30 && discIndex <= .39) {
+		    		diffIndexEval = "Reasonably good, subject to improvement";
+		    	}
+		    	if (discIndex >= .20 && discIndex <=.29) {
+		    		diffIndexEval = "Marginal item, needs improvement";
+		    	}
+		    	if (discIndex < .19) {
+		    		diffIndexEval = "Poor item, Reject/Revise";
+		    	}
+		    	String[] arr = {Double.toString(diffVal), diffEval, Double.toString(discIndex), diffIndexEval};
+		    	return arr;
+		    	
+		    }
+		    
  }
