@@ -86,6 +86,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
@@ -104,6 +105,108 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class TestGUIController implements Initializable {
+	@FXML
+    private Label test_items_label;
+
+    @FXML
+    private Label test_code_label;
+
+    @FXML
+    private Label test_name_label;
+
+    @FXML
+    private Label test_date_label;
+    
+    @FXML
+    private ImageView qr_imageview;
+
+    @FXML
+    private GridPane record_gridpane;
+    
+    @FXML
+    private Label check_status;
+    
+    @FXML
+	ComboBox<WebCamInfo> cbCameraOptions;
+
+	@FXML
+	BorderPane bpWebCamPaneHolder;
+
+	@FXML
+	ImageView imgWebCamCapturedImage;
+	
+    @FXML
+    private Pane select_camera_first_pane;
+    
+    @FXML
+    private Pane blockCamera;
+    
+    @FXML
+    private JFXButton settings_button;
+	@FXML
+	private Label date_label;
+
+	@FXML
+	private Label time_label;
+		
+	@FXML
+	private Pane test_records_pane;
+    @FXML
+    private JFXButton edit_button;
+    boolean record_selected = false;
+    int rowIndex = 0;
+    int test_rowIndex = 0;
+    String i = "";
+    String answer = "";
+	int items = 0;
+	private BufferedImage grabbedImage;
+	private Webcam selWebCam = null;
+	private boolean stopCamera = false;
+	private ObjectProperty<Image> imageProperty = new SimpleObjectProperty<Image>();
+	private boolean camOpen = false;
+
+	private String cameraListPromptText = "Choose Camera";
+
+	int webCamNum = 0;
+
+    @FXML
+    private JFXButton start_button;
+	ArrayList<String> student_info = null;
+	@FXML
+    private Label check_name;
+
+    @FXML
+    private Label check_code;
+
+    @FXML
+    private Label items_label;
+
+    @FXML
+    private Label check_student;
+
+    @FXML
+    private Label check_score;
+    
+    @FXML
+    private JFXButton analysis_button;
+
+    
+    @FXML
+    private JFXButton del11;
+
+    @FXML
+    private Pane analysis_pane;
+    static ArrayList<String> sname;
+    static ArrayList<String> scourse;
+    static ArrayList<String> sscore;
+    static ArrayList<String> sans;
+    static ArrayList<String> stries;
+    static ArrayList<String> sdur;
+
+
+   ArrayList<Row> testRow =null;
+    ArrayList<Row> student_rows = null;
+    ArrayList<String> no_ans = null;
 	private FileChooser directoryChooser = null;
     @FXML
     private JFXButton open_button;
@@ -143,6 +246,42 @@ public class TestGUIController implements Initializable {
 
     boolean test_selected = false;
     static int mode = 0;
+    @FXML
+    private Label code_label;
+
+    @FXML
+    private Label name_label;
+
+    @FXML
+    private Label date_labelt;
+    @FXML
+    private Spinner<Integer> item_spinner;
+    
+
+
+    @FXML
+    private JFXButton check_button;
+
+
+
+    @FXML
+    private JFXButton records_button;
+    
+    @FXML
+    private Pane test_settings_pane;
+    
+   static String answerKey ="";
+   static String cd = "";
+   static String quiz_name = "";
+   static String quiz_date = "";
+   static String qtems = "";
+	ArrayList<String> testCodes = null;
+	ArrayList<String> testNames = null;
+	ArrayList<String> testDates = null;
+	ArrayList<String> test_codes = null;
+	ArrayList<ToggleGroup> radio_values = null;
+	String[] answers;
+	int quiz_items = 0;
     @FXML
     void back(ActionEvent event) {
     	FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(0300), testPane);
@@ -448,10 +587,7 @@ public class TestGUIController implements Initializable {
 
 		
 	}
-	ArrayList<String> testCodes = null;
-	ArrayList<String> testNames = null;
-	ArrayList<String> testDates = null;
-	ArrayList<String> test_codes = null;
+
 	
 	void loadTests() {
 		
@@ -540,20 +676,10 @@ public class TestGUIController implements Initializable {
 			gridpane.add(dates, 3, testNum);
     	}
 	}
-    @FXML
-    private Label date_label;
 
-    @FXML
-    private Label time_label;
 	private void initClock() {
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("hh:mm");
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MMM dd, yyyy\nEEE");
-		
-
-        //SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm aa");
-        // DateFormat = new SimpleDateFormat("MMM dd, yyyy EEE");
-        //Date myDateObj = new Date();
-
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {        
             LocalTime currentTime = LocalTime.now();
@@ -572,7 +698,7 @@ public class TestGUIController implements Initializable {
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
 	}
-	int rowIndex = 0;
+ 
 	 @FXML
 	    public void clickGrid(MouseEvent event) {
 	    	if (event.isStillSincePress()) {
@@ -600,35 +726,7 @@ public class TestGUIController implements Initializable {
 	        
 
 	    }
-	    @FXML
-	    private Label code_label;
 
-	    @FXML
-	    private Label name_label;
-
-	    @FXML
-	    private Label date_labelt;
-	    @FXML
-	    private Spinner<Integer> item_spinner;
-	    
-
-
-	    @FXML
-	    private JFXButton check_button;
-
-
-
-	    @FXML
-	    private JFXButton records_button;
-	    
-	    @FXML
-	    private Pane test_settings_pane;
-	    
-	   static String answerKey ="";
-	   static String cd = "";
-	   static String quiz_name = "";
-	   static String quiz_date = "";
-	   static String qtems = "";
 	 void loadSelectedTest() 
 	 	{
 		 open_gridpane.getChildren().clear();
@@ -704,9 +802,7 @@ public class TestGUIController implements Initializable {
 	   		}
  
 	 }
-	 ArrayList<ToggleGroup> radio_values = null;
-	 String[] answers;
-	 int quiz_items = 0;
+
 	 void loadItems() {
 		 radio_values = new ArrayList<ToggleGroup>();		 
 		 open_gridpane.getChildren().clear();
@@ -843,8 +939,7 @@ public class TestGUIController implements Initializable {
 		 }
 		 
 	 }
-	 	@FXML
-	 	private Pane test_records_pane;
+
 	    @FXML
 	    void openRecords(ActionEvent event) {
 	    	stopCamera();
@@ -852,6 +947,8 @@ public class TestGUIController implements Initializable {
 	    	
 	    	test_settings_pane.setVisible(false);
 	    	quickcheck_pane.setVisible(false);
+	    	analysis_pane.setVisible(false);
+	    	
 	    	records_button.setDisable(true);
 	    	records_button.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
 	    	
@@ -867,9 +964,7 @@ public class TestGUIController implements Initializable {
 	    	displayRecords();
 	    }
 
-	    @FXML
-	    private JFXButton settings_button;
-
+	 
 	    @FXML
 	    void quickCheck(ActionEvent event) {
 	    	initializeCam();
@@ -888,6 +983,8 @@ public class TestGUIController implements Initializable {
 	    	quickcheck_pane.setVisible(true);
 	    	test_settings_pane.setVisible(false);
 	    	test_records_pane.setVisible(false);
+	    	analysis_pane.setVisible(false);
+	    	
 	    	settings_button.setDisable(false);
 	    	settings_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
 	    	
@@ -909,6 +1006,7 @@ public class TestGUIController implements Initializable {
 	    	quickcheck_pane.setVisible(false);
 	    	test_settings_pane.setVisible(true);
 	    	test_records_pane.setVisible(false);
+	    	analysis_pane.setVisible(false);
 	    	check_button.setDisable(false);
 	    	check_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
 	    	
@@ -922,11 +1020,7 @@ public class TestGUIController implements Initializable {
 	    	settings_button.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
 	    	
 	    }
-	    @FXML
-	    private JFXButton edit_button;
-	    String i = "";
-	    String answer = "";
-    	int items = 0;
+
 	    @FXML
 	    void edit(ActionEvent event) {
 	    	i = "";
@@ -1052,10 +1146,6 @@ public class TestGUIController implements Initializable {
 	    	}
 	    }
 	    @FXML
-	    private Pane select_camera_first_pane;
-	    @FXML
-	    private Pane blockCamera;
-	    @FXML
 	    void back_1() {
 	    	disposeCamera();
 	    	select_camera_first_pane.setDisable(true);
@@ -1068,6 +1158,7 @@ public class TestGUIController implements Initializable {
 			items_label.setText("");
 	    	quickcheck_pane.setVisible(false);
 	    	test_records_pane.setVisible(false);
+	    	analysis_pane.setVisible(false);
             for (Node node : gridpane.getChildren()) {
         		node.setStyle(null);
         	}
@@ -1084,6 +1175,7 @@ public class TestGUIController implements Initializable {
 		 back0.setVisible(true);
 		 back1.setVisible(false);
 		 settings_button.setVisible(false);
+		 
 	    }
 	    public static void changeProperty(String filename, String key, String value, String key2, String value2) throws FileNotFoundException, IOException  {
 	    	   Properties prop =new Properties();
@@ -1092,15 +1184,7 @@ public class TestGUIController implements Initializable {
 	    	   prop.setProperty(key2, value2);
 	    	   prop.store(new FileOutputStream(filename),null);
 	    	}
-		@FXML
-		ComboBox<WebCamInfo> cbCameraOptions;
 
-		@FXML
-		BorderPane bpWebCamPaneHolder;
-
-
-		@FXML
-		ImageView imgWebCamCapturedImage;
 
 		private class WebCamInfo {
 
@@ -1129,15 +1213,6 @@ public class TestGUIController implements Initializable {
 			}
 		}
 
-		private BufferedImage grabbedImage;
-		private Webcam selWebCam = null;
-		private boolean stopCamera = false;
-		private ObjectProperty<Image> imageProperty = new SimpleObjectProperty<Image>();
-		private boolean camOpen = false;
-
-		private String cameraListPromptText = "Choose Camera";
-
-		int webCamNum = 0;
 		public void initializeCam() {
 
 			if (!camOpen) {
@@ -1185,9 +1260,7 @@ public class TestGUIController implements Initializable {
 			}
 			
 		}
-
-	    @FXML
-	    private JFXButton start_button;
+		
 	    @FXML
 	    void start_cam(ActionEvent event) {
 	    	initializeWebCam(webCamNum);
@@ -1425,7 +1498,7 @@ public class TestGUIController implements Initializable {
 							score.setCellValue(Integer.toString(right));
 							Cell ans = row.createCell(6);
 							ans.setCellValue(answer);
-							System.out.println(answer + rowCount);
+							//System.out.println(answer + rowCount);
 							Cell tries = row.createCell(7);
 							tries.setCellValue(attempt);
 							Cell dur = row.createCell(8);
@@ -1462,7 +1535,7 @@ public class TestGUIController implements Initializable {
 	        }
 			
 		}
-		ArrayList<String> student_info = null;
+		
 		public boolean check_log(String scode) {
 			
 			DateTimeFormatter df = DateTimeFormatter.ofPattern("MMM-yyyy");
@@ -1538,149 +1611,9 @@ public class TestGUIController implements Initializable {
 			}
 			return present; 
 		}
-		/*void logQuiz() {
-			//DateTimeFormatter df = DateTimeFormatter.ofPattern("MMM-yyyy");
-			//DateTimeFormatter day = DateTimeFormatter.ofPattern("dd-EEE");
-			
-			//LocalDateTime dateobj = LocalDateTime.now();
-			
-			String qname = quiz_name; 
-			
-			
-			boolean dup = false;
-			
-			FileInputStream fi = null;
-			Workbook wb = null;
+		
+	   
 
-			student_info = new ArrayList<String>();
-			try
-			{
-			fi = new FileInputStream(ClassSessionController.test_excel);
-			
-			wb = new HSSFWorkbook(fi);
-			int sheets = wb.getNumberOfSheets();
-			for (int sh = 0; sh < sheets; sh++) {
-				Sheet sheet = wb.getSheetAt(sh);
-				if (sheet.getSheetName().equals(qname)) {
-					dup = true;
-					break;
-				}
-			}
-			if (!dup) {
-				Sheet sheet = wb.createSheet(qname);
-				Row row = sheet.createRow(0);
-				Cell s_code = row.createCell(0);
-				Cell s_name = row.createCell(1);
-				Cell s_sex = row.createCell(2);
-				Cell s_id = row.createCell(3);
-				Cell s_course = row.createCell(4);
-				
-				s_code.setCellValue("CODE");
-				s_name.setCellValue("NAME");
-				s_sex.setCellValue("SEX");
-				s_id.setCellValue("ID NO.");
-				s_course.setCellValue("COURSE CODE/ GRADE LEVEL");
-				
-			}
-		    }
-
-		    catch(Exception e)
-		    {
-		    	e.printStackTrace();
-		    }
-			finally {
-				
-				if (fi != null) {try {fi.close();} catch (IOException e) {e.printStackTrace();}}
-		        
-		        FileOutputStream out = null;
-				try {
-					out = new FileOutputStream(new File(ClassSessionController.test_excel));
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-		        if (wb != null) {
-		        try {           
-		        	wb.write(out);
-		        	wb.close();} 
-		        catch (IOException e) {e.printStackTrace();}}
-		        try {
-		        	if (out != null) {
-		        		 out.flush();
-				            out.close();
-		        	}
-		           } 
-		        catch (IOException e) {e.printStackTrace();}
-			    
-				
-			    
-			}
-		} */
-		@FXML
-	    private Label check_name;
-
-	    @FXML
-	    private Label check_code;
-
-	    @FXML
-	    private Label items_label;
-
-	    @FXML
-	    private Label check_student;
-
-	    @FXML
-	    private Label check_score;
-
-	    @FXML
-	    private Label check_status;
-	    /*private boolean logScore(ArrayList<String> sinfo) {
-	    	FileInputStream fi = null;
-			Workbook wb = null;
-
-			student_info = new ArrayList<String>();
-			try
-			{
-			fi = new FileInputStream(ClassSessionController.test_excel);
-			
-			wb = new HSSFWorkbook(fi);
-			int testSheetsNum = wb.getNumberOfSheets();
-			for (int shNum = 0; shNum < testSheetsNum; shNum++) {
-				
-			}
-		    }
-
-		    catch(Exception e)
-		    {
-		    	e.printStackTrace();
-		    }
-			finally {
-				
-				if (fi != null) {try {fi.close();} catch (IOException e) {e.printStackTrace();}}
-		        
-		        FileOutputStream out = null;
-				try {
-					out = new FileOutputStream(new File(ClassSessionController.test_excel));
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-		        if (wb != null) {
-		        try {           
-		        	wb.write(out);
-		        	wb.close();} 
-		        catch (IOException e) {e.printStackTrace();}}
-		        try {
-		        	if (out != null) {
-		        		 out.flush();
-				            out.close();
-		        	}
-		           } 
-		        catch (IOException e) {e.printStackTrace();}
-			    
-				
-			    
-			}
-	    }*/
 	    
 		void importStudents() throws IOException {
 			
@@ -1787,12 +1720,7 @@ public class TestGUIController implements Initializable {
 		// private static String imagepath = "./MyQRCode.png";
 
 		   
-		    @FXML
-		    private ImageView qr_imageview;
-
-		    @FXML
-		    private GridPane record_gridpane;
-		 
+		   
 		    void displayRecords() {
 		    	record_gridpane.getChildren().clear();
 		    	sname = new ArrayList<String>();
@@ -1889,19 +1817,9 @@ public class TestGUIController implements Initializable {
 					record_gridpane.add(tr, 3, gridRow);
 		    	}
 		    }
-		    @FXML
-		    private Label test_items_label;
 
-		    @FXML
-		    private Label test_code_label;
-
-		    @FXML
-		    private Label test_name_label;
-
-		    @FXML
-		    private Label test_date_label;
-		    boolean record_selected = false;
-		    int test_rowIndex = 0;
+		   
+		 
 		    @FXML
 		    void clickGridTest(MouseEvent event) {
 		    	
@@ -1933,16 +1851,7 @@ public class TestGUIController implements Initializable {
 			    	}
 		    	
 		    }
-		    
-		    @FXML
-		    private JFXButton analysis_button;
-
-		    
-		    @FXML
-		    private JFXButton del11;
-
-		    @FXML
-		    private Pane analysis_pane;
+		   
 
 		    @FXML
 		    void deleteAns(ActionEvent event) {
@@ -2026,18 +1935,39 @@ public class TestGUIController implements Initializable {
 
 		    @FXML
 		    void openAnalysis(ActionEvent event) {
+		    	
+		    	quickcheck_pane.setVisible(false);
+		    	test_settings_pane.setVisible(false);
+		    	test_records_pane.setVisible(false);
+		    	analysis_pane.setVisible(true);
+		    	
+		    	check_button.setDisable(false);
+		    	check_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+		    	
+		    	records_button.setDisable(false);
+		    	records_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+		    	
+		    	
+		    	
+		    	analysis_button.setDisable(true);
+		    	analysis_button.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
+		    	
+		    	
+		    	settings_button.setDisable(false);
+		    	settings_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+		    	
+		    	
+		    	
+		    	analysis_pane.setVisible(true);
+		    	
 		    	importAns();
 		    	itemAnalysis();
 		    	
+		    	
+		    	
 
 		    }
-		    static ArrayList<String> sname;
-		    static ArrayList<String> scourse;
-		    static ArrayList<String> sscore;
-		    static ArrayList<String> sans;
-		    static ArrayList<String> stries;
-		    static ArrayList<String> sdur;
-
+		    
 		    @FXML
 		    void openSheet(ActionEvent event) {
 		    	String rightAns ="";
@@ -2183,8 +2113,7 @@ public class TestGUIController implements Initializable {
 		        Path path = Paths.get(ClassSessionController.answers+ tcode +"\\" + sname +".png");
 		        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
 		    }
-
-		   ArrayList<Row> testRow =null;
+	
 		    void export(int mode, String loc) {
 		    	testRow = new ArrayList<Row>();
 		    	FileInputStream fi = null;
@@ -2326,8 +2255,7 @@ public class TestGUIController implements Initializable {
 			    }
 		    	
 		    }
-		    ArrayList<Row> student_rows = null;
-		    ArrayList<String> no_ans = null;
+		    
 		    void importAns() {
 		    	student_rows = new ArrayList<Row>();
 		    	no_ans = new ArrayList<String>();
@@ -2367,8 +2295,9 @@ public class TestGUIController implements Initializable {
 					}
 		    	
 		    }
-		    int examinees = 0;
+		    //int examinees = 0;
 		    ArrayList<Item> itemList = null;
+		    ArrayList<String[]> itemAnalysisArray = null;
 		    void itemAnalysis() {
 		    	itemList = new ArrayList<Item>();
 		    	int examinees = student_rows.size();
@@ -2421,53 +2350,206 @@ public class TestGUIController implements Initializable {
 		    			
 		    		}
 		    	}
-		    	for (Item item: itemList) {
+		    	//itemAnalysisArray = new ArrayList<String[]>();
+		    	if (examinees > 0) {
+		    		for (Item item: itemList) {
 		    		System.out.println(item.getCorr());
 		    		System.out.println(item.getExaminees());
 		    		System.out.println(item.getNoResp());
 		    		System.out.println(item.getCorrDiff());
 		    		
 		    		
-		    		String[] analysis = diffValue(item.getCorr(), item.getExaminees(), item.getNoResp(), item.getCorrDiff());
-		    		System.out.println("Difficulty Value: " + analysis[0] + " - " + analysis[1] + "/" + "Difficulty Index: " + analysis[2] + " - " +analysis[3]);
+		    		String[] analysis = diffValue(item.getCorr(), examinees, item.getNoResp(), item.getCorrDiff());
+		    		System.out.println("Difficulty Value: " + analysis[0] + " - " + analysis[1] + "/" + "Discrimination Index: " + analysis[2] + " - " +analysis[3]);
+		    		//String[] arr = {Double.toString(diffVal), diffEval, Double.toString(discIndex), diffIndexEval};
+		    		//itemAnalysisArray.add(analysis);
+		    		item.setDV(analysis[0]);
+		    		item.setDVEval(analysis[1]);
+		    		item.setDI(analysis[2]);
+		    		item.setDIEval(analysis[3]);
+		    	}
+		    		displayAnalysis();
+		    	}
+		    	
+		    }
+		    @FXML
+		    private GridPane analysis_gridpane;
+		    void displayAnalysis() {
+		    	analysis_gridpane.getChildren().clear();
+		    	//analysis_gridpane.setAlignment(Pos.TOP_CENTER);
+		    	System.out.println(itemList.size());
+		    	for (int index = 0; index < itemList.size(); index++) {
+		    		Item item = itemList.get(index);
+		    		Label no = new Label(Integer.toString(index+1) + ".");
+		    		Label a = new Label(Integer.toString(item.getA()));
+		    		Label b = new Label(Integer.toString(item.getB()));
+		    		Label c = new Label(Integer.toString(item.getC()));
+		    		Label d = new Label(Integer.toString(item.getD()));
+		    		Label e = new Label(Integer.toString(item.getE()));
+		    		Label nr = new Label(Integer.toString(item.getNoResp()));
+		    		String difv = item.getDV();
+		    		String disci = item.getDI();
+		    		
+		    		
+		    		
+		    		if (difv.length() > 3) {
+		    			difv = difv.substring(0,4);
+		    		}
+		    		
+		    		
+		    		if (disci.length() > 3) {
+		    			disci = disci.substring(0,4);
+		    		}
+		    		
+		    		Label dv = new Label(difv);
+		    		
+		    		Label di = new Label(disci);
+		    		
+		    		Label dve = new Label(item.getDVE());
+		    		
+		    		Label die = new Label(item.getDIE());
+		    		
+		    		no.setTextFill(Color.BLACK);
+		    		a.setTextFill(Color.BLACK);
+		    		b.setTextFill(Color.BLACK);
+		    		c.setTextFill(Color.BLACK);
+		    		d.setTextFill(Color.BLACK);
+		    		e.setTextFill(Color.BLACK);
+		    		nr.setTextFill(Color.BLACK);
+		    		dv.setTextFill(Color.BLACK);
+		    		dve.setTextFill(Color.BLACK);
+		    		di.setTextFill(Color.BLACK);
+		    		die.setTextFill(Color.BLACK);
+		    		
+		    		switch(item.getKey()) {
+		    		case "A":
+		    			a.setStyle("-fx-background-color: GREEN;");
+		    			a.setTextFill(Color.WHITE);
+		    			break;
+		    		case "B":
+		    			b.setStyle("-fx-background-color: GREEN;");
+		    			b.setTextFill(Color.WHITE);
+		    			break;
+		    		case "C":
+		    			c.setStyle("-fx-background-color: GREEN;");
+		    			c.setTextFill(Color.WHITE);
+		    			break;
+		    		case "D":
+		    			d.setStyle("-fx-background-color: GREEN;");
+		    			d.setTextFill(Color.WHITE);
+		    			break;
+		    		case "E":
+		    			e.setStyle("-fx-background-color: GREEN;");
+		    			e.setTextFill(Color.WHITE);
+		    			break;
+		    		}
+		    		
+		    		
+		    		
+		    		no.setFont(new Font("Arial black",15));
+		    		a.setFont(new Font("Arial black",15));
+		    		b.setFont(new Font("Arial black",15));
+		    		c.setFont(new Font("Arial black",15));
+		    		d.setFont(new Font("Arial black",15));
+		    		e.setFont(new Font("Arial black",15));
+		    		nr.setFont(new Font("Arial black",15));
+		    		dv.setFont(new Font("Arial black",15));
+		    		dve.setFont(new Font("Arial black",15));
+		    		di.setFont(new Font("Arial black",15));
+		    		die.setFont(new Font("Arial black",15));
+		    		
+		    		die.setWrapText(true);
+		    		dve.setWrapText(true);
+		    		
+		    		no.setMaxHeight(30);
+		    		a.setMaxHeight(30);
+		    		b.setMaxHeight(30);
+		    		c.setMaxHeight(30);
+		    		d.setMaxHeight(30);
+		    		e.setMaxHeight(30);
+		    		nr.setMaxHeight(30);
+		    		dv.setMaxHeight(30);
+		    		dve.setMaxHeight(30);
+		    		di.setMaxHeight(30);
+		    		die.setMaxHeight(30);
+		    		
+		    		/*no.setMaxHeight(die.getMaxHeight());
+		    		a.setMaxHeight(die.getMaxHeight());
+		    		b.setMaxHeight(die.getMaxHeight());
+		    		c.setMaxHeight(die.getMaxHeight());
+		    		d.setMaxHeight(die.getMaxHeight());
+		    		e.setMaxHeight(die.getMaxHeight());
+		    		nr.setMaxHeight(die.getMaxHeight());
+		    		dv.setMaxHeight(die.getMaxHeight());
+		    		dve.setMaxHeight(die.getMaxHeight());
+		    		di.setMaxHeight(die.getMaxHeight());
+		    		die.setMaxHeight(Double.MAX_VALUE);*/
+		    		
+		    		
+		    		
+		    		no.setMaxWidth(Double.MAX_VALUE);
+		    		a.setMaxWidth(Double.MAX_VALUE);
+		    		b.setMaxWidth(Double.MAX_VALUE);
+		    		c.setMaxWidth(Double.MAX_VALUE);
+		    		d.setMaxWidth(Double.MAX_VALUE);
+		    		e.setMaxWidth(Double.MAX_VALUE);
+		    		nr.setMaxWidth(Double.MAX_VALUE);
+		    		dv.setMaxWidth(Double.MAX_VALUE);
+		    		dve.setMaxWidth(Double.MAX_VALUE);
+		    		di.setMaxWidth(Double.MAX_VALUE);
+		    		die.setMaxWidth(Double.MAX_VALUE);
+		    		
+		    		no.setAlignment(Pos.CENTER);
+		    		a.setAlignment(Pos.CENTER);
+		    		b.setAlignment(Pos.CENTER);
+		    		c.setAlignment(Pos.CENTER);
+		    		d.setAlignment(Pos.CENTER);
+		    		e.setAlignment(Pos.CENTER);
+		    		nr.setAlignment(Pos.CENTER);
+		    		dv.setAlignment(Pos.CENTER);
+		    		dve.setAlignment(Pos.CENTER);
+		    		di.setAlignment(Pos.CENTER);
+		    		die.setAlignment(Pos.CENTER);
+		    		
+		    		
+		    		
+		    		
+		    		
+		    		analysis_gridpane.add(no, 0, index);
+		    		analysis_gridpane.add(a, 1, index);
+		    		analysis_gridpane.add(b, 2, index);
+		    		analysis_gridpane.add(c, 3, index);
+		    		analysis_gridpane.add(d, 4, index);
+		    		analysis_gridpane.add(e, 5, index);
+		    		analysis_gridpane.add(nr, 6, index);
+		    		analysis_gridpane.add(dv, 7, index);
+		    		analysis_gridpane.add(dve, 8, index);
+		    		analysis_gridpane.add(di, 9, index);
+		    		analysis_gridpane.add(die, 10, index);
 		    		
 		    	}
 		    }
-		    	
-		    	
-		    	
-		    	/*FileOutputStream fo = null;
-		    	Workbook wb = null;
-		    	try {
-		    		fo = new FileOutputStream(ClassSessionController.test_excelIA);
-		    		wb = new HSSFWorkbook();
-		    		
-		    	}
-		    	catch (Exception e1) {
-		    		
-		    	}
-		    	
-		    }*/
+
 		    String[] diffValue(int corr_answered, float examinees, int no_response, int rightDiff) {
 		    	float diffVal = 0;
 		    	float discIndex = 0;
 		    	String diffEval ="";
-		    	String diffIndexEval ="";
+		    	String discIndexEval ="";
 		    	int highGroup = Math.round(examinees/2);
 		    	
 		    	diffVal = corr_answered/(examinees - no_response);
 		    	discIndex = rightDiff/highGroup;
 		    	
-		    	if (diffVal <= .30) {
-		    		diffEval = "Most Difficult";
+		    	if (diffVal < .30) {
+		    		diffEval = "Most Diff.";
 		    	}
-		    	else if (diffVal >= .31 && diffVal <= .40 ) {
+		    	else if (diffVal > .29 && diffVal < .40 ) {
 		    		diffEval = "Difficult";
 		    	}
-		    	else if (diffVal >= .41 && diffVal <= .60 ) {
-		    		diffEval = "Moderately Difficult";
+		    	else if (diffVal > .39 && diffVal < .60 ) {
+		    		diffEval = "Moderate";
 		    	}
-		    	else if (diffVal >= .61 && diffVal <= .70 ) {
+		    	else if (diffVal > .59 && diffVal < .70 ) {
 		    		diffEval = "Easy";
 		    	}
 		    	else {
@@ -2475,18 +2557,18 @@ public class TestGUIController implements Initializable {
 		    	}
 		    	
 		    	if (discIndex >= .40) {
-		    		diffIndexEval = "Very good item";
+		    		discIndexEval = "Very good";
 		    	}
 		    	if (discIndex >= .30 && discIndex <= .39) {
-		    		diffIndexEval = "Reasonably good, subject to improvement";
+		    		discIndexEval = "Reasonably good";
 		    	}
 		    	if (discIndex >= .20 && discIndex <=.29) {
-		    		diffIndexEval = "Marginal item, needs improvement";
+		    		discIndexEval = "Marginal";
 		    	}
-		    	if (discIndex < .19) {
-		    		diffIndexEval = "Poor item, Reject/Revise";
+		    	if (discIndex < .20) {
+		    		discIndexEval = "Poor";
 		    	}
-		    	String[] arr = {Double.toString(diffVal), diffEval, Double.toString(discIndex), diffIndexEval};
+		    	String[] arr = {Double.toString(diffVal), diffEval, Double.toString(discIndex), discIndexEval};
 		    	return arr;
 		    	
 		    }

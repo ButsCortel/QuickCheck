@@ -28,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -132,11 +133,11 @@ public class AddStudentController implements Initializable{
 		}
 	public void addStudent() throws IOException {
 		String code = student_code.getText().trim();
-		String name = student_name.getText().replaceAll("[^a-zA-Z\\s+.,-]", "").trim();
+		String name = student_name.getText().trim();
 		String id = student_id.getText().trim();
 		String course = student_course.getText().trim();
 		String sex = student_sex.getValue();
-		if (!code.equals("") && !name.equals("") && !id.equals("") && !course.equals("") && code.length() >3 && name.length() >5 && code.chars().allMatch(Character::isDigit)) {
+		if (isValidName(name) && !code.equals("") && !name.equals("") && !id.equals("") && !course.equals("") && code.length() >3 && name.length() >5 && code.chars().allMatch(Character::isDigit)) {
 			if (!checkDup(code, name, id)) {
 				writeStudent(code, name, id, course, sex);
 				changed = true;
@@ -148,11 +149,37 @@ public class AddStudentController implements Initializable{
 			
 		}
 		
-		else {
+		else if (!isValidName(name)){
+			stat_label.setText("Special characters are not allowed!");
+		}
+		else{
 			stat_label.setText("Invalid Format!");
 		}
 
 	}
+	public boolean isValidName(String name)
+    {
+        String specialCharacters="/\\:*?\"<>|";
+        String str2[]=name.split("");
+        int count=0;
+        for (int i=0;i<str2.length;i++)
+        {
+            if (specialCharacters.contains(str2[i]))
+            {
+                count++;
+            }
+        }       
+
+        if (name!=null && count==0 )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 	public boolean checkDup(String cd, String n, String id) throws IOException {
 		FileInputStream fi = null;
 		Workbook wb = null;
@@ -209,6 +236,10 @@ public class AddStudentController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		student_code.setTooltip(new Tooltip("Numeric values only."));
+		student_name.setTooltip(new Tooltip("Should not contain: /\\:*?\"<>|"));
+		//student_id.getText().trim();
+		//student_course.getText().trim();
 		ObservableList<String> sex = FXCollections.observableArrayList("F", "M");
 		 
 		 

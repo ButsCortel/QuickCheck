@@ -30,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -54,6 +55,7 @@ public class NewClassController implements Initializable{
     static String masterList = "";
     static String attendance = "";
     static String tests = "";
+    static String testsIA = "";
     static String testQ = "";
     static String testA = "";
     final int initialValue = 1;
@@ -123,8 +125,8 @@ public class NewClassController implements Initializable{
 	    	if (course.equals("") || 
 	    			subject.equals("") ) 
 	    			{
-	    				if (checkString(course) ||
-	    					checkString(subject) ) 
+	    				if (!isValidName(course) ||
+	    						!isValidName(subject) ) 
 	    				{
 	    					loginstat.setText("Special Characters are not allowed.");        			
 	    				}
@@ -137,8 +139,8 @@ public class NewClassController implements Initializable{
 	    	else if(Character.isWhitespace(course.charAt(0)) || 
 	    			Character.isWhitespace(subject.charAt(0))) 
 	    			{
-						if (checkString(course) ||
-							checkString(subject) ) 
+						if (!isValidName(course) ||
+								!isValidName(subject) ) 
 						{
 							loginstat.setText("Special Characters are not allowed.");        			
 						}
@@ -148,8 +150,8 @@ public class NewClassController implements Initializable{
 						}
 	    			    	     		    	
 	    			}
-	    	else if(checkString(course) ||
-					checkString(subject) ) 
+	    	else if(!isValidName(course) ||
+	    			!isValidName(subject) ) 
 				{
 					loginstat.setText("Special Characters are not allowed.");        			
 				}
@@ -161,10 +163,12 @@ public class NewClassController implements Initializable{
 	    		String s = subject.trim();
 	    		cnew = c.replaceAll("\\s+", "_");
 	    		snew = s.replaceAll("\\s+", "_");
+	    		
 	            folderName = App.fullp + cnew + " " + snew;
 	            masterList = App.fullp + cnew + " " + snew + "\\Students.xls";
 	            attendance = App.fullp + cnew + " " + snew + "\\Attendance.xls";
 	            tests = App.fullp + cnew + " " + snew + "\\Tests.xls";
+	            testsIA = App.fullp + cnew + " " + snew + "\\TestsIA.xls";
 	            testQ = App.fullp + cnew + " " + snew + "\\TestConfig\\";
 	            testA = App.fullp + cnew + " " + snew + "\\TestAnswers\\";
 	            Path path = Paths.get(folderName);
@@ -181,6 +185,7 @@ public class NewClassController implements Initializable{
 							attendanceWorkbook();
 		        			studentWorkbook();
 		        			testWorkbook();
+		        			//testIAWorkbook();
 		        			//schedString();
 		        			config();
 		        			Files.createDirectories(testPath);
@@ -207,6 +212,7 @@ public class NewClassController implements Initializable{
 	        			attendanceWorkbook();
 	        			studentWorkbook();
 	        			testWorkbook();
+	        			//testIAWorkbook();
 	        			Files.createDirectories(testPath);
 	        			Files.createDirectories(testAPath);
 	        			//schedString();
@@ -221,10 +227,10 @@ public class NewClassController implements Initializable{
 	    	}
 
 	    }
-		public boolean checkString(String inp) {
-			String filter[] = {"\\", "/", ":", "*", "?", "\"", "<", ">", "|"};
+		/*public boolean checkString(String inp) {
+			String filter[] = {"//", "\\", "/", ":", "*", "?", "\"", "<", ">", "|"};
 			boolean result = false;
-			for(int i = 0; i < 9; i++)
+			for(int i = 0; i < 10; i++)
 			{
 				if(inp.indexOf(filter[i]) != -1)
 					{
@@ -236,7 +242,29 @@ public class NewClassController implements Initializable{
 			}
 			return result;
 
-		}
+		}*/
+	    public boolean isValidName(String name)
+	    {
+	        String specialCharacters="/\\:*?\"<>|";
+	        String str2[]=name.split("");
+	        int count=0;
+	        for (int i=0;i<str2.length;i++)
+	        {
+	            if (specialCharacters.contains(str2[i]))
+	            {
+	                count++;
+	            }
+	        }       
+
+	        if (name!=null && count==0 )
+	        {
+	            return true;
+	        }
+	        else
+	        {
+	            return false;
+	        }
+	    }
 
 		public  void studentWorkbook() throws IOException {
 	        FileOutputStream fos = null;
@@ -404,6 +432,8 @@ public class NewClassController implements Initializable{
 		    	}
 		    }
 		}
+		
+		
 		void config() {
 			OutputStream output = null;
 	        try  {
@@ -451,6 +481,8 @@ public class NewClassController implements Initializable{
 	    }
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {
+			course_text.setTooltip(new Tooltip("Should not contain: /\\:*?\"<>|"));
+			subject_text.setTooltip(new Tooltip("Should not contain: /\\:*?\"<>|"));
 			daysperweek.setValueFactory(valueFactory);
 			schedDisplay();
 		}

@@ -35,46 +35,6 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="633.0" layoutY="232.0" prefHeight="80.0" prefWidth="177.0" style="-fx-background-color: #708090;">
-         <children>
-            <JFXButton fx:id="open_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="44.0" onAction="#openTest" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Open" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font></JFXButton>
-            <JFXButton fx:id="new_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="6.0" onAction="#newTest" prefHeight="19.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="New" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="settings_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="6.0" onAction="#settings" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Settings" textFill="WHITE" visible="false">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="check_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="43.0" onAction="#quickCheck" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="QuickCheck" textFill="WHITE" visible="false">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </JFXButton>
-         </children></Pane>
-      <Pane layoutX="633.0" layoutY="312.0" prefHeight="80.0" prefWidth="177.0" style="-fx-background-color: #2F4F4F;">
-         <children>
-            <JFXButton fx:id="delete_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="25.0" onAction="#deleteTest" prefHeight="19.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Delete" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="records_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="6.0" onAction="#openRecords" prefHeight="12.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Records" textFill="WHITE" visible="false">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="analysis_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="44.0" onAction="#openAnalysis" prefHeight="12.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Analysis" textFill="WHITE" visible="false">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </JFXButton>
-         </children></Pane>
       <ImageView fitHeight="436.0" fitWidth="633.0" layoutY="-6.0">
          <image>
             <Image url="@bg.png" />
@@ -461,89 +421,276 @@
                   <Font name="System Bold" size="32.0" />
                </font>
             </Label>
-            <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="95.0" pannable="true" prefHeight="240.0" prefWidth="589.0" vbarPolicy="ALWAYS">
+            <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="67.0" pannable="true" prefHeight="193.0" prefWidth="600.0" vbarPolicy="ALWAYS">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="238.0" prefWidth="574.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="190.0" prefWidth="585.0">
                      <children>
-                        <GridPane prefHeight="240.0" prefWidth="574.0">
+                        <GridPane fx:id="analysis_gridpane" gridLinesVisible="true" prefHeight="193.0" prefWidth="585.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
                         </GridPane>
                      </children>
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <Label layoutX="21.0" layoutY="75.0" text="No." textFill="WHITE">
+            <Label layoutX="20.0" layoutY="47.0" text="No." textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="63.0" layoutY="75.0" text="Groups" textFill="WHITE">
+            <Label layoutX="66.0" layoutY="47.0" text="A" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="129.0" layoutY="75.0" text="A" textFill="WHITE">
+            <Label layoutX="106.0" layoutY="47.0" text="B" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="163.0" layoutY="75.0" text="B" textFill="WHITE">
+            <Label layoutX="146.0" layoutY="47.0" text="C" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="196.0" layoutY="75.0" text="C" textFill="WHITE">
+            <Label layoutX="186.0" layoutY="47.0" text="D" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="231.0" layoutY="75.0" text="D" textFill="WHITE">
+            <Label layoutX="226.0" layoutY="47.0" text="E" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="268.0" layoutY="75.0" text="E" textFill="WHITE">
+            <Label layoutX="258.0" layoutY="47.0" text="N.R" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="300.0" layoutY="75.0" text="N.R" textFill="WHITE">
+            <Label layoutX="307.0" layoutY="47.0" text="D.V." textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="350.0" layoutY="75.0" text="D.V." textFill="WHITE">
+            <Label layoutX="363.0" layoutY="47.0" text="Evaluation" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="407.0" layoutY="75.0" text="Eval." textFill="WHITE">
+            <Label layoutX="462.0" layoutY="47.0" text="D.I." textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="469.0" layoutY="75.0" text="D.I." textFill="WHITE">
+            <Label layoutX="517.0" layoutY="47.0" text="Evaluation" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="527.0" layoutY="75.0" text="Eval." textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
-            <JFXButton buttonType="RAISED" layoutX="516.0" layoutY="359.0" style="-fx-background-color: gray;" text="Export" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="522.0" layoutY="287.0" prefHeight="96.0" prefWidth="86.0" style="-fx-background-color: gray;" text="Export" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </JFXButton>
+            <GridPane gridLinesVisible="true" layoutX="13.0" layoutY="264.0" prefHeight="150.0" prefWidth="213.0" style="-fx-border-color: black;">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="77.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="156.0" minWidth="10.0" prefWidth="140.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="27.0" minHeight="14.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="23.0" minHeight="14.0" prefHeight="21.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="23.0" minHeight="23.0" prefHeight="23.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="23.0" minHeight="23.0" prefHeight="23.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="23.0" minHeight="23.0" prefHeight="23.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="38.0" prefWidth="78.0" style="-fx-background-color: Brown;" text="Difficulty Value" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="38.0" prefWidth="142.0" style="-fx-background-color: Brown;" text="Item Evaluation" textFill="WHITE" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="&lt; 0.30" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="0.30 - 0.39" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="0.40 - 0.59" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="0.60 - 0.69" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Most difficult" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Difficult" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Moderate difficulty" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="7.0" prefWidth="30.0" text="Easy" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="≥ 0.70" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Most Easy" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane gridLinesVisible="true" layoutX="236.0" layoutY="264.0" prefHeight="150.0" prefWidth="284.0" style="-fx-border-color: black;">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="141.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="184.0" minWidth="10.0" prefWidth="182.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="38.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="29.0" minHeight="24.0" prefHeight="24.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="31.0" minHeight="25.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="31.0" minHeight="27.0" prefHeight="27.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="D.I.">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="182.0" style="-fx-background-color: Brown;" text="Item Evaluation" textFill="WHITE" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="≥ 0.40" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="0.30 - 0.39" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="0.20 - 0.29" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="&lt;0.20" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Very good items" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="178.0" text="Good; subject to improvement" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Marginal; needs improvement" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Poor items; Rejected/Revised" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="38.0" prefWidth="106.0" style="-fx-background-color: Brown;" text="Discrimination Index" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
          </children>
       </Pane>
+      <Pane layoutX="633.0" layoutY="232.0" prefHeight="80.0" prefWidth="177.0" style="-fx-background-color: #708090;">
+         <children>
+            <JFXButton fx:id="open_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="44.0" onAction="#openTest" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Open" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></JFXButton>
+            <JFXButton fx:id="new_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="6.0" onAction="#newTest" prefHeight="19.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="New" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="settings_button" alignment="CENTER_RIGHT" buttonType="RAISED" contentDisplay="RIGHT" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#settings" prefHeight="31.0" prefWidth="177.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Settings" textAlignment="RIGHT" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="check_button" alignment="CENTER_RIGHT" buttonType="RAISED" contentDisplay="RIGHT" layoutY="43.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#quickCheck" prefHeight="31.0" prefWidth="177.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="QuickCheck" textAlignment="RIGHT" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+         </children></Pane>
+      <Pane layoutX="633.0" layoutY="312.0" prefHeight="80.0" prefWidth="177.0" style="-fx-background-color: #2F4F4F;">
+         <children>
+            <JFXButton fx:id="delete_button" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="24.0" layoutY="25.0" onAction="#deleteTest" prefHeight="19.0" prefWidth="130.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Delete" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="records_button" alignment="CENTER_RIGHT" buttonType="RAISED" contentDisplay="RIGHT" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#openRecords" prefHeight="31.0" prefWidth="177.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Records" textAlignment="RIGHT" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="analysis_button" alignment="CENTER_RIGHT" buttonType="RAISED" contentDisplay="RIGHT" layoutY="44.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#openAnalysis" prefHeight="31.0" prefWidth="177.0" style="-fx-background-color: Gray; -fx-border-color: white;" text="Analysis" textAlignment="RIGHT" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+         </children></Pane>
    </children>
 </AnchorPane>

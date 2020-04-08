@@ -52,6 +52,7 @@ public class ClassSessionController implements Initializable{
 	static String student_excel;
 	static String attendance_excel;
 	static String test_excel;
+	static String test_excelIA;
 	static String testQ;
 	static String answers;
 	static String course;
@@ -382,7 +383,7 @@ public class ClassSessionController implements Initializable{
 	    	check_scode();
 	    	check_scode_test();
 	    	try {
-	    		System.out.println(sh.size());
+	    		//System.out.println(sh.size());
 	    		for (int i = 0; i < sh.size() ; i++) {
 					deleteRow(sh.get(i) , attendance_excel,  rw.get(i) , false );
 	    		}

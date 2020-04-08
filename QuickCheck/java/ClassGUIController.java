@@ -436,6 +436,8 @@ public class ClassGUIController implements Initializable{
         		ClassSessionController.answers = ClassSessionController.path + "\\TestAnswers\\";
         		//ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
         		ClassSessionController.test_excel = ClassSessionController.path + "\\Tests.xls";
+        		ClassSessionController.test_excelIA = ClassSessionController.path + "\\TestsIA.xls";
+        		
         		ClassSessionController.attendance_excel = ClassSessionController.path + "\\Attendance.xls";
         		ClassSessionController.course = classes_string[0];
         		ClassSessionController.subject = classes_string[1];

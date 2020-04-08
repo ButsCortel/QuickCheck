@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -31,15 +33,17 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class NewTestController {
+public class NewTestController implements Initializable{
 	static Stage new_test;
     @FXML
     private JFXTextField test_name;
@@ -68,8 +72,8 @@ public class NewTestController {
     	  }
 
     	if (testName.length() >0 &&  testDate.length() >0 && testName.length() < 31) {
-    		if (checkString(testName) ||
-					checkString(testDate) ) 
+    		if (!isValidName(testName) ||
+    				!isValidName(testDate) ) 
 				{
 					test_status.setText("Special Characters are not allowed.");        			
 				}
@@ -228,7 +232,7 @@ public class NewTestController {
 			s_course.setCellValue("COURSE CODE/ GRADE LEVEL");		
 			s_score.setCellValue("SCORE");
 			s_ans.setCellValue("ANSWERS");
-			s_attempt.setCellValue("TRIES");
+			s_attempt.setCellValue("ATTEMPTS");
 			s_duration.setCellValue("DURATION(MIN)");
 			
 		
@@ -285,22 +289,28 @@ public class NewTestController {
    	    }
    	    return parsed;
     }
-	public boolean checkString(String inp) {
-		String filter[] = {"\\", "/", ":", "*", "?", "\"", "<", ">", "|"};
-		boolean result = false;
-		for(int i = 0; i < 9; i++)
-		{
-			if(inp.indexOf(filter[i]) != -1)
-				{
-					result = true;
-				}
-			else {
-				result = false;
-			}
-		}
-		return result;
+    public boolean isValidName(String name)
+    {
+        String specialCharacters="/\\:*?\"<>|";
+        String str2[]=name.split("");
+        int count=0;
+        for (int i=0;i<str2.length;i++)
+        {
+            if (specialCharacters.contains(str2[i]))
+            {
+                count++;
+            }
+        }       
 
-	}
+        if (name!=null && count==0 )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 	static boolean changed = false;
 	void display() {
 
@@ -321,6 +331,7 @@ public class NewTestController {
 			new_test.showAndWait();
 			//new_test.getIcons().add(new Image(NewTestController.class.getResourceAsStream("icon.png")));
 			
+			
 
 			
 		} catch (IOException e) {
@@ -328,6 +339,11 @@ public class NewTestController {
 			e.printStackTrace();
 		}
     	//return changed;
+		
+	}
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		test_name.setTooltip(new Tooltip("Should not contain: /\\:*?\"<>|"));
 		
 	}
 	
