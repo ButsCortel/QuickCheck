@@ -324,8 +324,13 @@ public class AttendanceGUIController implements Initializable{
         	attendanceRPane.setVisible(true);  	
         	
         	
-        	take_attendance.setVisible(true);
-        	view_attendance.setVisible(false);
+        	take_attendance.setDisable(false);
+            //	take_attendance.setDisable(false);
+         	take_attendance.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+         	
+            	//view_attendance.setVisible(true);
+            view_attendance.setDisable(true);
+         	view_attendance.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
         	
 
 
@@ -535,7 +540,7 @@ public class AttendanceGUIController implements Initializable{
 	    catch(Exception e)
 	    {
 	    	e.printStackTrace();
-	    }
+	    }  
 		finally {
 			if (fi != null) {
 				try {fi.close();} catch (IOException e) {e.printStackTrace();}
@@ -951,8 +956,13 @@ public class AttendanceGUIController implements Initializable{
     	fadeOutTransition.setFromValue(1.0);
     	fadeOutTransition.setToValue(0.5);
     	fadeOutTransition.play();
-       	take_attendance.setVisible(false);
-       	view_attendance.setVisible(true);
+       	take_attendance.setDisable(true);
+       //	take_attendance.setDisable(false);
+    	take_attendance.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
+    	
+       	//view_attendance.setVisible(true);
+       	view_attendance.setDisable(false);
+    	view_attendance.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
     
     	attendanceGPane.setDisable(true); 	
     	fadeOutTransition.setOnFinished((e) -> {
@@ -1030,8 +1040,15 @@ public class AttendanceGUIController implements Initializable{
     	fadeOutTransition.setToValue(0.5);
     	fadeOutTransition.play();
     	attendanceGPane.setDisable(true);
-    	take_attendance.setVisible(true);
-    	view_attendance.setVisible(false);
+    	
+       	take_attendance.setDisable(false);
+       //	take_attendance.setDisable(false);
+    	take_attendance.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
+    	
+       	//view_attendance.setVisible(true);
+       	view_attendance.setDisable(true);
+    	view_attendance.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
+    	
     	fadeOutTransition.setOnFinished((e) -> {
     		last = "";
         	stopCamera();

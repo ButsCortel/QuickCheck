@@ -105,6 +105,9 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class TestGUIController implements Initializable {
+	
+	@FXML
+	private Label examinees_label;
 	@FXML
     private Label test_items_label;
 
@@ -1460,8 +1463,13 @@ public class TestGUIController implements Initializable {
 				}
 
 			}
+			if (right >= (Math.round(answers.length*.75))) {
+				check_score.setTextFill(Color.GREEN);
+			}
+			else {
+				check_score.setTextFill(Color.RED);
+			}
 			
-			check_score.setTextFill(Color.GREEN);
 			check_score.setText(right + "/" + Integer.toString(quiz_items));
 			String qn = qname.replaceAll("\\s+", "/");
 			String qd = quiz_date.replaceAll("\\s+", "/");
@@ -1774,7 +1782,7 @@ public class TestGUIController implements Initializable {
 		    
 		    	}
 		    	for (int gridRow = 0; gridRow < sname.size(); gridRow++) {
-		    		
+		    		int s = Integer.parseInt(sscore.get(gridRow));
 		    		
 		    		Label nm = new Label(sname.get(gridRow));
 		    		Label sc = new Label(sscore.get(gridRow));
@@ -1786,14 +1794,24 @@ public class TestGUIController implements Initializable {
 					tr.setFont(new Font("Arial black",15));
 					dr.setFont(new Font("Arial black",15));
 					
-					nm.setMinWidth(250);
-					nm.setMaxWidth(250);
-					sc.setMinWidth(100);
-					sc.setMaxWidth(100);
-					tr.setMinWidth(90);
-					tr.setMaxWidth(90);
-					dr.setMinWidth(120);
-					dr.setMaxWidth(120);
+					
+					//System.out.println(s + " a");
+					//System.out.println(Math.round(answers.length*.75) + " b");
+					if (s >= Math.round(answers.length*.75)) {
+						sc.setTextFill(Color.GREEN);
+					}
+					else {
+						sc.setTextFill(Color.RED);
+					}
+					
+					//nm.setMinWidth(250);
+					nm.setMaxWidth(Double.MAX_VALUE);
+					//sc.setMinWidth(100);
+					sc.setMaxWidth(Double.MAX_VALUE);
+					//tr.setMinWidth(90);
+					tr.setMaxWidth(Double.MAX_VALUE);
+					//dr.setMinWidth(120);
+					dr.setMaxWidth(Double.MAX_VALUE);
 					
 					nm.setMaxHeight(30);
 					nm.setMinHeight(30);
@@ -1935,7 +1953,7 @@ public class TestGUIController implements Initializable {
 
 		    @FXML
 		    void openAnalysis(ActionEvent event) {
-		    	
+		    	analysis_gridpane.getChildren().clear();
 		    	quickcheck_pane.setVisible(false);
 		    	test_settings_pane.setVisible(false);
 		    	test_records_pane.setVisible(false);
@@ -1947,8 +1965,7 @@ public class TestGUIController implements Initializable {
 		    	records_button.setDisable(false);
 		    	records_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
 		    	
-		    	
-		    	
+		    			    	
 		    	analysis_button.setDisable(true);
 		    	analysis_button.setStyle("-fx-background-color: WHITE;-fx-border-color: BLACK;-fx-text-fill: BLACK;");
 		    	
@@ -1956,8 +1973,7 @@ public class TestGUIController implements Initializable {
 		    	settings_button.setDisable(false);
 		    	settings_button.setStyle("-fx-background-color: GRAY;-fx-border-color: WHITE;");
 		    	
-		    	
-		    	
+		    			    	
 		    	analysis_pane.setVisible(true);
 		    	
 		    	importAns();
@@ -2152,7 +2168,7 @@ public class TestGUIController implements Initializable {
 		    		Row head = sheet.createRow(0);
 		    		
 		    		Cell course = head.createCell(0); 
-		            course.setCellValue(ClassSessionController.course + ",\n" +ClassSessionController.subject);
+		            course.setCellValue(ClassSessionController.course.replaceAll("_", " ") + ",\n" +ClassSessionController.subject.replaceAll("_", " "));
 		            course.setCellStyle(wrapStyle);
 		            String sch = "";
 		            for (int h = 0; h < AttendanceGUIController.scheds.size(); h++) {
@@ -2351,18 +2367,14 @@ public class TestGUIController implements Initializable {
 		    		}
 		    	}
 		    	//itemAnalysisArray = new ArrayList<String[]>();
+		    	examinees_label.setText("Examinees: " + Integer.toString(examinees));
 		    	if (examinees > 0) {
 		    		for (Item item: itemList) {
-		    		System.out.println(item.getCorr());
-		    		System.out.println(item.getExaminees());
-		    		System.out.println(item.getNoResp());
-		    		System.out.println(item.getCorrDiff());
+		    		
 		    		
 		    		
 		    		String[] analysis = diffValue(item.getCorr(), examinees, item.getNoResp(), item.getCorrDiff());
-		    		System.out.println("Difficulty Value: " + analysis[0] + " - " + analysis[1] + "/" + "Discrimination Index: " + analysis[2] + " - " +analysis[3]);
-		    		//String[] arr = {Double.toString(diffVal), diffEval, Double.toString(discIndex), diffIndexEval};
-		    		//itemAnalysisArray.add(analysis);
+		    		
 		    		item.setDV(analysis[0]);
 		    		item.setDVEval(analysis[1]);
 		    		item.setDI(analysis[2]);
@@ -2375,9 +2387,9 @@ public class TestGUIController implements Initializable {
 		    @FXML
 		    private GridPane analysis_gridpane;
 		    void displayAnalysis() {
-		    	analysis_gridpane.getChildren().clear();
+		    	
 		    	//analysis_gridpane.setAlignment(Pos.TOP_CENTER);
-		    	System.out.println(itemList.size());
+		    	
 		    	for (int index = 0; index < itemList.size(); index++) {
 		    		Item item = itemList.get(index);
 		    		Label no = new Label(Integer.toString(index+1) + ".");
